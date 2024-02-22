@@ -187,3 +187,22 @@ h1 {
     min-width: 100%;
     min-height: 100%;
 }
+#release-date-input {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+    background-color: #333; /* Dark background color */
+    color: #fff; /* White text color */
+    margin-right: 5px ;
+}
+
+#release-date-input:focus {
+    outline: none;
+    border-color: #ccc; /* Change border color when focused */
+}
+
+#release-date-input::placeholder {
+    color: #ccc;
+}
