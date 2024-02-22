@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     const watchlist = document.getElementById("watchlist");
     const filter = document.getElementById("filter");
-    const typeFilter = document.getElementById("type-filter"); // Update: Get type filter element
+    const typeFilter = document.getElementById("type-filter"); // Get type filter element
     const addButton = document.getElementById("add-button");
     const titleInput = document.getElementById("title-input");
     const typeSelect = document.getElementById("type-select");
