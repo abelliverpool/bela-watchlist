@@ -10,54 +10,30 @@ document.addEventListener("DOMContentLoaded", function() {
     const linkInput = document.getElementById("link-input"); // New
     const releaseDateInput = document.getElementById("release-date-input"); // New
     const statusSelect = document.getElementById("status-select"); // New
+    const typeFilter = document.getElementById("type-filter"); // New type filter
 
     let watchlistData = JSON.parse(localStorage.getItem("watchlistData")) || [];
 
     function saveWatchlistData() {
         localStorage.setItem("watchlistData", JSON.stringify(watchlistData));
     }
-document.addEventListener("DOMContentLoaded", function() {
- 
-    const typeFilter = document.getElementById("type-filter");
-
-    typeFilter.addEventListener("change", function() {
-        renderWatchlist();
-    });
-
-
-    function renderWatchlist() {
-     
-
-        const selectedType = typeFilter.value;
-
-        watchlistData.forEach((item, index) => {
-            if ((selectedFilter === "all" || item.status === selectedFilter) &&
-                (selectedType === "all" || item.type === selectedType)) {
-
-            }
-        });
-
-
-    }
-
-});
 
     function renderWatchlist() {
         watchlist.innerHTML = "";
         const selectedFilter = filter.value;
+        const selectedType = typeFilter.value; // New selected type
 
         watchlistData.forEach((item, index) => {
-            if (selectedFilter === "all" || item.status === selectedFilter) {
+            if ((selectedFilter === "all" || item.status === selectedFilter) &&
+                (selectedType === "all" || item.type === selectedType)) {
                 const itemElement = document.createElement("div");
                 itemElement.classList.add("watchlist-item");
+                itemElement.style.backgroundImage = `url('${item.image}')`; // Set background image
                 itemElement.innerHTML = `
                     <h3>${item.title}</h3>
                     <p>Type: ${item.type}</p>
                     ${item.type !== "movie" ? `<p>Episodes: ${item.episodes}</p>` : ''}
                     ${item.type === "series" || item.type === "anime" || item.type === "kdrama" ? `<p>Seasons: ${item.seasons}</p>` : ''}
-                    ${item.image ? `<img src="${item.image}" alt="${item.title}">` : ''}
-                    ${item.link ? `<p><a href="${item.link}" target="_blank">Watch Now</a></p>` : ''}
-                    ${item.releaseDate ? `<p>Release Date: ${item.releaseDate}</p>` : ''}
                     <p>Status: ${item.status}</p>
                     <button class="change-status-button" data-index="${index}">Change Status</button>
                     <button class="remove-button" data-index="${index}">Remove</button>
@@ -136,63 +112,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     filter.addEventListener("change", renderWatchlist);
+    typeFilter.addEventListener("change", renderWatchlist); // Add event listener for type filter
 
     renderWatchlist();
 });
-function renderWatchlist() {
-    watchlist.innerHTML = "";
-    const selectedFilter = filter.value;
-
-    watchlistData.forEach((item, index) => {
-        if (selectedFilter === "all" || item.status === selectedFilter) {
-            const itemElement = document.createElement("div");
-            itemElement.classList.add("watchlist-item");
-            itemElement.style.backgroundImage = `url('${item.image}')`; // Set background image
-            itemElement.innerHTML = `
-                <h3>${item.title}</h3>
-                <p>Type: ${item.type}</p>
-                ${item.type !== "movie" ? `<p>Episodes: ${item.episodes}</p>` : ''}
-                ${item.type === "series" || item.type === "anime" || item.type === "kdrama" ? `<p>Seasons: ${item.seasons}</p>` : ''}
-                <p>Status: ${item.status}</p>
-                <button class="change-status-button" data-index="${index}">Change Status</button>
-                <button class="remove-button" data-index="${index}">Remove</button>
-            `;
-            watchlist.appendChild(itemElement);
-        }
-    });
-
-    // Attach event listeners to dynamically created buttons
-    const changeStatusButtons = document.querySelectorAll('.change-status-button');
-    const removeButtons = document.querySelectorAll('.remove-button');
-
-    changeStatusButtons.forEach(button => {
-        button.addEventListener('click', () => changeStatus(button.dataset.index));
-    });
-
-    removeButtons.forEach(button => {
-        button.addEventListener('click', () => removeItem(button.dataset.index));
-    });
-}
-const releaseDateInput = document.getElementById("release-date-input");
-
-releaseDateInput.addEventListener("input", function() {
-    // Check if the input value is valid
-    if (isValidDate(this.value)) {
-        // If valid, set border color to green
-        this.style.borderColor = "green";
-    } else {
-        // If not valid, set border color to red
-        this.style.borderColor = "red";
-    }
-});
-
-function isValidDate(dateString) {
-    // Regular expression to match date format (YYYY-MM-DD)
-    const regex = /^\d{4}-\d{2}-\d{2}$/;
-
-    // Check if the input matches the regular expression
-    return regex.test(dateString);
-}
-
-  
-    
