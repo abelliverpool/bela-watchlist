@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     const watchlist = document.getElementById("watchlist");
     const filter = document.getElementById("filter");
-    const typeFilter = document.getElementById("type-filter"); // New
     const addButton = document.getElementById("add-button");
     const titleInput = document.getElementById("title-input");
     const typeSelect = document.getElementById("type-select");
@@ -21,10 +20,9 @@ document.addEventListener("DOMContentLoaded", function() {
     function renderWatchlist() {
         watchlist.innerHTML = "";
         const selectedFilter = filter.value;
-        const selectedTypeFilter = typeFilter.value; // New
 
         watchlistData.forEach((item, index) => {
-            if ((selectedFilter === "all" || item.status === selectedFilter) && (selectedTypeFilter === "all" || item.type === selectedTypeFilter)) { // Updated condition
+            if (selectedFilter === "all" || item.status === selectedFilter) {
                 const itemElement = document.createElement("div");
                 itemElement.classList.add("watchlist-item");
                 itemElement.style.backgroundImage = item.image ? `url('${item.image}')` : ''; // Set background image
@@ -120,7 +118,6 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     filter.addEventListener("change", renderWatchlist);
-    typeFilter.addEventListener("change", renderWatchlist); // New
 
     renderWatchlist();
 });
