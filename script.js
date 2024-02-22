@@ -33,8 +33,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     ${item.type === "series" || item.type === "anime" || item.type === "kdrama" ? `<p>Seasons: ${item.seasons}</p>` : ''}
                     <p>Status: ${item.status}</p>
                     <button class="change-status-button" data-index="${index}">Change Status</button>
-                    <button class="remove-button" data-index="${index}">Remove</button>
                     ${item.link ? `<button class="watch-now-button" data-link="${item.link}">Watch Now</button>` : ''}
+                    <button class="remove-button" data-index="${index}">Remove</button>
                 `;
                 watchlist.appendChild(itemElement);
             }
