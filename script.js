@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
     const watchlist = document.getElementById("watchlist");
     const filter = document.getElementById("filter");
+    const typeFilter = document.getElementById("type-filter"); // New
     const addButton = document.getElementById("add-button");
     const titleInput = document.getElementById("title-input");
     const typeSelect = document.getElementById("type-select");
@@ -20,9 +21,10 @@ document.addEventListener("DOMContentLoaded", function() {
     function renderWatchlist() {
         watchlist.innerHTML = "";
         const selectedFilter = filter.value;
+        const selectedTypeFilter = typeFilter.value; // New
 
         watchlistData.forEach((item, index) => {
-            if (selectedFilter === "all" || item.status === selectedFilter) {
+            if ((selectedFilter === "all" || item.status === selectedFilter) && (selectedTypeFilter === "all" || item.type === selectedTypeFilter)) { // Updated condition
                 const itemElement = document.createElement("div");
                 itemElement.classList.add("watchlist-item");
                 itemElement.style.backgroundImage = item.image ? `url('${item.image}')` : ''; // Set background image
@@ -33,8 +35,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     ${item.type === "series" || item.type === "anime" || item.type === "kdrama" ? `<p>Seasons: ${item.seasons}</p>` : ''}
                     <p>Status: ${item.status}</p>
                     <button class="change-status-button" data-index="${index}">Change Status</button>
-                    ${item.link ? `<button class="watch-now-button" data-link="${item.link}">Watch Now</button>` : ''}
                     <button class="remove-button" data-index="${index}">Remove</button>
+                    ${item.link ? `<button class="watch-now-button" data-link="${item.link}">Watch Now</button>` : ''}
                 `;
                 watchlist.appendChild(itemElement);
             }
@@ -118,6 +120,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     filter.addEventListener("change", renderWatchlist);
+    typeFilter.addEventListener("change", renderWatchlist); // New
 
     renderWatchlist();
 });
