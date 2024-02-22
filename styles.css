@@ -193,9 +193,9 @@ h1 {
     border: 2px solid transparent;
     border-radius: 4px;
     transition: border-color 0.3s ease;
-    background-color: #333; /* Dark background color */
+    background-color: #000; /* Black background color */
     color: #fff; /* White text color */
-    margin-right: 5px ;
+    margin-right: 5px;
 }
 
 #release-date-input:focus {
@@ -206,3 +206,4 @@ h1 {
 #release-date-input::placeholder {
     color: #ccc;
 }
+
