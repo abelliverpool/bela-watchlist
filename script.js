@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     <p>Status: ${item.status}</p>
                     <button class="change-status-button" data-index="${index}">Change Status</button>
                     <button class="remove-button" data-index="${index}">Remove</button>
-                    ${item.link ? `<button class="watch-now-button" data-link="${item.link}">Watch Now</button>` : ''}
+                    <a href="${item.link}" class="watch-now-link" target="_blank">Watch Now</a>
                 `;
                 watchlist.appendChild(itemElement);
             }
@@ -43,7 +43,6 @@ document.addEventListener("DOMContentLoaded", function() {
         // Attach event listeners to dynamically created buttons
         const changeStatusButtons = document.querySelectorAll('.change-status-button');
         const removeButtons = document.querySelectorAll('.remove-button');
-        const watchNowButtons = document.querySelectorAll('.watch-now-button');
 
         changeStatusButtons.forEach(button => {
             button.addEventListener('click', () => changeStatus(button.dataset.index));
@@ -51,13 +50,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
         removeButtons.forEach(button => {
             button.addEventListener('click', () => removeItem(button.dataset.index));
-        });
-
-        watchNowButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const link = button.dataset.link;
-                window.open(link, '_blank');
-            });
         });
     }
 
@@ -83,8 +75,6 @@ document.addEventListener("DOMContentLoaded", function() {
         const title = titleInput.value.trim();
         const type = typeSelect.value;
         const link = linkInput.value.trim(); // New
-        const releaseDate = releaseDateInput.value; // New
-        const status = statusSelect.value; // New
         let episodes;
         let seasons;
         let image = imageInput.value.trim();
@@ -93,7 +83,7 @@ document.addEventListener("DOMContentLoaded", function() {
             seasons = seasonsInput.value.trim();
         }
         if (title !== "") {
-            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status });
+            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link });
             renderWatchlist();
             saveWatchlistData(); // Save changes to localStorage
             titleInput.value = "";
@@ -101,7 +91,6 @@ document.addEventListener("DOMContentLoaded", function() {
             seasonsInput.value = "";
             imageInput.value = "";
             linkInput.value = ""; // New
-            releaseDateInput.value = ""; // New
         } else {
             alert("Please enter a valid movie or series title.");
         }
@@ -121,24 +110,3 @@ document.addEventListener("DOMContentLoaded", function() {
 
     renderWatchlist();
 });
-
-const releaseDateInput = document.getElementById("release-date-input");
-
-releaseDateInput.addEventListener("input", function() {
-    // Check if the input value is valid
-    if (isValidDate(this.value)) {
-        // If valid, set border color to green
-        this.style.borderColor = "green";
-    } else {
-        // If not valid, set border color to red
-        this.style.borderColor = "red";
-    }
-});
-
-function isValidDate(dateString) {
-    // Regular expression to match date format (YYYY-MM-DD)
-    const regex = /^\d{4}-\d{2}-\d{2}$/;
-
-    // Check if the input matches the regular expression
-    return regex.test(dateString);
-}
