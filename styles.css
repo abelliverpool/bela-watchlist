@@ -32,6 +32,68 @@ body {
 .watchlist-item h3 {
 	margin-top: 0;
 }
+/* Additional styles for the watchlist items */
+.watchlist-item {
+    margin-bottom: 20px;
+    padding: 10px;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #FFA500, #000);
+    color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    display: flex; /* Make the watchlist items flex containers */
+    align-items: center; /* Align items vertically */
+    justify-content: space-between; /* Distribute items evenly */
+}
+
+.watchlist-item h3 {
+    margin-top: 0;
+}
+
+/* Styles for the buttons */
+.watchlist-item button {
+    padding: 10px 20px;
+    background-color: #ff5722;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.watchlist-item button:hover {
+    background-color: #f44336;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* Additional styles for the filter controls */
 #controls {
