@@ -8,73 +8,14 @@ body {
 }
 
 .container {
-    max-width: px;
+    max-width: 1200px; /* Set a maximum width */
     margin: 0 auto;
     padding: 20px;
     position: relative;
     color: rgba(255, 255, 255, 0.8); /* Transparent white text color */
 }
 
-.background-video {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('https://videocdn.cdnpk.net/joy/content/video/free/video0485/large_preview/_import_61c07a564c1b19.29330319.mp4');
-    background-size: cover;
-    background-position: center;
-    filter: brightness(0.5);
-    z-index: -1;
-    overflow: hidden;
-}
-
-h1 {
-    text-align: center;
-}
-
-/* Styles for the watchlist */
-.add-movie {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.add-movie input[type="text"],
-.add-movie input[type="number"],
-.add-movie select {
-    padding: 10px;
-    margin-right: 10px;
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    background-color: rgba(94, 55, 55, 0.1);
-    color: #fff;
-    width: 200px;
-}
-
-#add-button,
-.change-status-button,
-.remove-button {
-    padding: 10px 20px;
-    background-color: #ff5722;
-    color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#add-button:hover,
-.change-status-button:hover,
-.remove-button:hover {
-    background-color: #f44336;
-}
-
-#watchlist {
-    margin-top: 20px;
-}
-
+/* Additional styles for the watchlist items */
 .watchlist-item {
     border: 1px solid #ccc;
     padding: 20px;
@@ -84,7 +25,15 @@ h1 {
     background-size: cover; /* Adjust background size */
     background-position: center; /* Center the background image */
     cursor: pointer;
-    max-width: 300px; /* Adjusted max-width */
+    flex: 1 1 300px; /* Flexbox item properties */
+    min-width: 300px; /* Minimum width for each item */
+}
+
+/* Flexbox container for watchlist items */
+.watchlist-container {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap */
+    gap: 20px; /* Spacing between items */
 }
 
 .watchlist-item h3 {
@@ -110,7 +59,7 @@ h1 {
     transition: border-color 0.3s ease;
     background-color: #333; /* Dark background color */
     color: #fff; /* White text color */
-    margin-right: 5px;
+    margin-right: 5px ;
 }
 
 #release-date-input:focus {
@@ -122,67 +71,61 @@ h1 {
     color: #ccc;
 }
 
-nav {
-    background-color: #363535;
-    color: rgba(224, 88, 24, 0.5);
+/* Styles for the filter controls */
+#controls {
+    margin-top: 20px;
 }
 
-nav .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px 20px;
-}
-
-nav h1 {
-    margin: 0;
-}
-
-.menu-toggle {
-    display: none;
-    flex-direction: column;
+#filter,
+#type-filter {
+    padding: 5px 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    background-color: transparent;
     cursor: pointer;
+    margin-right: 10px;
+    transition: border-color 0.3s ease;
 }
 
-.bar {
-    width: 25px;
-    height: 3px;
-    background-color: #fff;
-    margin: 3px 0;
+#filter:hover,
+#type-filter:hover {
+    border-color: #fff;
 }
 
-.nav-links {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+/* Animation on focus */
+#filter:focus,
+#type-filter:focus {
+    animation: glow 1.5s infinite alternate;
 }
 
-.nav-links li {
-    display: inline;
-}
-
-.nav-links li a {
-    color: #fff;
-    text-decoration: none;
-    padding: 10px;
-}
-
-.nav-links li a:hover {
-    background-color: #555;
-}
-
-@media (max-width: 768px) {
-    .menu-toggle {
-        display: flex;
+/* Responsive styles */
+@media screen and (max-width: 768px) {
+    .watchlist-container {
+        flex-direction: column; /* Display items in a column */
     }
 
-    .nav-links {
-        display: none;
-        flex-direction: column;
+    .watchlist-item {
+        flex: 1 1 100%; /* Full width on small screens */
     }
+}
 
-    .nav-links.open {
-        display: flex;
+/* Animation */
+@keyframes slideIn {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@-webkit-keyframes slideIn {
+    from {
+        -webkit-transform: translateY(-100%);
+    }
+    to {
+        -webkit-transform: translateY(0);
     }
 }
 
@@ -221,19 +164,6 @@ nav h1 {
     to {
         transform: translateY(0);
     }
-}
-
-@-webkit-keyframes slideIn {
-    from {
-        -webkit-transform: translateY(-100%);
-    }
-    to {
-        -webkit-transform: translateY(0);
-    }
-}
-
-.animated-select {
-    animation: slideIn 0.5s ease forwards;
 }
 
 @-webkit-keyframes slideIn {
