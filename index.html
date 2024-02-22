@@ -1,57 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bela Watchlist</title>
-<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watchlist</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
-<nav>
-  <div class="container">
-    <h1>Bela Watchlist</h1>
-    <div class="menu-toggle">
-      <div class="bar"></div>
-      <div class="bar"></div>
-      <div class="bar"></div>
-    </div>
-  </div>
-</nav>
-
-<div class="container">
-  <div class="background-image"></div>
-  <div class="scrollable-content">
-    <div class="video-background">
-      <video autoplay loop muted>
-        <source src="https://videocdn.cdnpk.net/joy/content/video/free/video0485/large_preview/_import_61c07a564c1b19.29330319.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-    </div>
-
-    <div class="add-movie">
-      <input type="text" id="title-input" placeholder="Enter movie or series title">
-      <select id="type-select">
-        <option value="movie">Movie</option>
-        <option value="series">Series</option>
-        <option value="anime">Anime</option>
-        <option value="kdrama">Kdrama</option>
-      </select>
-      <input type="number" id="episodes-input" placeholder="Number of episodes" style="display: none;">
-      <input type="number" id="seasons-input" placeholder="Number of seasons" style="display: none;">
-      <input type="text" id="image-input" placeholder="Image URL">
-      <input type="text" id="link-input" placeholder="Enter watch link"> <!-- New -->
-      <input type="date" id="release-date-input" placeholder="Release Date" value="YYYY-MM-DD"><!-- New -->
-      <select id="status-select"> <!-- New -->
-        <option value="watching">Watching</option>
-        <option value="watched">Watched</option>
-        <option value="plan-to-watch">Plan to Watch</option>
-        <option value="completed">Completed</option>
-        <option value="dropped">Dropped</option>
-      </select>
-      <button id="add-button">Add Movie</button>
-    </div>
-
+    <div id="watchlist"></div>
     <div id="controls">
         <select id="filter">
             <option value="all">All</option>
@@ -69,12 +25,7 @@
             <option value="kdrama">K-Drama</option>
         </select>
     </div>
-
-    <div id="watchlist" class="watchlist-container"></div>
-
-  </div>
-</div>
-
-<script src="script.js"></script>
+    <!-- Other HTML elements for adding new items to the watchlist -->
+    <script src="script.js"></script>
 </body>
 </html>
