@@ -16,6 +16,31 @@ document.addEventListener("DOMContentLoaded", function() {
     function saveWatchlistData() {
         localStorage.setItem("watchlistData", JSON.stringify(watchlistData));
     }
+document.addEventListener("DOMContentLoaded", function() {
+ 
+    const typeFilter = document.getElementById("type-filter");
+
+    typeFilter.addEventListener("change", function() {
+        renderWatchlist();
+    });
+
+
+    function renderWatchlist() {
+     
+
+        const selectedType = typeFilter.value;
+
+        watchlistData.forEach((item, index) => {
+            if ((selectedFilter === "all" || item.status === selectedFilter) &&
+                (selectedType === "all" || item.type === selectedType)) {
+
+            }
+        });
+
+
+    }
+
+});
 
     function renderWatchlist() {
         watchlist.innerHTML = "";
