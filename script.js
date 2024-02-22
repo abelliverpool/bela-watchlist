@@ -1,16 +1,16 @@
 document.addEventListener("DOMContentLoaded", function() {
     const watchlist = document.getElementById("watchlist");
     const filter = document.getElementById("filter");
+    const addButton = document.getElementById("add-button");
+    const titleInput = document.getElementById("title-input");
+    const typeSelect = document.getElementById("type-select");
+    const episodesInput = document.getElementById("episodes-input");
+    const seasonsInput = document.getElementById("seasons-input");
+    const imageInput = document.getElementById("image-input");
+    const linkInput = document.getElementById("link-input");
+    const releaseDateInput = document.getElementById("release-date-input");
+    const statusSelect = document.getElementById("status-select");
     const typeFilter = document.getElementById("type-filter");
-    const addButton = document.getElementById("add-button"); // Assuming you have an add button
-    const titleInput = document.getElementById("title-input"); // Assuming you have an input for title
-    const typeSelect = document.getElementById("type-select"); // Assuming you have an input for type
-    const episodesInput = document.getElementById("episodes-input"); // Assuming you have an input for episodes
-    const seasonsInput = document.getElementById("seasons-input"); // Assuming you have an input for seasons
-    const imageInput = document.getElementById("image-input"); // Assuming you have an input for image
-    const linkInput = document.getElementById("link-input"); // New
-    const releaseDateInput = document.getElementById("release-date-input"); // New
-    const statusSelect = document.getElementById("status-select"); // New
 
     let watchlistData = JSON.parse(localStorage.getItem("watchlistData")) || [];
 
@@ -34,6 +34,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     ${item.type !== "movie" ? `<p>Episodes: ${item.episodes}</p>` : ''}
                     ${item.type === "series" || item.type === "anime" || item.type === "kdrama" ? `<p>Seasons: ${item.seasons}</p>` : ''}
                     <p>Status: ${item.status}</p>
+                    <button class="watch-now-button" data-link="${item.link}">Watch Now</button>
                     <button class="change-status-button" data-index="${index}">Change Status</button>
                     <button class="remove-button" data-index="${index}">Remove</button>
                 `;
@@ -42,15 +43,14 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         // Attach event listeners to dynamically created buttons
-        const changeStatusButtons = document.querySelectorAll('.change-status-button');
-        const removeButtons = document.querySelectorAll('.remove-button');
+        const watchNowButtons = document.querySelectorAll('.watch-now-button');
 
-        changeStatusButtons.forEach(button => {
-            button.addEventListener('click', () => changeStatus(button.dataset.index));
-        });
-
-        removeButtons.forEach(button => {
-            button.addEventListener('click', () => removeItem(button.dataset.index));
+        watchNowButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const link = button.dataset.link;
+                // Open link in a new tab
+                window.open(link, '_blank');
+            });
         });
     }
 
@@ -72,9 +72,43 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    // Assuming you have an event listener for adding new items
+    addButton.addEventListener("click", function() {
+        const title = titleInput.value.trim();
+        const type = typeSelect.value;
+        const link = linkInput.value.trim();
+        const releaseDate = releaseDateInput.value;
+        const status = statusSelect.value;
+        let episodes;
+        let seasons;
+        let image = imageInput.value.trim();
+        if (type === "anime" || type === "series" || type === "kdrama") {
+            episodes = episodesInput.value.trim();
+            seasons = seasonsInput.value.trim();
+        }
+        if (title !== "") {
+            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status });
+            renderWatchlist();
+            saveWatchlistData(); // Save changes to localStorage
+            titleInput.value = "";
+            episodesInput.value = "";
+            seasonsInput.value = "";
+            imageInput.value = "";
+            linkInput.value = "";
+            releaseDateInput.value = "";
+        } else {
+            alert("Please enter a valid movie or series title.");
+        }
+    });
 
-    // Assuming you have a function isValidDate for date validation
+    typeSelect.addEventListener("change", function() {
+        if (typeSelect.value === "anime" || typeSelect.value === "series" || typeSelect.value === "kdrama") {
+            episodesInput.style.display = "inline-block";
+            seasonsInput.style.display = "inline-block";
+        } else {
+            episodesInput.style.display = "none";
+            seasonsInput.style.display = "none";
+        }
+    });
 
     filter.addEventListener("change", renderWatchlist);
     typeFilter.addEventListener("change", renderWatchlist);
