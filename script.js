@@ -11,9 +11,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const linkInput = document.getElementById("link-input");
     const releaseDateInput = document.getElementById("release-date-input");
     const statusSelect = document.getElementById("status-select");
-    // Export button
-const exportButton = document.getElementById("export-button");
-exportButton.addEventListener("click", exportWatchlist);
+    const exportButton = document.getElementById("export-button");
+           
     let watchlistData = JSON.parse(localStorage.getItem("watchlistData")) || [];
 
     function saveWatchlistData() {
@@ -129,7 +128,8 @@ exportButton.addEventListener("click", exportWatchlist);
 
     renderWatchlist();
 });
-// Export button
+
+  // Export button
 const exportButton = document.getElementById("export-button");
 exportButton.addEventListener("click", exportWatchlist);
 
@@ -145,7 +145,6 @@ function exportWatchlist() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    console.log("Watchlist exported successfully!");
 }
 
 
