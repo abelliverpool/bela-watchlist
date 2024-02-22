@@ -17,14 +17,17 @@ body {
 
 /* Additional styles for the watchlist items */
 .watchlist-item {
-    margin-bottom: 20px;
-    padding: 15px; /* Increased padding */
+    margin-bottom: 10px; /* Adjusted margin */
+    padding: 10px; /* Adjusted padding */
     border-radius: 5px;
     background: linear-gradient(135deg, #FFA500, #000);
     color: #fff;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     display: flex; /* Make the watchlist items flex containers */
-    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Align items vertically */
+    justify-content: space-between; /* Distribute items evenly */
+    font-size: 14px; /* Decreased font size */
+    max-width: 300px; /* Adjusted max-width */
 }
 
 .watchlist-item h3 {
@@ -33,18 +36,13 @@ body {
 
 /* Styles for the buttons */
 .watchlist-item button {
-    padding: 10px 20px;
+    padding: 8px 16px; /* Adjusted padding */
     background-color: #ff5722;
     color: #ffffff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-bottom: 10px; /* Reduce margin between buttons */
-}
-
-.watchlist-item button.watch-now-button {
-    margin-top: 10px; /* Adjust margin to separate "Watch Now" button */
 }
 
 .watchlist-item button:hover {
@@ -138,7 +136,7 @@ h1 {
 .change-status-button,
 .remove-button,
 .watch-now-button {
-    padding: 10px 20px;
+    padding: 8px 16px; /* Adjusted padding */
     background-color: #ff5722;
     color: #ffffff;
     border: none;
