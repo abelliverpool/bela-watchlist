@@ -15,20 +15,26 @@ body {
     color: rgba(255, 255, 255, 0.8); /* Transparent white text color */
 }
 
-/* Additional styles for the watchlist items */
-.watchlist-item {
+/* Styles for the buttons */
+.watchlist-item button {
+    padding: 10px 20px;
+    background-color: #ff5722;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
     margin-bottom: 20px;
-    padding: 15px; /* Increased padding */
-    /* Remove border-radius to make items rectangular */
-    background: linear-gradient(135deg, #FFA500, #000);
-    color: #fff;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    display: flex; /* Make the watchlist items flex containers */
-    align-items: center; /* Align items vertically */
-    justify-content: space-between; /* Distribute items evenly */
-    font-size: 18px; /* Increased font size */
 }
 
+.watchlist-item button.watch-now-button {
+    display: block; /* Ensure the "Watch Now" button is displayed as a block */
+    margin-top: 10px; /* Add margin to separate it from other buttons */
+}
+
+.watchlist-item button:hover {
+    background-color: #f44336;
+}
 
 /* Styles for the buttons */
 .watchlist-item button {
