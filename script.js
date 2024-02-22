@@ -1,16 +1,16 @@
 document.addEventListener("DOMContentLoaded", function() {
     const watchlist = document.getElementById("watchlist");
     const filter = document.getElementById("filter");
+    const typeFilter = document.getElementById("type-filter");
     const addButton = document.getElementById("add-button");
     const titleInput = document.getElementById("title-input");
     const typeSelect = document.getElementById("type-select");
     const episodesInput = document.getElementById("episodes-input");
     const seasonsInput = document.getElementById("seasons-input");
     const imageInput = document.getElementById("image-input");
-    const linkInput = document.getElementById("link-input"); // New
-    const releaseDateInput = document.getElementById("release-date-input"); // New
-    const statusSelect = document.getElementById("status-select"); // New
-    const typeFilter = document.getElementById("type-filter"); // New type filter
+    const linkInput = document.getElementById("link-input");
+    const releaseDateInput = document.getElementById("release-date-input");
+    const statusSelect = document.getElementById("status-select");
 
     let watchlistData = JSON.parse(localStorage.getItem("watchlistData")) || [];
 
@@ -21,19 +21,21 @@ document.addEventListener("DOMContentLoaded", function() {
     function renderWatchlist() {
         watchlist.innerHTML = "";
         const selectedFilter = filter.value;
-        const selectedType = typeFilter.value; // New selected type
+        const selectedType = typeFilter.value;
 
         watchlistData.forEach((item, index) => {
             if ((selectedFilter === "all" || item.status === selectedFilter) &&
                 (selectedType === "all" || item.type === selectedType)) {
                 const itemElement = document.createElement("div");
                 itemElement.classList.add("watchlist-item");
-                itemElement.style.backgroundImage = `url('${item.image}')`; // Set background image
                 itemElement.innerHTML = `
                     <h3>${item.title}</h3>
                     <p>Type: ${item.type}</p>
                     ${item.type !== "movie" ? `<p>Episodes: ${item.episodes}</p>` : ''}
                     ${item.type === "series" || item.type === "anime" || item.type === "kdrama" ? `<p>Seasons: ${item.seasons}</p>` : ''}
+                    ${item.image ? `<img src="${item.image}" alt="${item.title}">` : ''}
+                    ${item.link ? `<button class="watch-button" data-link="${item.link}">Watch Here</button>` : ''}
+                    ${item.releaseDate ? `<p>Release Date: ${item.releaseDate}</p>` : ''}
                     <p>Status: ${item.status}</p>
                     <button class="change-status-button" data-index="${index}">Change Status</button>
                     <button class="remove-button" data-index="${index}">Remove</button>
@@ -45,6 +47,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Attach event listeners to dynamically created buttons
         const changeStatusButtons = document.querySelectorAll('.change-status-button');
         const removeButtons = document.querySelectorAll('.remove-button');
+        const watchButtons = document.querySelectorAll('.watch-button');
 
         changeStatusButtons.forEach(button => {
             button.addEventListener('click', () => changeStatus(button.dataset.index));
@@ -53,6 +56,14 @@ document.addEventListener("DOMContentLoaded", function() {
         removeButtons.forEach(button => {
             button.addEventListener('click', () => removeItem(button.dataset.index));
         });
+
+        watchButtons.forEach(button => {
+            button.addEventListener('click', () => watchMovie(button.dataset.link));
+        });
+    }
+
+    function watchMovie(link) {
+        window.open(link, '_blank');
     }
 
     function changeStatus(index) {
@@ -76,9 +87,9 @@ document.addEventListener("DOMContentLoaded", function() {
     addButton.addEventListener("click", function() {
         const title = titleInput.value.trim();
         const type = typeSelect.value;
-        const link = linkInput.value.trim(); // New
-        const releaseDate = releaseDateInput.value; // New
-        const status = statusSelect.value; // New
+        const link = linkInput.value.trim();
+        const releaseDate = releaseDateInput.value;
+        const status = statusSelect.value;
         let episodes;
         let seasons;
         let image = imageInput.value.trim();
@@ -94,8 +105,8 @@ document.addEventListener("DOMContentLoaded", function() {
             episodesInput.value = "";
             seasonsInput.value = "";
             imageInput.value = "";
-            linkInput.value = ""; // New
-            releaseDateInput.value = ""; // New
+            linkInput.value = "";
+            releaseDateInput.value = "";
         } else {
             alert("Please enter a valid movie or series title.");
         }
@@ -112,7 +123,8 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     filter.addEventListener("change", renderWatchlist);
-    typeFilter.addEventListener("change", renderWatchlist); // Add event listener for type filter
+    typeFilter.addEventListener("change", renderWatchlist);
 
     renderWatchlist();
 });
+
