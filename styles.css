@@ -8,7 +8,7 @@ body {
 }
 
 .container {
-    max-width: px;
+    max-width: 1200px; /* Adjusted max-width */
     margin: 0 auto;
     padding: 20px;
     position: relative;
@@ -28,7 +28,6 @@ body {
     justify-content: space-between; /* Distribute items evenly */
     font-size: 18px; /* Increased font size */
 }
-
 
 .watchlist-item h3 {
     margin-top: 0;
