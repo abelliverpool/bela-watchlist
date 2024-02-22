@@ -8,47 +8,26 @@ body {
 }
 
 .container {
-    max-width: px; /* Adjusted max-width */
+    max-width: px;
     margin: 0 auto;
     padding: 20px;
     position: relative;
-    color: rgba(255, 255, 255, 0.8); /* Transparent white text color */
-    
-}
-
+     color: rgba(255, 255, 255, 0.8); /* Transparent white text color */
+       
+    }
 /* Additional styles for the watchlist items */
 .watchlist-item {
-    margin-bottom: 10px; /* Adjusted margin */
-    padding: 10px; /* Adjusted padding */
+    margin-bottom: 20px;
+    padding: 10px;
     border-radius: 5px;
     background: linear-gradient(135deg, #FFA500, #000);
     color: #fff;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    display: flex; /* Make the watchlist items flex containers */
-    align-items: center; /* Align items vertically */
-    justify-content: space-between; /* Distribute items evenly */
-    font-size: 14px; /* Decreased font size */
-    height:200px;
-    width:200px;
+    transition: background-color 0.3s ease; /* Add transition */
 }
 
 .watchlist-item h3 {
     margin-top: 0;
-}
-
-/* Styles for the buttons */
-.watchlist-item button {
-    padding: 8px 16px; /* Adjusted padding */
-    background-color: #ff5722;
-    color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.watchlist-item button:hover {
-    background-color: #f44336;
 }
 
 /* Additional styles for the filter controls */
@@ -56,26 +35,23 @@ body {
     margin-top: 20px;
 }
 
-#filter,
-#type-filter {
+#filter, #type-filter {
     padding: 5px 10px;
     font-size: 16px;
     border-radius: 5px;
     border: 1px solid transparent;
-    background-color: transparent;
+    background-color: ;
     cursor: pointer;
     margin-right: 10px;
     transition: border-color 0.3s ease;
 }
 
-#filter:hover,
-#type-filter:hover {
+#filter:hover, #type-filter:hover {
     border-color: #fff;
 }
 
 /* Animation on focus */
-#filter:focus,
-#type-filter:focus {
+#filter:focus, #type-filter:focus {
     animation: glow 1.5s infinite alternate;
 }
 
@@ -85,19 +61,23 @@ body {
         flex-direction: column;
     }
 
-    #filter,
-    #type-filter {
+    #filter, #type-filter {
         margin-bottom: 10px;
         margin-right: 0;
     }
 }
+
+
+  
+
+    
 
 .background-video {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 100%; 
     background-image: url('https://videocdn.cdnpk.net/joy/content/video/free/video0485/large_preview/_import_61c07a564c1b19.29330319.mp4');
     background-size: cover;
     background-position: center;
@@ -136,30 +116,46 @@ h1 {
 
 #add-button,
 .change-status-button,
-.remove-button,
-.watch-now-button {
-    padding: 10px 20px; /* Adjusted padding */
+.remove-button {
+    padding: 10px 20px;
     background-color: #ff5722;
     color: #ffffff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    margin-bottom: 20px;
 }
 
 #add-button:hover,
 .change-status-button:hover,
-.remove-button:hover,
-.watch-now-button:hover {
+.remove-button:hover {
     background-color: #f44336;
 }
 
 #watchlist {
     margin-top: 20px;
-    background-size: cover; /* Added */
-    background-position: center; /* Added */
 }
+.watchlist-item {
+    border: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px; /* Increase margin */
+    border-radius: 4px;
+    position: relative;
+    background-size: cover; /* Adjust background size */
+    background-position: center; /* Center the background image */
+    cursor: pointer;
+}
+
+@media (min-width: 768px) {
+    .watchlist-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Adjust for medium size */
+        grid-gap: 20px;
+    }
+}
+
+
+
 
 .watchlist-item h3 {
     margin-top: 0;
@@ -175,7 +171,6 @@ h1 {
 .watchlist-item p {
     margin: 5px 0;
 }
-
 #release-date-input {
     padding: 10px;
     font-size: 16px;
@@ -184,7 +179,7 @@ h1 {
     transition: border-color 0.3s ease;
     background-color: #333; /* Dark background color */
     color: #fff; /* White text color */
-    margin-right: 5px;
+    margin-right: 5px ;
 }
 
 #release-date-input:focus {
@@ -195,6 +190,8 @@ h1 {
 #release-date-input::placeholder {
     color: #ccc;
 }
+
+
 
 nav {
     background-color: #363535;
@@ -211,7 +208,6 @@ nav .container {
 nav h1 {
     margin: 0;
 }
-
 .menu-toggle {
     display: none;
     flex-direction: column;
@@ -292,7 +288,6 @@ nav h1 {
     from {
         transform: translateY(-100%);
     }
-
     to {
         transform: translateY(0);
     }
@@ -302,7 +297,6 @@ nav h1 {
     from {
         -webkit-transform: translateY(-100%);
     }
-
     to {
         -webkit-transform: translateY(0);
     }
@@ -316,7 +310,6 @@ nav h1 {
     from {
         -webkit-transform: translateY(-100%);
     }
-
     to {
         -webkit-transform: translateY(0);
     }
