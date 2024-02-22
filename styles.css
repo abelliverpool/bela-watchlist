@@ -8,23 +8,16 @@ body {
 }
 
 .container {
-    max-width: 100%; /* Adjusted to fit the window */
+    max-width: 800px; /* Adjusted container width */
     margin: 0 auto;
     padding: 20px;
     position: relative;
     color: rgba(255, 255, 255, 0.8); /* Transparent white text color */
 }
 
-h1 {
-    text-align: center;
-}
-
-/* Styles for the watchlist */
 .add-movie {
     display: flex;
     align-items: center;
-    justify-content: center; /* Center items horizontally */
-    flex-wrap: wrap; /* Allow items to wrap */
     margin-bottom: 20px;
 }
 
@@ -38,13 +31,7 @@ h1 {
     border-radius: 4px;
     background-color: rgba(94, 55, 55, 0.1);
     color: #fff;
-    width: calc(50% - 10px); /* Adjusted width for responsiveness */
-    margin-bottom: 10px; /* Added margin bottom for spacing */
-}
-
-.add-movie input[type="text"],
-.add-movie input[type="number"] {
-    width: 100%; /* Adjusted width for smaller screens */
+    width: 200px;
 }
 
 #add-button {
@@ -55,7 +42,6 @@ h1 {
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
-    width: 100%; /* Adjusted width for smaller screens */
 }
 
 #add-button:hover {
@@ -63,35 +49,36 @@ h1 {
 }
 
 .filters {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
     margin-bottom: 20px;
 }
 
-.filters label,
-.filters select {
-    margin-right: 10px;
+.filters label {
+    color: #fff;
 }
 
-/* Watchlist */
+.filters select {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
 #watchlist {
     margin-top: 20px;
-    display: flex;
-    flex-wrap: wrap; /* Allow items to wrap */
-    justify-content: space-between; /* Distribute items evenly */
 }
 
 .watchlist-item {
     border: 1px solid #ccc;
     padding: 20px;
-    margin-bottom: 20px; /* Increase margin */
+    margin-bottom: 20px;
     border-radius: 4px;
     position: relative;
-    background-size: cover; /* Adjust background size */
-    background-position: center; /* Center the background image */
+    background-size: cover;
+    background-position: center;
     cursor: pointer;
-    width: calc(50% - 20px); /* Adjusted width for responsiveness */
+    max-width: 300px;
 }
 
 .watchlist-item h3 {
@@ -109,15 +96,22 @@ h1 {
     margin: 5px 0;
 }
 
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .add-movie input[type="text"],
-    .add-movie input[type="number"],
-    .add-movie select {
-        width: 100%; /* Adjusted width for smaller screens */
-    }
+#release-date-input {
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid transparent;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+    background-color: #333;
+    color: #fff;
+    margin-right: 5px;
+}
 
-    .watchlist-item {
-        width: 100%; /* Adjusted width for smaller screens */
-    }
+#release-date-input:focus {
+    outline: none;
+    border-color: #ccc;
+}
+
+#release-date-input::placeholder {
+    color: #ccc;
 }
