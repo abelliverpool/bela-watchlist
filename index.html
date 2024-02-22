@@ -9,19 +9,21 @@
 <body>
     <div class="container">
         <h1>My Watchlist</h1>
+        
+        <!-- Add movie form -->
         <div class="add-movie">
             <input type="text" id="title-input" placeholder="Title">
             <select id="type-select">
                 <option value="movie">Movie</option>
                 <option value="series">Series</option>
                 <option value="anime">Anime</option>
-                <option value="kdrama">Korean Drama</option>
+                <option value="kdrama">K-Drama</option>
             </select>
             <input type="number" id="episodes-input" placeholder="Episodes">
             <input type="number" id="seasons-input" placeholder="Seasons">
             <input type="text" id="image-input" placeholder="Image URL">
-            <input type="text" id="link-input" placeholder="Link">
-            <input type="date" id="release-date-input">
+            <input type="text" id="link-input" placeholder="Watch Link">
+            <input type="date" id="release-date-input" placeholder="Release Date">
             <select id="status-select">
                 <option value="watching">Watching</option>
                 <option value="watched">Watched</option>
@@ -31,8 +33,10 @@
             </select>
             <button id="add-button">Add</button>
         </div>
+        
+        <!-- Filter -->
         <div class="filters">
-            <label for="filter">Filter by Status:</label>
+            <label for="filter">Filter by status:</label>
             <select id="filter">
                 <option value="all">All</option>
                 <option value="watching">Watching</option>
@@ -41,17 +45,12 @@
                 <option value="completed">Completed</option>
                 <option value="dropped">Dropped</option>
             </select>
-            <label for="type-filter">Filter by Type:</label>
-            <select id="type-filter">
-                <option value="all">All</option>
-                <option value="movie">Movie</option>
-                <option value="series">Series</option>
-                <option value="anime">Anime</option>
-                <option value="kdrama">Korean Drama</option>
-            </select>
         </div>
+        
+        <!-- Watchlist -->
         <div id="watchlist"></div>
     </div>
+    
     <script src="script.js"></script>
 </body>
 </html>
