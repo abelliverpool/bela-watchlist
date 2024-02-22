@@ -127,3 +127,42 @@ document.addEventListener("DOMContentLoaded", function() {
 
     renderWatchlist();
 });
+// Export button
+const exportButton = document.getElementById("export-button");
+exportButton.addEventListener("click", exportWatchlist);
+
+// Import file input
+const importFileInput = document.getElementById("import-file");
+importFileInput.addEventListener("change", importWatchlist);
+
+// Export watchlist function
+function exportWatchlist() {
+    const data = JSON.stringify(watchlistData);
+    const blob = new Blob([data], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "watchlist.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+// Import watchlist function
+function importWatchlist(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        const importedData = JSON.parse(event.target.result);
+        if (Array.isArray(importedData)) {
+            watchlistData = importedData;
+            renderWatchlist();
+            saveWatchlistData();
+        } else {
+            alert("Invalid watchlist file.");
+        }
+    };
+    reader.readAsText(file);
+}
