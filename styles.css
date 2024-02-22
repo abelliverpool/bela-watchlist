@@ -342,3 +342,17 @@ nav h1 {
 	min-width: 100%;
 	min-height: 100%;
 }
+.watch-now-button {
+    padding: 10px 20px;
+    background-color: #ff5722;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+}
+
+.watch-now-button:hover {
+    background-color: #f44336;
+}
