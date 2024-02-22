@@ -17,8 +17,8 @@ body {
 
 /* Additional styles for the watchlist items */
 .watchlist-item {
-    margin-bottom: 10px; /* Adjusted margin */
-    padding: 10px; /* Adjusted padding */
+    margin-bottom: 20px;
+    padding: 15px; /* Increased padding */
     border-radius: 5px;
     background: linear-gradient(135deg, #FFA500, #000);
     color: #fff;
@@ -26,8 +26,7 @@ body {
     display: flex; /* Make the watchlist items flex containers */
     align-items: center; /* Align items vertically */
     justify-content: space-between; /* Distribute items evenly */
-    font-size: 14px; /* Decreased font size */
-    max-width: 300px; /* Adjusted max-width */
+    font-size: 18px; /* Increased font size */
 }
 
 .watchlist-item h3 {
@@ -36,13 +35,14 @@ body {
 
 /* Styles for the buttons */
 .watchlist-item button {
-    padding: 8px 16px; /* Adjusted padding */
+    padding: 5px 10px; /* Adjusted padding to make buttons smaller */
     background-color: #ff5722;
     color: #ffffff;
     border: none;
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-bottom: 20px;
 }
 
 .watchlist-item button:hover {
@@ -136,7 +136,7 @@ h1 {
 .change-status-button,
 .remove-button,
 .watch-now-button {
-    padding: 8px 16px; /* Adjusted padding */
+    padding: 5px 10px; /* Adjusted padding to make buttons smaller */
     background-color: #ff5722;
     color: #ffffff;
     border: none;
