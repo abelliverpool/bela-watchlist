@@ -17,24 +17,11 @@ body {
 
 }
 
-/* Additional styles for the watchlist items */
-.watchlist-item {
-	margin-bottom: 100px;
-	padding: 10px;
-	border-radius: 5px;
-	background: linear-gradient(135deg, #FFA500, #000);
-	color: #fff;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-	transition: background-color 0.3s ease;
-	/* Add transition */
-}
 
-.watchlist-item h3 {
-	margin-top: 0;
 }
 /* Additional styles for the watchlist items */
 .watchlist-item {
-    margin-bottom: 20px;
+    margin-bottom: 200px;
     padding: 10px;
     border-radius: 5px;
     background: linear-gradient(135deg, #FFA500, #000);
