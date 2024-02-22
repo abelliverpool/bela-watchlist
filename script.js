@@ -1,7 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     const watchlist = document.getElementById("watchlist");
     const filter = document.getElementById("filter");
-    const typeFilter = document.getElementById("type-filter"); // New
     const addButton = document.getElementById("add-button");
     const titleInput = document.getElementById("title-input");
     const typeSelect = document.getElementById("type-select");
@@ -11,6 +10,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const linkInput = document.getElementById("link-input"); // New
     const releaseDateInput = document.getElementById("release-date-input"); // New
     const statusSelect = document.getElementById("status-select"); // New
+    const typeFilter = document.getElementById("type-filter"); // New type filter
 
     let watchlistData = JSON.parse(localStorage.getItem("watchlistData")) || [];
 
@@ -21,13 +21,14 @@ document.addEventListener("DOMContentLoaded", function() {
     function renderWatchlist() {
         watchlist.innerHTML = "";
         const selectedFilter = filter.value;
-        const selectedTypeFilter = typeFilter.value; // New
+        const selectedType = typeFilter.value; // New selected type
 
         watchlistData.forEach((item, index) => {
-            if ((selectedFilter === "all" || item.status === selectedFilter) && (selectedTypeFilter === "all" || item.type === selectedTypeFilter)) { // Updated condition
+            if ((selectedFilter === "all" || item.status === selectedFilter) &&
+                (selectedType === "all" || item.type === selectedType)) {
                 const itemElement = document.createElement("div");
                 itemElement.classList.add("watchlist-item");
-                itemElement.style.backgroundImage = item.image ? `url('${item.image}')` : ''; // Set background image
+                itemElement.style.backgroundImage = `url('${item.image}')`; // Set background image
                 itemElement.innerHTML = `
                     <h3>${item.title}</h3>
                     <p>Type: ${item.type}</p>
@@ -36,7 +37,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     <p>Status: ${item.status}</p>
                     <button class="change-status-button" data-index="${index}">Change Status</button>
                     <button class="remove-button" data-index="${index}">Remove</button>
-                    ${item.link ? `<button class="watch-now-button" data-link="${item.link}">Watch Now</button>` : ''}
                 `;
                 watchlist.appendChild(itemElement);
             }
@@ -45,7 +45,6 @@ document.addEventListener("DOMContentLoaded", function() {
         // Attach event listeners to dynamically created buttons
         const changeStatusButtons = document.querySelectorAll('.change-status-button');
         const removeButtons = document.querySelectorAll('.remove-button');
-        const watchNowButtons = document.querySelectorAll('.watch-now-button');
 
         changeStatusButtons.forEach(button => {
             button.addEventListener('click', () => changeStatus(button.dataset.index));
@@ -53,13 +52,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
         removeButtons.forEach(button => {
             button.addEventListener('click', () => removeItem(button.dataset.index));
-        });
-
-        watchNowButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const link = button.dataset.link;
-                window.open(link, '_blank');
-            });
         });
     }
 
@@ -120,28 +112,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     filter.addEventListener("change", renderWatchlist);
-    typeFilter.addEventListener("change", renderWatchlist); // New
+    typeFilter.addEventListener("change", renderWatchlist); // Add event listener for type filter
 
     renderWatchlist();
 });
-
-const releaseDateInput = document.getElementById("release-date-input");
-
-releaseDateInput.addEventListener("input", function() {
-    // Check if the input value is valid
-    if (isValidDate(this.value)) {
-        // If valid, set border color to green
-        this.style.borderColor = "green";
-    } else {
-        // If not valid, set border color to red
-        this.style.borderColor = "red";
-    }
-});
-
-function isValidDate(dateString) {
-    // Regular expression to match date format (YYYY-MM-DD)
-    const regex = /^\d{4}-\d{2}-\d{2}$/;
-
-    // Check if the input matches the regular expression
-    return regex.test(dateString);
-}
