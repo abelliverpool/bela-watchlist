@@ -13,6 +13,7 @@ body {
     padding: 20px;
     position: relative;
     color: rgba(255, 255, 255, 0.8); /* Transparent white text color */
+    
 }
 
 /* Additional styles for the watchlist items */
@@ -27,6 +28,8 @@ body {
     align-items: center; /* Align items vertically */
     justify-content: space-between; /* Distribute items evenly */
     font-size: 14px; /* Decreased font size */
+    height:200px;
+    width:200px;
 }
 
 .watchlist-item h3 {
