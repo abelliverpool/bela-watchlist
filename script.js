@@ -129,7 +129,9 @@ exportButton.addEventListener("click", exportWatchlist);
 
     renderWatchlist();
 });
-
+// Export button
+const exportButton = document.getElementById("export-button");
+exportButton.addEventListener("click", exportWatchlist);
 
 // Export watchlist function
 function exportWatchlist() {
