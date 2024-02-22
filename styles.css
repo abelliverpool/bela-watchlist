@@ -30,21 +30,7 @@ body {
     margin-right: 10px;
 }
 
-#filter:focus, #type-filter1:focus {
-    outline: none;
-}
 
-/* Responsive styles */
-@media screen and (max-width: 768px) {
-    #controls {
-        flex-direction: column;
-    }
-
-    #filter, #type-filter {
-        margin-bottom: 10px;
-        margin-right: 0;
-    }
-}
   
 
     
