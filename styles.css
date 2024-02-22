@@ -60,7 +60,7 @@ h1 {
 #add-button,
 .change-status-button,
 .remove-button,
-.watch-button { /* Include watch button styling */
+.watch-button {
     padding: 10px 20px;
     background-color: #ff5722;
     color: #ffffff;
@@ -73,10 +73,13 @@ h1 {
 #add-button:hover,
 .change-status-button:hover,
 .remove-button:hover,
-.watch-button:hover { /* Include watch button hover styling */
+.watch-button:hover {
     background-color: #f44336;
 }
 
+#watchlist {
+    margin-top: 20px;
+}
 .watchlist-item {
     border: 1px solid #ccc;
     padding: 20px;
@@ -101,6 +104,14 @@ h1 {
 
 .watchlist-item p {
     margin: 5px 0;
+}
+
+@media (min-width: 768px) {
+    .watchlist-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Adjust for medium size */
+        grid-gap: 20px;
+    }
 }
 
 .animated-select {
@@ -128,4 +139,51 @@ h1 {
 
 .animated-select option {
     background-color: #fff;
+}
+
+/* Animation */
+@keyframes slideIn {
+    from {
+        transform: translateY(-100%);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@-webkit-keyframes slideIn {
+    from {
+        -webkit-transform: translateY(-100%);
+    }
+    to {
+        -webkit-transform: translateY(0);
+    }
+}
+
+.animated-select {
+    animation: slideIn 0.5s ease forwards;
+}
+
+@-webkit-keyframes slideIn {
+    from {
+        -webkit-transform: translateY(-100%);
+    }
+    to {
+        -webkit-transform: translateY(0);
+    }
+}
+
+.video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.video-background video {
+    min-width: 100%;
+    min-height: 100%;
 }
