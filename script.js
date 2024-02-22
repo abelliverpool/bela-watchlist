@@ -127,24 +127,3 @@ document.addEventListener("DOMContentLoaded", function() {
 
     renderWatchlist();
 });
-
-const releaseDateInput = document.getElementById("release-date-input");
-
-releaseDateInput.addEventListener("input", function() {
-    // Check if the input value is valid
-    if (isValidDate(this.value)) {
-        // If valid, set border color to green
-        this.style.borderColor = "green";
-    } else {
-        // If not valid, set border color to red
-        this.style.borderColor = "red";
-    }
-});
-
-function isValidDate(dateString) {
-    // Regular expression to match date format (YYYY-MM-DD)
-    const regex = /^\d{4}-\d{2}-\d{2}$/;
-
-    // Check if the input matches the regular expression
-    return regex.test(dateString);
-}
