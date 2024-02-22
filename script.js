@@ -131,10 +131,6 @@ document.addEventListener("DOMContentLoaded", function() {
 const exportButton = document.getElementById("export-button");
 exportButton.addEventListener("click", exportWatchlist);
 
-// Import file input
-const importFileInput = document.getElementById("import-file");
-importFileInput.addEventListener("change", importWatchlist);
-
 // Export watchlist function
 function exportWatchlist() {
     const data = JSON.stringify(watchlistData);
@@ -147,7 +143,9 @@ function exportWatchlist() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
+    console.log("Watchlist exported successfully!");
 }
+
 
 // Import watchlist function
 function importWatchlist(event) {
