@@ -25,13 +25,14 @@ document.addEventListener("DOMContentLoaded", function() {
             if (selectedFilter === "all" || item.status === selectedFilter) {
                 const itemElement = document.createElement("div");
                 itemElement.classList.add("watchlist-item");
-                itemElement.style.backgroundImage = item.image ? `url('${item.image}')` : ''; // Set background image
                 itemElement.innerHTML = `
                     <h3>${item.title}</h3>
                     <p>Type: ${item.type}</p>
                     ${item.type !== "movie" ? `<p>Episodes: ${item.episodes}</p>` : ''}
                     ${item.type === "series" || item.type === "anime" || item.type === "kdrama" ? `<p>Seasons: ${item.seasons}</p>` : ''}
-                    ${item.link ? `<button class="watch-now-button" data-link="${item.link}">Watch Now</button>` : ''}
+                    ${item.image ? `<img src="${item.image}" alt="${item.title}">` : ''}
+                    ${item.link ? `<p><a href="${item.link}" target="_blank">Watch Now</a></p>` : ''}
+                    ${item.releaseDate ? `<p>Release Date: ${item.releaseDate}</p>` : ''}
                     <p>Status: ${item.status}</p>
                     <button class="change-status-button" data-index="${index}">Change Status</button>
                     <button class="remove-button" data-index="${index}">Remove</button>
@@ -50,17 +51,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
         removeButtons.forEach(button => {
             button.addEventListener('click', () => removeItem(button.dataset.index));
-        });
-
-        // Attach event listeners to watch-now buttons
-        const watchNowButtons = document.querySelectorAll('.watch-now-button');
-
-        watchNowButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const link = button.dataset.link;
-                // Open link in a new tab
-                window.open(link, '_blank');
-            });
         });
     }
 
@@ -124,7 +114,40 @@ document.addEventListener("DOMContentLoaded", function() {
 
     renderWatchlist();
 });
+function renderWatchlist() {
+    watchlist.innerHTML = "";
+    const selectedFilter = filter.value;
 
+    watchlistData.forEach((item, index) => {
+        if (selectedFilter === "all" || item.status === selectedFilter) {
+            const itemElement = document.createElement("div");
+            itemElement.classList.add("watchlist-item");
+            itemElement.style.backgroundImage = `url('${item.image}')`; // Set background image
+            itemElement.innerHTML = `
+                <h3>${item.title}</h3>
+                <p>Type: ${item.type}</p>
+                ${item.type !== "movie" ? `<p>Episodes: ${item.episodes}</p>` : ''}
+                ${item.type === "series" || item.type === "anime" || item.type === "kdrama" ? `<p>Seasons: ${item.seasons}</p>` : ''}
+                <p>Status: ${item.status}</p>
+                <button class="change-status-button" data-index="${index}">Change Status</button>
+                <button class="remove-button" data-index="${index}">Remove</button>
+            `;
+            watchlist.appendChild(itemElement);
+        }
+    });
+
+    // Attach event listeners to dynamically created buttons
+    const changeStatusButtons = document.querySelectorAll('.change-status-button');
+    const removeButtons = document.querySelectorAll('.remove-button');
+
+    changeStatusButtons.forEach(button => {
+        button.addEventListener('click', () => changeStatus(button.dataset.index));
+    });
+
+    removeButtons.forEach(button => {
+        button.addEventListener('click', () => removeItem(button.dataset.index));
+    });
+}
 const releaseDateInput = document.getElementById("release-date-input");
 
 releaseDateInput.addEventListener("input", function() {
@@ -145,3 +168,6 @@ function isValidDate(dateString) {
     // Check if the input matches the regular expression
     return regex.test(dateString);
 }
+
+  
+    
