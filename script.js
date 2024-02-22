@@ -1,15 +1,6 @@
 document.addEventListener("DOMContentLoaded", function() {
     const watchlist = document.getElementById("watchlist");
     const filter = document.getElementById("filter");
-    const addButton = document.getElementById("add-button");
-    const titleInput = document.getElementById("title-input");
-    const typeSelect = document.getElementById("type-select");
-    const episodesInput = document.getElementById("episodes-input");
-    const seasonsInput = document.getElementById("seasons-input");
-    const imageInput = document.getElementById("image-input");
-    const linkInput = document.getElementById("link-input");
-    const releaseDateInput = document.getElementById("release-date-input");
-    const statusSelect = document.getElementById("status-select");
     const typeFilter = document.getElementById("type-filter");
 
     let watchlistData = JSON.parse(localStorage.getItem("watchlistData")) || [];
@@ -71,6 +62,16 @@ document.addEventListener("DOMContentLoaded", function() {
             renderWatchlist();
         }
     }
+
+    const addButton = document.getElementById("add-button");
+    const titleInput = document.getElementById("title-input");
+    const typeSelect = document.getElementById("type-select");
+    const episodesInput = document.getElementById("episodes-input");
+    const seasonsInput = document.getElementById("seasons-input");
+    const imageInput = document.getElementById("image-input");
+    const linkInput = document.getElementById("link-input");
+    const releaseDateInput = document.getElementById("release-date-input");
+    const statusSelect = document.getElementById("status-select");
 
     addButton.addEventListener("click", function() {
         const title = titleInput.value.trim();
