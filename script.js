@@ -115,3 +115,30 @@ document.addEventListener("DOMContentLoaded", function() {
 
     renderWatchlist();
 });
+addButton.addEventListener("click", function() {
+    const title = titleInput.value.trim();
+    const type = typeSelect.value;
+    const link = linkInput.value.trim();
+    const releaseDate = releaseDateInput.value;
+    const status = statusSelect.value;
+    let episodes;
+    let seasons;
+    let image = imageInput.value.trim(); // Ensure the image URL is properly assigned
+    if (type === "anime" || type === "series" || type === "kdrama") {
+        episodes = episodesInput.value.trim();
+        seasons = seasonsInput.value.trim();
+    }
+    if (title !== "" && image !== "") { // Ensure both title and image URL are not empty
+        watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status });
+        renderWatchlist();
+        saveWatchlistData(); // Save changes to localStorage
+        titleInput.value = "";
+        episodesInput.value = "";
+        seasonsInput.value = "";
+        imageInput.value = "";
+        linkInput.value = "";
+        releaseDateInput.value = "";
+    } else {
+        alert("Please enter a valid movie or series title and provide an image URL.");
+    }
+});
