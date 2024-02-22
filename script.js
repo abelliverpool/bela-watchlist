@@ -12,9 +12,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const releaseDateInput = document.getElementById("release-date-input");
     const statusSelect = document.getElementById("status-select");
    
-           // Export button
-const exportButton = document.getElementById("export-button");
-exportButton.addEventListener("click", exportWatchlist);
 
 
     let watchlistData = JSON.parse(localStorage.getItem("watchlistData")) || [];
