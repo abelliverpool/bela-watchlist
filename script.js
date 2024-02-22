@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function() {
             if (selectedFilter === "all" || item.status === selectedFilter) {
                 const itemElement = document.createElement("div");
                 itemElement.classList.add("watchlist-item");
-                itemElement.style.backgroundImage = `url('${item.image}')`; // Set background image
+                itemElement.style.backgroundImage = item.image ? `url('${item.image}')` : ''; // Set background image
                 itemElement.innerHTML = `
                     <h3>${item.title}</h3>
                     <p>Type: ${item.type}</p>
