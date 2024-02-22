@@ -21,7 +21,7 @@ body {
 }
 /* Additional styles for the watchlist items */
 .watchlist-item {
-    margin-bottom: 20px;
+    margin-bottom: 200px;
     padding: 10px;
     border-radius: 5px;
     background: linear-gradient(135deg, #FFA500, #000);
