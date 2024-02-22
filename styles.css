@@ -15,6 +15,31 @@ body {
      color: rgba(255, 255, 255, 0.8); /* Transparent white text color */
        
     }
+.watchlist-item {
+    margin-bottom: 10px; /* Adjusted margin */
+    padding: 10px; /* Adjusted padding */
+    border-radius: 5px;
+    background: linear-gradient(135deg, #FFA500, #000);
+    color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    font-size: 14px; /* Decreased font size */
+    width: 200px; /* Adjusted width */
+    height: 200px; /* Adjusted height */
+}
+
+.watchlist-item h3 {
+    margin-top: 0;
+}
+
+.watchlist-item p {
+    margin: 5px 0;
+}
+
+.watchlist-item button,
+.watchlist-item a {
+    padding: 6px 12px; /* Adjusted padding */
+    font-size: 12px; /* Decreased font size */
+}
 
     
   
