@@ -128,39 +128,39 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    addButton.addEventListener("click", function() {
-        const title = titleInput.value.trim();
-        const type = typeSelect.value;
-        const link = linkInput.value.trim();
-        const releaseDate = releaseDateInput.value;
-        const status = statusSelect.value;
-        let episodes;
-        let seasons;
-        let image = imageInput.value.trim();
-        let genre = genreSelect.value.trim(); // Get genre select value
-        if (type === "anime" || type === "series" || type === "kdrama") {
-            episodes = episodesInput.value.trim();
-            seasons = seasonsInput.value.trim();
+   addButton.addEventListener("click", function() {
+    const title = titleInput.value.trim();
+    const type = typeSelect.value;
+    const link = linkInput.value.trim();
+    const releaseDate = releaseDateInput.value;
+    const status = statusSelect.value;
+    let episodes;
+    let seasons;
+    let image = imageInput.value.trim();
+    let genre = genreSelect.value.trim(); // Get genre select value
+    if (type === "anime" || type === "series" || type === "kdrama") {
+        episodes = episodesInput.value.trim();
+        seasons = seasonsInput.value.trim();
+    }
+    if (title !== "") {
+        if (!genre && customGenreInput.value.trim() !== "") {
+            genre = customGenreInput.value.trim();
         }
-        if (title !== "") {
-            if (!genre && customGenreInput.value.trim() !== "") {
-                genre = customGenreInput.value.trim();
-            }
-            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genre: genre });
-            renderWatchlist();
-            saveWatchlistData(); // Save changes to localStorage
-            titleInput.value = "";
-            episodesInput.value = "";
-            seasonsInput.value = "";
-            imageInput.value = "";
-            linkInput.value = "";
-            releaseDateInput.value = "";
-            genreSelect.value = "";
-            customGenreInput.value = "";
-        } else {
-            alert("Please enter a valid movie or series title.");
-        }
-    });
+        watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genre: genre });
+        renderWatchlist();
+        saveWatchlistData(); // Save changes to localStorage
+        titleInput.value = "";
+        episodesInput.value = "";
+        seasonsInput.value = "";
+        imageInput.value = "";
+        linkInput.value = "";
+        releaseDateInput.value = "";
+        genreSelect.value = "";
+        customGenreInput.value = "";
+    } else {
+        alert("Please enter a valid movie or series title.");
+    }
+});
 
     typeSelect.addEventListener("change", function() {
         if (typeSelect.value === "anime" || typeSelect.value === "series" || typeSelect.value === "kdrama") {
