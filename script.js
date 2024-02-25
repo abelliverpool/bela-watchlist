@@ -68,9 +68,10 @@ document.addEventListener("DOMContentLoaded", function() {
             button.addEventListener('click', () => watchMovie(button.dataset.link));
         });
 
-        editButtons.forEach(button => {
-            button.addEventListener('click', (event) => editItem(event, button.dataset.index));
-        });
+       editButtons.forEach(button => {
+    button.addEventListener('click', (event) => editItem(event, parseInt(button.dataset.index)));
+});
+
     }
 
     function watchMovie(link) {
