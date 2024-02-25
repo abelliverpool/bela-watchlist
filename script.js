@@ -38,8 +38,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     ${item.image ? `<img src="${item.image}" alt="${item.title}">` : ''}
                     ${item.link ? `<button class="watch-button" data-link="${item.link}">Watch Here</button>` : ''}
                     ${item.releaseDate ? `<p>Release Date: ${item.releaseDate}</p>` : ''}
+                    ${item.genre ? `<p>Genre: ${item.genre}</p>` : ''}
                     <p>Status: ${item.status}</p>
-                    <p>Genre: ${item.genre}</p>
                     <button class="edit-button" data-index="${index}">Edit</button>
                     <button class="change-status-button" data-index="${index}">Change Status</button>
                     <button class="remove-button" data-index="${index}">Remove</button>
@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         editButtons.forEach(button => {
-            button.addEventListener('click', () => editItem(button.dataset.index));
+            button.addEventListener('click', (event) => editItem(event, button.dataset.index));
         });
     }
 
@@ -93,50 +93,48 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    function editItem(index) {
-        const selectedItem = watchlistData[index];
-        const editOptions = Object.keys(selectedItem);
-        const selectPropertyHTML = `
-            <select id="edit-property-select">
-                <option value="" selected disabled>Select Property to Edit</option>
-                ${editOptions.map(option => `<option value="${option}">${option}</option>`).join('')}
-            </select>
-        `;
-        const modalHTML = `
-            <div class="modal">
-                <div class="modal-content">
-                    <span class="close">&times;</span>
-                    <h2>Edit Item</h2>
-                    ${selectPropertyHTML}
-                    <button id="confirm-edit-button">Edit</button>
-                </div>
+    function editItem(event, index) {
+        const editItemElement = document.createElement("div");
+        editItemElement.classList.add("modal");
+        editItemElement.innerHTML = `
+            <span class="close">&times;</span>
+            <div class="modal-content">
+                <h2>Edit Item</h2>
+                <select id="edit-property-select">
+                    <option value="title">Title</option>
+                    <option value="image">Image URL</option>
+                    <option value="link">Watch Link</option>
+                    <option value="episodes">Episodes</option>
+                    <option value="seasons">Seasons</option>
+                    <option value="releaseDate">Release Date</option>
+                    <option value="genre">Genre</option>
+                </select>
+                <input type="text" id="edit-value-input" placeholder="New Value">
+                <button id="edit-save-button">Save</button>
             </div>
         `;
-        document.body.insertAdjacentHTML('beforeend', modalHTML);
+        watchlist.appendChild(editItemElement);
 
-        const modal = document.querySelector('.modal');
-        const closeBtn = document.querySelector('.close');
-        const confirmEditButton = document.getElementById('confirm-edit-button');
-        const propertySelect = document.getElementById('edit-property-select');
+        // Close modal when close button is clicked
+        const closeButton = editItemElement.querySelector(".close");
+        closeButton.addEventListener("click", () => {
+            watchlist.removeChild(editItemElement);
+        });
 
-        closeBtn.onclick = function() {
-            modal.remove();
-        }
-
-        confirmEditButton.onclick = function() {
-            const selectedProperty = propertySelect.value;
-            if (selectedProperty) {
-                const newValue = prompt(`Enter new value for ${selectedProperty}:`);
-                if (newValue !== null) {
-                    watchlistData[index][selectedProperty] = newValue;
-                    saveWatchlistData();
-                    renderWatchlist();
-                    modal.remove();
-                }
+        // Save edited item
+        const saveButton = editItemElement.querySelector("#edit-save-button");
+        saveButton.addEventListener("click", () => {
+            const property = document.getElementById("edit-property-select").value;
+            const newValue = document.getElementById("edit-value-input").value.trim();
+            if (newValue !== "") {
+                watchlistData[index][property] = newValue;
+                saveWatchlistData(); // Save changes to localStorage
+                renderWatchlist();
+                watchlist.removeChild(editItemElement); // Close modal after saving
             } else {
-                alert('Please select a property to edit.');
+                alert("Please enter a valid value.");
             }
-        }
+        });
     }
 
     addButton.addEventListener("click", function() {
@@ -145,15 +143,18 @@ document.addEventListener("DOMContentLoaded", function() {
         const link = linkInput.value.trim();
         const releaseDate = releaseDateInput.value;
         const status = statusSelect.value;
-        const genre = genreSelect.value || customGenreInput.value.trim(); // Select from existing or custom genre
         let episodes;
         let seasons;
         let image = imageInput.value.trim();
+        let genre = genreSelect.value.trim();
         if (type === "anime" || type === "series" || type === "kdrama") {
             episodes = episodesInput.value.trim();
             seasons = seasonsInput.value.trim();
         }
         if (title !== "") {
+            if (!genre && customGenreInput.value.trim() !== "") {
+                genre = customGenreInput.value.trim();
+            }
             watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genre: genre });
             renderWatchlist();
             saveWatchlistData(); // Save changes to localStorage
@@ -163,7 +164,8 @@ document.addEventListener("DOMContentLoaded", function() {
             imageInput.value = "";
             linkInput.value = "";
             releaseDateInput.value = "";
-            customGenreInput.value = ""; // Clear custom genre input
+            genreSelect.value = "";
+            customGenreInput.value = "";
         } else {
             alert("Please enter a valid movie or series title.");
         }
@@ -189,20 +191,6 @@ document.addEventListener("DOMContentLoaded", function() {
 const exportButton = document.getElementById("export-button");
 exportButton.addEventListener("click", exportWatchlist);
 
-// Export watchlist function
-function exportWatchlist() {
-    const data = JSON.stringify(watchlistData);
-    const blob = new Blob([data], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "watchlist.json";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-}
-
 // Import watchlist function
 function importWatchlist(event) {
     const file = event.target.files[0];
@@ -219,4 +207,17 @@ function importWatchlist(event) {
         }
     };
     reader.readAsText(file);
+}
+
+function exportWatchlist() {
+    const data = JSON.stringify(watchlistData);
+    const blob = new Blob([data], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "watchlist.json";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
 }
