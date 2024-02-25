@@ -123,6 +123,18 @@ document.addEventListener("DOMContentLoaded", function() {
         renderWatchlist();
     }
 
+    function toggleEpisodesAndSeasonsInputs() {
+        if (typeSelect.value === "anime" || typeSelect.value === "series" || typeSelect.value === "kdrama") {
+            episodesInput.style.display = "block";
+            seasonsInput.style.display = "block";
+        } else {
+            episodesInput.style.display = "none";
+            seasonsInput.style.display = "none";
+        }
+    }
+
+    typeSelect.addEventListener("change", toggleEpisodesAndSeasonsInputs);
+
     addButton.addEventListener("click", function() {
         const title = titleInput.value.trim();
         const type = typeSelect.value;
