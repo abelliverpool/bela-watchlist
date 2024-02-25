@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const watchlist = document.getElementById("watchlist");
     const filter = document.getElementById("filter");
     const typeFilter = document.getElementById("type-filter");
-    const genreFilter = document.getElementById("genre-filter"); // Added genre filter
+    const genreFilter = document.getElementById("genre-filter");
     const addButton = document.getElementById("add-button");
     const titleInput = document.getElementById("title-input");
     const typeSelect = document.getElementById("type-select");
@@ -24,12 +24,12 @@ document.addEventListener("DOMContentLoaded", function() {
         watchlist.innerHTML = "";
         const selectedFilter = filter.value;
         const selectedType = typeFilter.value;
-        const selectedGenre = genreFilter.value; // Get selected genre
+        const selectedGenre = genreFilter.value;
 
         watchlistData.forEach((item, index) => {
             if ((selectedFilter === "all" || item.status === selectedFilter) &&
                 (selectedType === "all" || item.type === selectedType) &&
-                (selectedGenre === "all" || item.genre === selectedGenre)) { // Check if item's genre matches selected genre
+                (selectedGenre === "all" || item.genre === selectedGenre)) {
                 const itemElement = document.createElement("div");
                 itemElement.classList.add("watchlist-item");
                 itemElement.innerHTML = `
@@ -50,7 +50,6 @@ document.addEventListener("DOMContentLoaded", function() {
             }
         });
 
-        // Attach event listeners to dynamically created buttons
         const changeStatusButtons = document.querySelectorAll('.change-status-button');
         const removeButtons = document.querySelectorAll('.remove-button');
         const watchButtons = document.querySelectorAll('.watch-button');
@@ -68,10 +67,9 @@ document.addEventListener("DOMContentLoaded", function() {
             button.addEventListener('click', () => watchMovie(button.dataset.link));
         });
 
-       editButtons.forEach(button => {
-    button.addEventListener('click', (event) => editItem(event, parseInt(button.dataset.index)));
-});
-
+        editButtons.forEach(button => {
+            button.addEventListener('click', (event) => editItem(event, parseInt(button.dataset.index)));
+        });
     }
 
     function watchMovie(link) {
@@ -84,14 +82,14 @@ document.addEventListener("DOMContentLoaded", function() {
         const newIndex = (currentIndex + 1) % statusOptions.length;
         watchlistData[index].status = statusOptions[newIndex];
         renderWatchlist();
-        saveWatchlistData(); // Save changes to localStorage
+        saveWatchlistData();
     }
 
     function removeItem(index) {
         const confirmation = confirm("Are you sure you want to remove this item from the watchlist?");
         if (confirmation) {
             watchlistData.splice(index, 1);
-            saveWatchlistData(); // Save changes to localStorage
+            saveWatchlistData();
             renderWatchlist();
         }
     }
@@ -114,16 +112,15 @@ document.addEventListener("DOMContentLoaded", function() {
             </div>
         `;
 
-        // Save edited item
         const saveButton = editPanel.querySelector("#edit-save-button");
         saveButton.addEventListener("click", () => {
             const property = document.getElementById("edit-property-select").value;
             const newValue = document.getElementById("edit-value-input").value.trim();
             if (newValue !== "") {
                 watchlistData[index][property] = newValue;
-                saveWatchlistData(); // Save changes to localStorage
+                saveWatchlistData();
                 renderWatchlist();
-                editPanel.innerHTML = ""; // Clear edit panel after saving
+                editPanel.innerHTML = "";
             } else {
                 alert("Please enter a valid value.");
             }
@@ -136,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const link = linkInput.value.trim();
         const releaseDate = releaseDateInput.value;
         const status = statusSelect.value;
-        const genre = genreInput.value; // Get genre input value
+        const genre = genreInput.value.trim();
         let episodes;
         let seasons;
         let image = imageInput.value.trim();
@@ -145,16 +142,16 @@ document.addEventListener("DOMContentLoaded", function() {
             seasons = seasonsInput.value.trim();
         }
         if (title !== "") {
-            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genre: genre }); // Include genre in the object
+            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genre: genre });
             renderWatchlist();
-            saveWatchlistData(); // Save changes to localStorage
+            saveWatchlistData();
             titleInput.value = "";
             episodesInput.value = "";
             seasonsInput.value = "";
             imageInput.value = "";
             linkInput.value = "";
             releaseDateInput.value = "";
-            genreInput.value = ""; // Clear genre input after adding
+            genreInput.value = "";
         } else {
             alert("Please enter a valid movie or series title.");
         }
@@ -172,12 +169,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
     filter.addEventListener("change", renderWatchlist);
     typeFilter.addEventListener("change", renderWatchlist);
-    genreFilter.addEventListener("change", renderWatchlist); // Add event listener for genre filter
+    genreFilter.addEventListener("change", renderWatchlist); 
 
     renderWatchlist();
 });
 
-// Import watchlist function
 function importWatchlist(event) {
     const file = event.target.files[0];
     if (!file) return;
