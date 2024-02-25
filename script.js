@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const releaseDateInput = document.getElementById("release-date-input");
     const statusSelect = document.getElementById("status-select");
     const genreSelect = document.getElementById("genre-select");
-    const genreDropdown = document.querySelector(".genre-select");
 
     let watchlistData = JSON.parse(localStorage.getItem("watchlistData")) || [];
 
@@ -143,24 +142,16 @@ document.addEventListener("DOMContentLoaded", function() {
             renderWatchlist();
             saveWatchlistData(); // Save changes to localStorage
             titleInput.value = "";
+            typeSelect.value = "movie";
             episodesInput.value = "";
             seasonsInput.value = "";
             imageInput.value = "";
             linkInput.value = "";
-            releaseDateInput.value = "";
-            genreSelect.selectedIndex = -1; // Reset genre selection
+            releaseDateInput.value = "YYYY-MM-DD";
+            statusSelect.value = "watching";
+            genreSelect.value = "all";
         } else {
-            alert("Please enter a valid movie or series title.");
-        }
-    });
-
-    typeSelect.addEventListener("change", function() {
-        if (typeSelect.value === "anime" || typeSelect.value === "series" || typeSelect.value === "kdrama") {
-            episodesInput.style.display = "inline-block";
-            seasonsInput.style.display = "inline-block";
-        } else {
-            episodesInput.style.display = "none";
-            seasonsInput.style.display = "none";
+            alert("Title can't be empty!");
         }
     });
 
@@ -168,16 +159,5 @@ document.addEventListener("DOMContentLoaded", function() {
     typeFilter.addEventListener("change", renderWatchlist);
     genreFilter.addEventListener("change", renderWatchlist);
 
-    genreFilter.addEventListener("click", function() {
-        const state = genreFilter.getAttribute('data-state');
-        if (state === 'active') {
-            genreFilter.removeAttribute('data-state');
-            genreDropdown.style.display = 'none';
-        } else {
-            genreFilter.setAttribute('data-state', 'active');
-            genreDropdown.style.display = 'block';
-        }
-    });
-
-    renderWatchlist();
+    renderWatchlist(); // Initial rendering
 });
