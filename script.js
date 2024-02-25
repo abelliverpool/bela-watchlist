@@ -175,3 +175,19 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 });
+document.addEventListener("DOMContentLoaded", function() {
+    const typeSelect = document.getElementById("type-select");
+    const episodesInput = document.getElementById("episodes-input");
+    const seasonsInput = document.getElementById("seasons-input");
+
+    typeSelect.addEventListener("change", function() {
+        const selectedType = typeSelect.value;
+        if (selectedType === "series" || selectedType === "anime" || selectedType === "kdrama") {
+            episodesInput.style.display = "inline-block";
+            seasonsInput.style.display = "inline-block";
+        } else {
+            episodesInput.style.display = "none";
+            seasonsInput.style.display = "none";
+        }
+    });
+});
