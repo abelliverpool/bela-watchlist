@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const watchlist = document.getElementById("watchlist");
     const filter = document.getElementById("filter");
     const typeFilter = document.getElementById("type-filter");
-    const genreFilter = document.getElementById("genre-filter");
     const addButton = document.getElementById("add-button");
     const titleInput = document.getElementById("title-input");
     const typeSelect = document.getElementById("type-select");
@@ -13,8 +12,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const releaseDateInput = document.getElementById("release-date-input");
     const statusSelect = document.getElementById("status-select");
     const editPanel = document.getElementById("edit-panel");
-    const genreInput = document.getElementById("genre-input"); // New genre input
-    const customGenreInput = document.getElementById("custom-genre-input");
 
     let watchlistData = JSON.parse(localStorage.getItem("watchlistData")) || [];
 
@@ -26,12 +23,10 @@ document.addEventListener("DOMContentLoaded", function() {
         watchlist.innerHTML = "";
         const selectedFilter = filter.value;
         const selectedType = typeFilter.value;
-        const selectedGenre = genreFilter.value; // Get selected genre
 
         watchlistData.forEach((item, index) => {
             if ((selectedFilter === "all" || item.status === selectedFilter) &&
-                (selectedType === "all" || item.type === selectedType) &&
-                (selectedGenre === "all" || item.genre === selectedGenre)) { // Check if item's genre matches selected genre
+                (selectedType === "all" || item.type === selectedType)) {
                 const itemElement = document.createElement("div");
                 itemElement.classList.add("watchlist-item");
                 itemElement.innerHTML = `
@@ -115,10 +110,6 @@ document.addEventListener("DOMContentLoaded", function() {
             </div>
         `;
 
-        // Populate input field with current value
-        const currentValue = watchlistData[index][document.getElementById("edit-property-select").value];
-        document.getElementById("edit-value-input").value = currentValue;
-
         // Save edited item
         const saveButton = editPanel.querySelector("#edit-save-button");
         saveButton.addEventListener("click", () => {
@@ -144,7 +135,7 @@ document.addEventListener("DOMContentLoaded", function() {
         let episodes;
         let seasons;
         let image = imageInput.value.trim();
-        let genre = genreInput.value.trim(); // Get genre input value
+        let genre = genreSelect.value.trim();
         if (type === "anime" || type === "series" || type === "kdrama") {
             episodes = episodesInput.value.trim();
             seasons = seasonsInput.value.trim();
@@ -162,8 +153,8 @@ document.addEventListener("DOMContentLoaded", function() {
             imageInput.value = "";
             linkInput.value = "";
             releaseDateInput.value = "";
-            genreInput.value = ""; // Clear genre input after adding
-            customGenreInput.value = ""; // Clear custom genre input after adding
+            genreSelect.value = "";
+            customGenreInput.value = "";
         } else {
             alert("Please enter a valid movie or series title.");
         }
@@ -181,7 +172,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
     filter.addEventListener("change", renderWatchlist);
     typeFilter.addEventListener("change", renderWatchlist);
-    genreFilter.addEventListener("change", renderWatchlist); // Add event listener for genre filter
 
     renderWatchlist();
 });
