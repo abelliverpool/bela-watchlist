@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     ${item.link ? `<button class="watch-button" data-link="${item.link}">Watch Here</button>` : ''}
                     ${item.releaseDate ? `<p>Release Date: ${item.releaseDate}</p>` : ''}
                     <p>Status: ${item.status}</p>
-                    ${item.genre ? `<p>Genre: ${item.genre}</p>` : ''} <!-- Display genre if available -->
+                    <p>Genre: ${item.genre}</p>
                     <button class="change-status-button" data-index="${index}">Change Status</button>
                     <button class="remove-button" data-index="${index}">Remove</button>
                 `;
