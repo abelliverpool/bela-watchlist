@@ -147,3 +147,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     renderWatchlist();
 });
+document.addEventListener("DOMContentLoaded", function() {
+    const genreFilter = document.getElementById("genre-filter");
+
+    genreFilter.addEventListener("click", function() {
+        genreFilter.classList.toggle("active");
+    });
+});
