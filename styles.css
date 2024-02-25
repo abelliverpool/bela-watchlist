@@ -36,6 +36,7 @@ h1 {
 /* Styles for the watchlist */
 .add-movie {
     display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to next line */
     align-items: center;
     margin-bottom: 20px;
 }
@@ -127,20 +128,6 @@ h1 {
     transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* CSS for Desktop */
-.animated-select {
-    appearance: none;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    padding: 10px;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    color: #bd6666;
-    background-color: #fff;
-    transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-}
-
 .animated-select:hover {
     border-color: #ce2d2d;
 }
@@ -153,15 +140,6 @@ h1 {
 
 .animated-select option {
     background-color: #fff;
-}
-
-/* CSS for Mobile Phones */
-@media only screen and (max-width: 768px) {
-    .animated-select {
-        display: block;
-        width: 100%;
-        margin-bottom: 10px; /* Add some spacing between selectors */
-    }
 }
 
 /* Animation */
@@ -222,43 +200,50 @@ h1 {
     color: #ccc;
 }
 
+#export-button {
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
 
-/* CSS for Mobile Phones */
+#export-button:hover {
+    background-color: #45a049; /* Darker green background on hover */
+}
+
+#import-file {
+    padding: 10px 20px;
+    background-color: #3498db; /* Blue background */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#import-file:hover {
+    background-color: #2980b9; /* Darker blue background on hover */
+}
+
+/* Hide the default file input appearance */
+#import-file {
+    opacity: 0;
+    position: absolute;
+    left: -9999px;
+}
+
+/* Mobile Phone Responsive Query */
 @media only screen and (max-width: 768px) {
-    .container {
-        padding: 10px; /* Adjust container padding for smaller screens */
-    }
-
-    .background-image {
-        display: none; /* Hide background image on smaller screens */
-    }
-
     .add-movie {
-        flex-direction: column; /* Change flex direction for add movie section */
-        align-items: flex-start; /* Align items to the start */
+        flex-direction: column;
     }
 
     .add-movie input[type="text"],
     .add-movie input[type="number"],
     .add-movie select {
-        width: 100%; /* Set input and select width to full */
-        margin-right: 0; /* Remove right margin */
-        margin-bottom: 10px; /* Add bottom margin */
-    }
-
-    .watchlist-item {
-        padding: 10px; /* Adjust padding for watchlist items */
+        margin-bottom: 10px; /* Add some spacing between inputs */
     }
 }
-#genre-filter {
-    position: relative;
-}
-
-#genre-filter option:not(:first-child) {
-    display: none;
-}
-
-#genre-filter[data-state='active'] option {
-    display: block;
-}
-
