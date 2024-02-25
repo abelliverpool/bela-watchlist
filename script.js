@@ -25,10 +25,12 @@ document.addEventListener("DOMContentLoaded", function() {
         watchlist.innerHTML = "";
         const selectedFilter = filter.value;
         const selectedType = typeFilter.value;
+        const selectedGenre = genreFilter.value; // New selected genre
 
         watchlistData.forEach((item, index) => {
             if ((selectedFilter === "all" || item.status === selectedFilter) &&
-                (selectedType === "all" || item.type === selectedType)) {
+                (selectedType === "all" || item.type === selectedType) &&
+                (selectedGenre === "all" || item.genre === selectedGenre)) { // Check genre filter
                 const itemElement = document.createElement("div");
                 itemElement.classList.add("watchlist-item");
                 itemElement.innerHTML = `
@@ -128,39 +130,39 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-   addButton.addEventListener("click", function() {
-    const title = titleInput.value.trim();
-    const type = typeSelect.value;
-    const link = linkInput.value.trim();
-    const releaseDate = releaseDateInput.value;
-    const status = statusSelect.value;
-    let episodes;
-    let seasons;
-    let image = imageInput.value.trim();
-    let genre = genreSelect.value.trim(); // Get genre select value
-    if (type === "anime" || type === "series" || type === "kdrama") {
-        episodes = episodesInput.value.trim();
-        seasons = seasonsInput.value.trim();
-    }
-    if (title !== "") {
-        if (!genre && customGenreInput.value.trim() !== "") {
-            genre = customGenreInput.value.trim();
+    addButton.addEventListener("click", function() {
+        const title = titleInput.value.trim();
+        const type = typeSelect.value;
+        const link = linkInput.value.trim();
+        const releaseDate = releaseDateInput.value;
+        const status = statusSelect.value;
+        let episodes;
+        let seasons;
+        let image = imageInput.value.trim();
+        let genre = genreSelect.value.trim(); // Get genre select value
+        if (type === "anime" || type === "series" || type === "kdrama") {
+            episodes = episodesInput.value.trim();
+            seasons = seasonsInput.value.trim();
         }
-        watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genre: genre });
-        renderWatchlist();
-        saveWatchlistData(); // Save changes to localStorage
-        titleInput.value = "";
-        episodesInput.value = "";
-        seasonsInput.value = "";
-        imageInput.value = "";
-        linkInput.value = "";
-        releaseDateInput.value = "";
-        genreSelect.value = "";
-        customGenreInput.value = "";
-    } else {
-        alert("Please enter a valid movie or series title.");
-    }
-});
+        if (title !== "") {
+            if (!genre && customGenreInput.value.trim() !== "") {
+                genre = customGenreInput.value.trim();
+            }
+            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genre: genre });
+            renderWatchlist();
+            saveWatchlistData(); // Save changes to localStorage
+            titleInput.value = "";
+            episodesInput.value = "";
+            seasonsInput.value = "";
+            imageInput.value = "";
+            linkInput.value = "";
+            releaseDateInput.value = "";
+            genreSelect.value = "";
+            customGenreInput.value = "";
+        } else {
+            alert("Please enter a valid movie or series title.");
+        }
+    });
 
     typeSelect.addEventListener("change", function() {
         if (typeSelect.value === "anime" || typeSelect.value === "series" || typeSelect.value === "kdrama") {
@@ -174,41 +176,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     filter.addEventListener("change", renderWatchlist);
     typeFilter.addEventListener("change", renderWatchlist);
+    genreFilter.addEventListener("change", renderWatchlist); // Add event listener for genre filter
 
     renderWatchlist();
 });
-
-// Export button
-const exportButton = document.getElementById("export-button");
-exportButton.addEventListener("click", exportWatchlist);
-
-// Import watchlist function
-function importWatchlist(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = function(event) {
-        const importedData = JSON.parse(event.target.result);
-        if (Array.isArray(importedData)) {
-            watchlistData = importedData;
-            renderWatchlist();
-            saveWatchlistData();
-        } else {
-            alert("Invalid watchlist file.");
-        }
-    };
-    reader.readAsText(file);
-}
-
-function exportWatchlist() {
-    const data = JSON.stringify(watchlistData);
-    const blob = new Blob([data], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "watchlist.json";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-}
