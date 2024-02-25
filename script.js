@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const watchlist = document.getElementById("watchlist");
     const filter = document.getElementById("filter");
     const typeFilter = document.getElementById("type-filter");
+    const genreFilter = document.getElementById("genre-filter");
     const addButton = document.getElementById("add-button");
     const titleInput = document.getElementById("title-input");
     const typeSelect = document.getElementById("type-select");
@@ -23,10 +24,12 @@ document.addEventListener("DOMContentLoaded", function() {
         watchlist.innerHTML = "";
         const selectedFilter = filter.value;
         const selectedType = typeFilter.value;
+        const selectedGenre = genreFilter.value;
 
         watchlistData.forEach((item, index) => {
             if ((selectedFilter === "all" || item.status === selectedFilter) &&
-                (selectedType === "all" || item.type === selectedType)) {
+                (selectedType === "all" || item.type === selectedType) &&
+                (selectedGenre === "all" || item.genre === selectedGenre)) {
                 const itemElement = document.createElement("div");
                 itemElement.classList.add("watchlist-item");
                 itemElement.innerHTML = `
@@ -132,19 +135,16 @@ document.addEventListener("DOMContentLoaded", function() {
         const link = linkInput.value.trim();
         const releaseDate = releaseDateInput.value;
         const status = statusSelect.value;
+        const genre = genreInput.value; // Get genre input value
         let episodes;
         let seasons;
         let image = imageInput.value.trim();
-        let genre = genreSelect.value.trim();
         if (type === "anime" || type === "series" || type === "kdrama") {
             episodes = episodesInput.value.trim();
             seasons = seasonsInput.value.trim();
         }
         if (title !== "") {
-            if (!genre && customGenreInput.value.trim() !== "") {
-                genre = customGenreInput.value.trim();
-            }
-            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genre: genre });
+            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genre: genre }); // Include genre in the object
             renderWatchlist();
             saveWatchlistData(); // Save changes to localStorage
             titleInput.value = "";
@@ -153,8 +153,7 @@ document.addEventListener("DOMContentLoaded", function() {
             imageInput.value = "";
             linkInput.value = "";
             releaseDateInput.value = "";
-            genreSelect.value = "";
-            customGenreInput.value = "";
+            genreInput.value = ""; // Clear genre input after adding
         } else {
             alert("Please enter a valid movie or series title.");
         }
@@ -172,13 +171,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
     filter.addEventListener("change", renderWatchlist);
     typeFilter.addEventListener("change", renderWatchlist);
+    genreFilter.addEventListener("change", renderWatchlist); // Add event listener for genre filter
 
     renderWatchlist();
 });
-
-// Export button
-const exportButton = document.getElementById("export-button");
-exportButton.addEventListener("click", exportWatchlist);
 
 // Import watchlist function
 function importWatchlist(event) {
@@ -196,17 +192,4 @@ function importWatchlist(event) {
         }
     };
     reader.readAsText(file);
-}
-
-function exportWatchlist() {
-    const data = JSON.stringify(watchlistData);
-    const blob = new Blob([data], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "watchlist.json";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
 }
