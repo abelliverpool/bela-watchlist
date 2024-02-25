@@ -337,4 +337,29 @@ h1 {
 #edit-save-button:hover {
     background-color: #f44336;
 }
+/* Genre filter styles */
+#genre-filter {
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #bd6666;
+    background-color: #fff;
+    transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+    margin-left: 10px; /* Adjust margin as needed */
+}
+
+#genre-filter:hover {
+    border-color: #ce2d2d;
+}
+
+#genre-filter:focus {
+    outline: none;
+    border-color: #b68f83;
+    box-shadow: 0 0 5px rgba(255, 87, 34, 0.5);
+}
+
+#genre-filter option {
+    background-color: #fff;
+}
 
