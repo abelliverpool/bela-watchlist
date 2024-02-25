@@ -158,3 +158,20 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 });
+document.addEventListener("DOMContentLoaded", function() {
+    const genreFilter = document.getElementById("genre-filter");
+
+    genreFilter.addEventListener("click", function() {
+        if (window.innerWidth <= 768) { // Adjust the width as needed for your mobile responsiveness
+            toggleGenreOptions();
+        }
+    });
+
+    function toggleGenreOptions() {
+        if (genreFilter.getAttribute('data-state') === 'active') {
+            genreFilter.setAttribute('data-state', '');
+        } else {
+            genreFilter.setAttribute('data-state', 'active');
+        }
+    }
+});
