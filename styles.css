@@ -142,15 +142,6 @@ h1 {
     background-color: #fff;
 }
 
-/* Add this CSS to style the dropdown options */
-.animated-select option {
-    display: none;
-}
-
-.animated-select[data-state='active'] option {
-    display: block;
-}
-
 /* Animation */
 @keyframes slideIn {
     from {
@@ -255,49 +246,4 @@ h1 {
     .add-movie select {
         margin-bottom: 10px; /* Add some spacing between inputs */
     }
-}
-
-/* New CSS for the genre selector */
-.genre-select {
-    display: none;
-    margin-top: 10px;
-}
-
-.genre-select label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-.genre-select input[type="checkbox"] {
-    display: none;
-}
-
-.genre-select input[type="checkbox"] + label {
-    position: relative;
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    background-color: #fff;
-    border: 2px solid #ccc;
-    border-radius: 50%;
-    margin-right: 10px;
-    cursor: pointer;
-}
-
-.genre-select input[type="checkbox"] + label::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 10px;
-    height: 10px;
-    background-color: #ff5722;
-    border-radius: 50%;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.genre-select input[type="checkbox"]:checked + label::after {
-    opacity: 1;
 }
