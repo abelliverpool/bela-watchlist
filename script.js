@@ -132,7 +132,8 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     typeSelect.addEventListener("change", function() {
-        if (typeSelect.value === "anime" || typeSelect.value === "series" || typeSelect.value === "kdrama") {
+        const selectedType = typeSelect.value;
+        if (selectedType === "series" || selectedType === "anime" || selectedType === "kdrama") {
             episodesInput.style.display = "inline-block";
             seasonsInput.style.display = "inline-block";
         } else {
