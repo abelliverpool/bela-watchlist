@@ -127,6 +127,20 @@ h1 {
     transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+/* CSS for Desktop */
+.animated-select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #bd6666;
+    background-color: #fff;
+    transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
 .animated-select:hover {
     border-color: #ce2d2d;
 }
@@ -139,6 +153,15 @@ h1 {
 
 .animated-select option {
     background-color: #fff;
+}
+
+/* CSS for Mobile Phones */
+@media only screen and (max-width: 768px) {
+    .animated-select {
+        display: block;
+        width: 100%;
+        margin-bottom: 10px; /* Add some spacing between selectors */
+    }
 }
 
 /* Animation */
