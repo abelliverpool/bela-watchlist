@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const releaseDateInput = document.getElementById("release-date-input");
     const statusSelect = document.getElementById("status-select");
     const genreSelect = document.getElementById("genre-select");
+    const customGenreInput = document.getElementById("custom-genre-input");
 
     let watchlistData = JSON.parse(localStorage.getItem("watchlistData")) || [];
 
@@ -129,7 +130,10 @@ document.addEventListener("DOMContentLoaded", function() {
         const link = linkInput.value.trim();
         const releaseDate = releaseDateInput.value;
         const status = statusSelect.value;
-        const genre = Array.from(genreSelect.querySelectorAll('input[type="checkbox"]:checked')).map(input => input.value);
+        const selectedGenres = Array.from(genreSelect.querySelectorAll('input[type="checkbox"]:checked')).map(input => input.value);
+        const customGenre = customGenreInput.value.trim();
+        const genres = selectedGenres.length ? selectedGenres : (customGenre ? customGenre.split(",") : []);
+
         let episodes;
         let seasons;
         let image = imageInput.value.trim();
@@ -138,7 +142,7 @@ document.addEventListener("DOMContentLoaded", function() {
             seasons = seasonsInput.value.trim();
         }
         if (title !== "") {
-            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genre: genre });
+            watchlistData.push({ title, type, episodes, seasons, image, link, releaseDate, status, genre: genres });
             renderWatchlist();
             saveWatchlistData(); // Save changes to localStorage
             titleInput.value = "";
@@ -150,6 +154,7 @@ document.addEventListener("DOMContentLoaded", function() {
             releaseDateInput.value = "YYYY-MM-DD";
             statusSelect.value = "watching";
             genreSelect.value = "all";
+            customGenreInput.value = "";
         } else {
             alert("Title can't be empty!");
         }
