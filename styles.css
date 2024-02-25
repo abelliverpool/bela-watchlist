@@ -60,8 +60,7 @@ h1 {
 #add-button,
 .change-status-button,
 .remove-button,
-.watch-button,
-.edit-button {
+.watch-button {
     padding: 10px 20px;
     background-color: #ff5722;
     color: #ffffff;
@@ -74,15 +73,13 @@ h1 {
 #add-button:hover,
 .change-status-button:hover,
 .remove-button:hover,
-.watch-button:hover,
-.edit-button:hover {
+.watch-button:hover {
     background-color: #f44336;
 }
 
 #watchlist {
     margin-top: 20px;
 }
-
 .watchlist-item {
     border: 1px solid #ccc;
     padding: 20px;
@@ -200,4 +197,67 @@ h1 {
 
 #release-date-input::placeholder {
     color: #ccc;
+}
+
+#export-button {
+    padding: 10px 20px;
+    background-color: #4CAF50; /* Green background */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#export-button:hover {
+    background-color: #45a049; /* Darker green background on hover */
+}
+
+#import-file {
+    padding: 10px 20px;
+    background-color: #3498db; /* Blue background */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#import-file:hover {
+    background-color: #2980b9; /* Darker blue background on hover */
+}
+
+/* Hide the default file input appearance */
+#import-file {
+    opacity: 0;
+    position: absolute;
+    left: -9999px;
+}
+
+/* CSS for Mobile Phones */
+@media only screen and (max-width: 768px) {
+    .container {
+        padding: 10px; /* Adjust container padding for smaller screens */
+    }
+
+    .background-image {
+        display: none; /* Hide background image on smaller screens */
+    }
+
+    .add-movie {
+        flex-direction: column; /* Change flex direction for add movie section */
+        align-items: flex-start; /* Align items to the start */
+    }
+
+    .add-movie input[type="text"],
+    .add-movie input[type="number"],
+    .add-movie select {
+        width: 100%; /* Set input and select width to full */
+        margin-right: 0; /* Remove right margin */
+        margin-bottom: 10px; /* Add bottom margin */
+    }
+
+    .watchlist-item {
+        padding: 10px; /* Adjust padding for watchlist items */
+    }
 }
