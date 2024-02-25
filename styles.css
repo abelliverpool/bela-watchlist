@@ -231,7 +231,11 @@ h1 {
     position: relative;
 }
 
-#genre-filter.active {
-    height: auto;
-    overflow: visible;
+#genre-filter option:not(:first-child) {
+    display: none;
 }
+
+#genre-filter[data-state='active'] option {
+    display: block;
+}
+
