@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const watchlist = document.getElementById("watchlist");
     const filter = document.getElementById("filter");
     const typeFilter = document.getElementById("type-filter");
+    const genreFilter = document.getElementById("genre-filter");
     const addButton = document.getElementById("add-button");
     const titleInput = document.getElementById("title-input");
     const typeSelect = document.getElementById("type-select");
@@ -11,8 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const linkInput = document.getElementById("link-input");
     const releaseDateInput = document.getElementById("release-date-input");
     const statusSelect = document.getElementById("status-select");
-   
-
+    const genreSelect = document.getElementById("genre-select");
 
     let watchlistData = JSON.parse(localStorage.getItem("watchlistData")) || [];
 
@@ -24,10 +24,12 @@ document.addEventListener("DOMContentLoaded", function() {
         watchlist.innerHTML = "";
         const selectedFilter = filter.value;
         const selectedType = typeFilter.value;
+        const selectedGenres = Array.from(genreFilter.selectedOptions).map(option => option.value);
 
         watchlistData.forEach((item, index) => {
             if ((selectedFilter === "all" || item.status === selectedFilter) &&
-                (selectedType === "all" || item.type === selectedType)) {
+                (selectedType === "all" || item.type === selectedType) &&
+                (selectedGenres.includes("all") || selectedGenres.some(genre => item.genres.includes(genre)))) {
                 const itemElement = document.createElement("div");
                 itemElement.classList.add("watchlist-item");
                 itemElement.innerHTML = `
@@ -41,6 +43,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     <p>Status: ${item.status}</p>
                     <button class="change-status-button" data-index="${index}">Change Status</button>
                     <button class="remove-button" data-index="${index}">Remove</button>
+                    <button class="edit-button" data-index="${index}">Edit</button>
                 `;
                 watchlist.appendChild(itemElement);
             }
@@ -50,6 +53,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const changeStatusButtons = document.querySelectorAll('.change-status-button');
         const removeButtons = document.querySelectorAll('.remove-button');
         const watchButtons = document.querySelectorAll('.watch-button');
+        const editButtons = document.querySelectorAll('.edit-button');
 
         changeStatusButtons.forEach(button => {
             button.addEventListener('click', () => changeStatus(button.dataset.index));
@@ -61,6 +65,10 @@ document.addEventListener("DOMContentLoaded", function() {
 
         watchButtons.forEach(button => {
             button.addEventListener('click', () => watchMovie(button.dataset.link));
+        });
+
+        editButtons.forEach(button => {
+            button.addEventListener('click', () => editItem(button.dataset.index));
         });
     }
 
@@ -86,12 +94,19 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
+    function editItem(index) {
+        // Implement edit functionality here
+        // You can open a modal or a form to allow users to edit the item
+        // You will need to handle saving the edited data and updating the watchlist
+    }
+
     addButton.addEventListener("click", function() {
         const title = titleInput.value.trim();
         const type = typeSelect.value;
         const link = linkInput.value.trim();
         const releaseDate = releaseDateInput.value;
         const status = statusSelect.value;
+        const genres = Array.from(genreSelect.selectedOptions).map(option => option.value);
         let episodes;
         let seasons;
         let image = imageInput.value.trim();
@@ -100,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function() {
             seasons = seasonsInput.value.trim();
         }
         if (title !== "") {
-            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status });
+            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genres: genres });
             renderWatchlist();
             saveWatchlistData(); // Save changes to localStorage
             titleInput.value = "";
@@ -109,6 +124,7 @@ document.addEventListener("DOMContentLoaded", function() {
             imageInput.value = "";
             linkInput.value = "";
             releaseDateInput.value = "";
+            genreSelect.selectedIndex = -1; // Reset genre selection
         } else {
             alert("Please enter a valid movie or series title.");
         }
@@ -126,43 +142,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     filter.addEventListener("change", renderWatchlist);
     typeFilter.addEventListener("change", renderWatchlist);
+    genreFilter.addEventListener("change", renderWatchlist);
 
     renderWatchlist();
 });
-
-  // Export button
-const exportButton = document.getElementById("export-button");
-exportButton.addEventListener("click", exportWatchlist);
-
-// Export watchlist function
-function exportWatchlist() {
-    const data = JSON.stringify(watchlistData);
-    const blob = new Blob([data], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "watchlist.json";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-}
-
-
-// Import watchlist function
-function importWatchlist(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = function(event) {
-        const importedData = JSON.parse(event.target.result);
-        if (Array.isArray(importedData)) {
-            watchlistData = importedData;
-            renderWatchlist();
-            saveWatchlistData();
-        } else {
-            alert("Invalid watchlist file.");
-        }
-    };
-    reader.readAsText(file);
-}
