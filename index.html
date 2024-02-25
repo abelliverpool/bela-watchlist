@@ -50,30 +50,45 @@
         <option value="dropped">Dropped</option>
       </select>
       <select id="genre-select" class="animated-select" data-state="">
-        <option value="genre">Genre</option>
-        <!-- Genres will be displayed dynamically here -->
-      </select>
-
-      <div class="genre-select">
-        <label><input type="checkbox" value="action"><span>Action</span></label>
-        <label><input type="checkbox" value="adventure"><span>Adventure</span></label>
-        <label><input type="checkbox" value="comedy"><span>Comedy</span></label>
-        <label><input type="checkbox" value="drama"><span>Drama</span></label>
-        <label><input type="checkbox" value="fantasy"><span>Fantasy</span></label>
+        <option value="all">All Genres</option>
+        <option value="action">Action</option>
+        <option value="adventure">Adventure</option>
+        <option value="comedy">Comedy</option>
+        <option value="drama">Drama</option>
+        <option value="fantasy">Fantasy</option>
         <!-- Add more genres as needed -->
+      </select>
+      <div class="genre-select">
+        <label for="genre">Genre:</label>
+        <div id="genre">
+          <input type="checkbox" id="action" value="action">
+          <label for="action">Action</label><br>
+          <input type="checkbox" id="adventure" value="adventure">
+          <label for="adventure">Adventure</label><br>
+          <input type="checkbox" id="comedy" value="comedy">
+          <label for="comedy">Comedy</label><br>
+          <input type="checkbox" id="drama" value="drama">
+          <label for="drama">Drama</label><br>
+          <input type="checkbox" id="fantasy" value="fantasy">
+          <label for="fantasy">Fantasy</label><br>
+          <!-- Add more genres as needed -->
+        </div>
       </div>
 
       <button id="add-button">Add Movie</button>
     </div>
  
+    <label for="filter">Filter by Status:</label>
     <select id="filter" class="animated-select">
       <option value="all">All</option>
+      <option value="watching">Watching</option>
       <option value="watched">Watched</option>
       <option value="plan-to-watch">Plan to Watch</option>
       <option value="completed">Completed</option>
       <option value="dropped">Dropped</option>
     </select>
 
+    <label for="type-filter">Filter by Type:</label>
     <select id="type-filter" class="animated-select">
       <option value="all">All Types</option>
       <option value="movie">Movie</option>
@@ -82,6 +97,7 @@
       <option value="kdrama">Kdrama</option>
     </select>
 
+    <label for="genre-filter">Filter by Genre:</label>
     <select id="genre-filter" class="animated-select">
       <option value="all">All Genres</option>
       <option value="action">Action</option>
