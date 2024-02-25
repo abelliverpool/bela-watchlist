@@ -49,12 +49,17 @@
         <option value="completed">Completed</option>
         <option value="dropped">Dropped</option>
       </select>
-      <div id="genre-select" class="genre-select">
-        <label><input type="checkbox" value="action"> Action</label>
-        <label><input type="checkbox" value="adventure"> Adventure</label>
-        <label><input type="checkbox" value="comedy"> Comedy</label>
-        <label><input type="checkbox" value="drama"> Drama</label>
-        <label><input type="checkbox" value="fantasy"> Fantasy</label>
+      <select id="genre-select" class="animated-select" data-state="">
+        <option value="genre">Genre</option>
+        <!-- Genres will be displayed dynamically here -->
+      </select>
+
+      <div class="genre-select">
+        <label><input type="checkbox" value="action"><span>Action</span></label>
+        <label><input type="checkbox" value="adventure"><span>Adventure</span></label>
+        <label><input type="checkbox" value="comedy"><span>Comedy</span></label>
+        <label><input type="checkbox" value="drama"><span>Drama</span></label>
+        <label><input type="checkbox" value="fantasy"><span>Fantasy</span></label>
         <!-- Add more genres as needed -->
       </div>
 
