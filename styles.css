@@ -256,25 +256,48 @@ h1 {
         margin-bottom: 10px; /* Add some spacing between inputs */
     }
 }
-/* Styles for the edit button */
-.edit-button {
-    padding: 10px 20px;
-    background-color: #2196F3; /* Blue background */
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+
+/* New CSS for the genre selector */
+.genre-select {
+    display: none;
+    margin-top: 10px;
+}
+
+.genre-select label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.genre-select input[type="checkbox"] {
+    display: none;
+}
+
+.genre-select input[type="checkbox"] + label {
+    position: relative;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-color: #fff;
+    border: 2px solid #ccc;
+    border-radius: 50%;
     margin-right: 10px;
+    cursor: pointer;
 }
 
-.edit-button:hover {
-    background-color: #0b7dda; /* Darker blue background on hover */
-}
-
-.watchlist-item .edit-button {
+.genre-select input[type="checkbox"] + label::after {
+    content: "";
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 10px;
+    height: 10px;
+    background-color: #ff5722;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
 }
 
+.genre-select input[type="checkbox"]:checked + label::after {
+    opacity: 1;
+}
