@@ -141,6 +141,14 @@ h1 {
 .animated-select option {
     background-color: #fff;
 }
+/* Add this CSS to style the dropdown options */
+.animated-select option {
+    display: none;
+}
+
+.animated-select[data-state='active'] option {
+    display: block;
+}
 
 /* Animation */
 @keyframes slideIn {
