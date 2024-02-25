@@ -49,15 +49,14 @@
         <option value="completed">Completed</option>
         <option value="dropped">Dropped</option>
       </select>
-      <select id="genre-select" class="animated-select" data-state="">
-        <option value="all">All Genres</option>
-        <option value="action">Action</option>
-        <option value="adventure">Adventure</option>
-        <option value="comedy">Comedy</option>
-        <option value="drama">Drama</option>
-        <option value="fantasy">Fantasy</option>
+      <div id="genre-select" class="genre-select">
+        <label><input type="checkbox" value="action"> Action</label>
+        <label><input type="checkbox" value="adventure"> Adventure</label>
+        <label><input type="checkbox" value="comedy"> Comedy</label>
+        <label><input type="checkbox" value="drama"> Drama</label>
+        <label><input type="checkbox" value="fantasy"> Fantasy</label>
         <!-- Add more genres as needed -->
-      </select>
+      </div>
 
       <button id="add-button">Add Movie</button>
     </div>
