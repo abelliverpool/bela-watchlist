@@ -129,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const link = linkInput.value.trim();
         const releaseDate = releaseDateInput.value;
         const status = statusSelect.value;
-        const genre = Array.from(genreSelect.selectedOptions).map(option => option.value);
+        const genre = Array.from(genreSelect.querySelectorAll('input[type="checkbox"]:checked')).map(input => input.value);
         let episodes;
         let seasons;
         let image = imageInput.value.trim();
@@ -165,10 +165,17 @@ document.addEventListener("DOMContentLoaded", function() {
 
     filter.addEventListener("change", renderWatchlist);
     typeFilter.addEventListener("change", renderWatchlist);
-    genreFilter.addEventListener("change", function() {
-        const selectedGenres = Array.from(genreSelect.selectedOptions).map(option => option.value);
-        genreFilter.value = selectedGenres.join(",");
-        renderWatchlist();
+    genreFilter.addEventListener("change", renderWatchlist);
+
+    genreFilter.addEventListener("click", function() {
+        const state = genreFilter.getAttribute('data-state');
+        if (state === 'active') {
+            genreFilter.removeAttribute('data-state');
+            genreSelect.style.display = 'none';
+        } else {
+            genreFilter.setAttribute('data-state', 'active');
+            genreSelect.style.display = 'block';
+        }
     });
 
     renderWatchlist();
