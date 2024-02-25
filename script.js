@@ -11,6 +11,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const linkInput = document.getElementById("link-input");
     const releaseDateInput = document.getElementById("release-date-input");
     const statusSelect = document.getElementById("status-select");
+    const genreSelect = document.getElementById("genre-select");
+    const customGenreInput = document.getElementById("custom-genre-input");
 
     let watchlistData = JSON.parse(localStorage.getItem("watchlistData")) || [];
 
@@ -90,6 +92,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const link = linkInput.value.trim();
         const releaseDate = releaseDateInput.value;
         const status = statusSelect.value;
+        const genre = genreSelect.value || customGenreInput.value.trim(); // Select from existing or custom genre
         let episodes;
         let seasons;
         let image = imageInput.value.trim();
@@ -98,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function() {
             seasons = seasonsInput.value.trim();
         }
         if (title !== "") {
-            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status });
+            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genre: genre });
             renderWatchlist();
             saveWatchlistData(); // Save changes to localStorage
             titleInput.value = "";
@@ -107,6 +110,7 @@ document.addEventListener("DOMContentLoaded", function() {
             imageInput.value = "";
             linkInput.value = "";
             releaseDateInput.value = "";
+            customGenreInput.value = ""; // Clear custom genre input
         } else {
             alert("Please enter a valid movie or series title.");
         }
@@ -145,7 +149,6 @@ function exportWatchlist() {
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
 }
-
 
 // Import watchlist function
 function importWatchlist(event) {
