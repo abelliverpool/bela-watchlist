@@ -26,32 +26,31 @@ document.addEventListener("DOMContentLoaded", function() {
         const selectedType = typeFilter.value;
         const selectedGenre = genreFilter.value.toLowerCase(); // Convert selected genre to lowercase for case-insensitive comparison
 
-        watchlistData.forEach((item, index) => {
-            const genres = item.genre ? item.genre.map(genre => genre.toLowerCase()) : []; // Convert item's genres to lowercase for case-insensitive comparison
-            const hasMatchingGenre = genres.includes(selectedGenre); // Check if selected genre matches any of the item's genres
+       // Inside the renderWatchlist function
+watchlistData.forEach((item, index) => {
+    if ((selectedFilter === "all" || item.status === selectedFilter) &&
+        (selectedType === "all" || item.type === selectedType) &&
+        (selectedGenre === "all" || hasMatchingGenre)) {
+        const itemElement = document.createElement("div");
+        itemElement.classList.add("watchlist-item");
+        itemElement.innerHTML = `
+            <h3>${item.title}</h3>
+            <p>Type: ${item.type}</p>
+            ${item.type !== "movie" ? `<p>Episodes: ${item.episodes}</p>` : ''}
+            ${item.type === "series" || item.type === "anime" || item.type === "kdrama" ? `<p>Seasons: ${item.seasons}</p>` : ''}
+            ${item.image ? `<img src="${item.image}" alt="${item.title}">` : ''}
+            ${item.link ? `<button class="watch-button" data-link="${item.link}">Watch Here</button>` : ''}
+            ${item.releaseDate ? `<p>Release Date: ${item.releaseDate}</p>` : ''}
+            <p>Status: ${item.status}</p>
+            ${item.genre ? `<p>Genre: ${item.genre.join(", ")}</p>` : ''} <!-- Display genre if available -->
+            <button class="change-status-button" data-index="${index}">Change Status</button>
+            <button class="remove-button" data-index="${index}">Remove</button>
+            <button class="edit-button" data-index="${index}">Edit</button>
+        `;
+        watchlist.appendChild(itemElement);
+    }
+});
 
-            if ((selectedFilter === "all" || item.status === selectedFilter) &&
-                (selectedType === "all" || item.type === selectedType) &&
-                (selectedGenre === "all" || hasMatchingGenre)) { // Use hasMatchingGenre flag
-                const itemElement = document.createElement("div");
-                itemElement.classList.add("watchlist-item");
-                itemElement.innerHTML = `
-                    <h3>${item.title}</h3>
-                    <p>Type: ${item.type}</p>
-                    ${item.type !== "movie" ? `<p>Episodes: ${item.episodes}</p>` : ''}
-                    ${item.type === "series" || item.type === "anime" || item.type === "kdrama" ? `<p>Seasons: ${item.seasons}</p>` : ''}
-                    ${item.image ? `<img src="${item.image}" alt="${item.title}">` : ''}
-                    ${item.link ? `<button class="watch-button" data-link="${item.link}">Watch Here</button>` : ''}
-                    ${item.releaseDate ? `<p>Release Date: ${item.releaseDate}</p>` : ''}
-                    <p>Status: ${item.status}</p>
-                    ${item.genre ? `<p>Genre: ${item.genre.join(", ")}</p>` : ''} <!-- Display genre if available -->
-                    <button class="change-status-button" data-index="${index}">Change Status</button>
-                    <button class="remove-button" data-index="${index}">Remove</button>
-                    <button class="edit-button" data-index="${index}">Edit</button>
-                `;
-                watchlist.appendChild(itemElement);
-            }
-        });
 
         // Attach event listeners to dynamically created buttons
         const changeStatusButtons = document.querySelectorAll('.change-status-button');
