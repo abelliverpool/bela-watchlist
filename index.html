@@ -15,7 +15,6 @@
       <div class="bar"></div>
       <div class="bar"></div>
       <div class="bar"></div>
-     
     </div>
   </div>
 </nav>
@@ -50,6 +49,14 @@
         <option value="completed">Completed</option>
         <option value="dropped">Dropped</option>
       </select>
+      <select id="genre-select" multiple>
+        <option value="action">Action</option>
+        <option value="comedy">Comedy</option>
+        <option value="drama">Drama</option>
+        <option value="horror">Horror</option>
+        <option value="romance">Romance</option>
+        <!-- Add more genres here -->
+      </select>
       <button id="add-button">Add Movie</button>
     </div>
  
@@ -68,8 +75,19 @@
       <option value="anime">Anime</option>
       <option value="kdrama">Kdrama</option>
     </select>
-<button id="export-button">Export Watchlist</button>
-<input type="file" id="import-file" accept=".json">
+
+    <select id="genre-filter" class="animated-select" multiple>
+      <option value="all">All Genres</option>
+      <option value="action">Action</option>
+      <option value="comedy">Comedy</option>
+      <option value="drama">Drama</option>
+      <option value="horror">Horror</option>
+      <option value="romance">Romance</option>
+      <option value="animation">Animation</option>
+      <option value="adventure">Adventure</option>
+      <!-- Add more genres here -->
+    </select>
+
     <div id="watchlist" class="watchlist-container"></div>
 
   </div>
