@@ -15,12 +15,13 @@
       <div class="bar"></div>
       <div class="bar"></div>
       <div class="bar"></div>
+     
     </div>
   </div>
 </nav>
 
 <div class="container">
-  <div class="background-video"></div>
+  <div class="background-image"></div>
   <div class="scrollable-content">
     <div class="video-background">
       <video autoplay loop muted>
@@ -43,49 +44,23 @@
       <input type="text" id="link-input" placeholder="Enter watch link">
       <input type="date" id="release-date-input" placeholder="Release Date" value="YYYY-MM-DD">
       <select id="status-select">
-        <option value="all">All</option>
-        <option value="plan-to-watch">Plan to Watch</option>
         <option value="watching">Watching</option>
         <option value="watched">Watched</option>
+        <option value="plan-to-watch">Plan to Watch</option>
         <option value="completed">Completed</option>
         <option value="dropped">Dropped</option>
       </select>
-      <div class="genre-select">
-        <label for="genre">Genre:</label>
-        <div id="genre">
-          <input type="checkbox" id="action" value="Action">
-          <label for="action">Action</label><br>
-          <input type="checkbox" id="adventure" value="Adventure">
-          <label for="adventure">Adventure</label><br>
-          <input type="checkbox" id="comedy" value="Comedy">
-          <label for="comedy">Comedy</label><br>
-          <input type="checkbox" id="drama" value="Drama">
-          <label for="drama">Drama</label><br>
-          <input type="checkbox" id="fantasy" value="Fantasy">
-          <label for="fantasy">Fantasy</label><br>
-          <input type="checkbox" id="horror" value="Horror">
-          <label for="horror">Horror</label><br>
-          <input type="checkbox" id="romance" value="Romance">
-          <label for="romance">Romance</label><br>
-          <input type="checkbox" id="sci-fi" value="Sci-Fi">
-          <label for="sci-fi">Sci-Fi</label><br>
-        </div>
-      </div>
-      <input type="text" id="custom-genre-input" placeholder="Enter custom genre">
       <button id="add-button">Add Movie</button>
     </div>
  
-    <label for="filter">Filter by Status:</label>
     <select id="filter" class="animated-select">
       <option value="all">All</option>
-      <option value="plan-to-watch">Plan to Watch</option>
-      <option value="watching">Watching</option>
       <option value="watched">Watched</option>
+      <option value="plan-to-watch">Plan to Watch</option>
       <option value="completed">Completed</option>
       <option value="dropped">Dropped</option>
     </select>
 
-    <label for="type-filter">Filter by Type:</label>
     <select id="type-filter" class="animated-select">
       <option value="all">All Types</option>
       <option value="movie">Movie</option>
@@ -93,20 +68,8 @@
       <option value="anime">Anime</option>
       <option value="kdrama">Kdrama</option>
     </select>
-
-    <label for="genre-filter">Filter by Genre:</label>
-    <select id="genre-filter" class="animated-select">
-      <option value="all">All Genres</option>
-      <option value="Action">Action</option>
-      <option value="Adventure">Adventure</option>
-      <option value="Comedy">Comedy</option>
-      <option value="Drama">Drama</option>
-      <option value="Fantasy">Fantasy</option>
-      <option value="Horror">Horror</option>
-      <option value="Romance">Romance</option>
-      <option value="Sci-Fi">Sci-Fi</option>
-    </select>
-
+<button id="export-button">Export Watchlist</button>
+<input type="file" id="import-file" accept=".json">
     <div id="watchlist" class="watchlist-container"></div>
 
   </div>
@@ -114,4 +77,4 @@
 
 <script src="script.js"></script>
 </body>
-</html>
+</html> 
