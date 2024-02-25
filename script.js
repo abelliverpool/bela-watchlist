@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function() {
     renderWatchlist();
 });
 
-  // Export button
+// Export button
 const exportButton = document.getElementById("export-button");
 exportButton.addEventListener("click", exportWatchlist);
 
