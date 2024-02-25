@@ -24,15 +24,13 @@ document.addEventListener("DOMContentLoaded", function() {
         watchlist.innerHTML = "";
         const selectedFilter = filter.value;
         const selectedType = typeFilter.value;
-        const selectedGenre = genreFilter.value.toLowerCase(); // Convert selected genre to lowercase for case-insensitive comparison
+        const selectedGenre = genreFilter.value;
 
         watchlistData.forEach((item, index) => {
-            const genres = item.genre ? item.genre.map(genre => genre.toLowerCase()) : []; // Convert item's genres to lowercase for case-insensitive comparison
-            const hasMatchingGenre = genres.includes(selectedGenre); // Check if selected genre matches any of the item's genres
-
+            const hasMatchingGenre = selectedGenre === "all" || (item.genre && item.genre.some(g => g.toLowerCase() === selectedGenre.toLowerCase()));
             if ((selectedFilter === "all" || item.status === selectedFilter) &&
                 (selectedType === "all" || item.type === selectedType) &&
-                (selectedGenre === "all" || hasMatchingGenre)) { // Use hasMatchingGenre flag
+                hasMatchingGenre) {
                 const itemElement = document.createElement("div");
                 itemElement.classList.add("watchlist-item");
                 itemElement.innerHTML = `
@@ -44,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     ${item.link ? `<button class="watch-button" data-link="${item.link}">Watch Here</button>` : ''}
                     ${item.releaseDate ? `<p>Release Date: ${item.releaseDate}</p>` : ''}
                     <p>Status: ${item.status}</p>
-                    ${item.genre ? `<p>Genre: ${item.genre.join(", ")}</p>` : ''} <!-- Display genre if available -->
+                    ${item.genre ? `<p>Genre: ${item.genre.join(", ")}</p>` : ''}
                     <button class="change-status-button" data-index="${index}">Change Status</button>
                     <button class="remove-button" data-index="${index}">Remove</button>
                     <button class="edit-button" data-index="${index}">Edit</button>
