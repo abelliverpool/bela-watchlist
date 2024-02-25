@@ -24,12 +24,12 @@ document.addEventListener("DOMContentLoaded", function() {
         watchlist.innerHTML = "";
         const selectedFilter = filter.value;
         const selectedType = typeFilter.value;
-        const selectedGenres = Array.from(genreFilter.selectedOptions).map(option => option.value);
+        const selectedGenre = genreFilter.value;
 
         watchlistData.forEach((item, index) => {
             if ((selectedFilter === "all" || item.status === selectedFilter) &&
                 (selectedType === "all" || item.type === selectedType) &&
-                (selectedGenres.includes("all") || selectedGenres.some(genre => item.genres.includes(genre)))) {
+                (selectedGenre === "all" || (item.genre && item.genre.includes(selectedGenre)))) {
                 const itemElement = document.createElement("div");
                 itemElement.classList.add("watchlist-item");
                 itemElement.innerHTML = `
@@ -95,9 +95,10 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function editItem(index) {
-        // Implement edit functionality here
-        // You can open a modal or a form to allow users to edit the item
-        // You will need to handle saving the edited data and updating the watchlist
+        // Implement your edit functionality here
+        // This function should allow the user to edit the watchlist item at the given index
+        // You can display a form with the existing data pre-filled, and allow the user to update it
+        console.log("Edit functionality to be implemented.");
     }
 
     addButton.addEventListener("click", function() {
@@ -106,7 +107,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const link = linkInput.value.trim();
         const releaseDate = releaseDateInput.value;
         const status = statusSelect.value;
-        const genres = Array.from(genreSelect.selectedOptions).map(option => option.value);
+        const genre = Array.from(genreSelect.selectedOptions).map(option => option.value);
         let episodes;
         let seasons;
         let image = imageInput.value.trim();
@@ -115,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function() {
             seasons = seasonsInput.value.trim();
         }
         if (title !== "") {
-            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genres: genres });
+            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genre: genre });
             renderWatchlist();
             saveWatchlistData(); // Save changes to localStorage
             titleInput.value = "";
