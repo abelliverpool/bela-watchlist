@@ -13,6 +13,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const releaseDateInput = document.getElementById("release-date-input");
     const statusSelect = document.getElementById("status-select");
     const genreSelect = document.getElementById("genre-select");
+    const genreDropdown = document.querySelector(".genre-select");
 
     let watchlistData = JSON.parse(localStorage.getItem("watchlistData")) || [];
 
@@ -171,10 +172,10 @@ document.addEventListener("DOMContentLoaded", function() {
         const state = genreFilter.getAttribute('data-state');
         if (state === 'active') {
             genreFilter.removeAttribute('data-state');
-            genreSelect.style.display = 'none';
+            genreDropdown.style.display = 'none';
         } else {
             genreFilter.setAttribute('data-state', 'active');
-            genreSelect.style.display = 'block';
+            genreDropdown.style.display = 'block';
         }
     });
 
