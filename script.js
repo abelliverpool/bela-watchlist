@@ -13,7 +13,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const releaseDateInput = document.getElementById("release-date-input");
     const statusSelect = document.getElementById("status-select");
     const genreSelect = document.getElementById("genre-select");
-    const editModal = document.getElementById("editModal");
 
     let watchlistData = JSON.parse(localStorage.getItem("watchlistData")) || [];
 
@@ -70,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         editButtons.forEach(button => {
-            button.addEventListener('click', () => openEditModal(button.dataset.index));
+            button.addEventListener('click', () => editItem(button.dataset.index));
         });
     }
 
@@ -96,77 +95,32 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    function openEditModal(index) {
+    function editItem(index) {
         const item = watchlistData[index];
-        const editTypeSelect = document.getElementById("edit-type");
-        const editFieldsContainer = document.getElementById("edit-fields");
-        editFieldsContainer.innerHTML = ""; // Clear previous fields
-        
-        // Populate fields based on selected data type
-        editTypeSelect.onchange = function() {
-            const selectedType = editTypeSelect.value;
-            editFieldsContainer.innerHTML = ""; // Clear previous fields
-            switch(selectedType) {
-                case "title":
-                    editFieldsContainer.innerHTML = `<label for="new-title">New Title:</label><input type="text" id="new-title" value="${item.title}">`;
-                    break;
-                case "type":
-                    editFieldsContainer.innerHTML = `<label for="new-type">New Type:</label><input type="text" id="new-type" value="${item.type}">`;
-                    break;
-                case "episodes":
-                    editFieldsContainer.innerHTML = `<label for="new-episodes">New Episodes:</label><input type="text" id="new-episodes" value="${item.episodes}">`;
-                    break;
-                case "seasons":
-                    editFieldsContainer.innerHTML = `<label for="new-seasons">New Seasons:</label><input type="text" id="new-seasons" value="${item.seasons}">`;
-                    break;
-                case "image":
-                    editFieldsContainer.innerHTML = `<label for="new-image">New Image URL:</label><input type="text" id="new-image" value="${item.image}">`;
-                    break;
-                case "link":
-                    editFieldsContainer.innerHTML = `<label for="new-link">New Watch Link:</label><input type="text" id="new-link" value="${item.link}">`;
-                    break;
-                case "releaseDate":
-                    editFieldsContainer.innerHTML = `<label for="new-release-date">New Release Date:</label><input type="text" id="new-release-date" value="${item.releaseDate}">`;
-                    break;
-                case "status":
-                    editFieldsContainer.innerHTML = `
-                        <label for="new-status">New Status:</label>
-                        <select id="new-status">
-                            <option value="watching">Watching</option>
-                            <option value="watched">Watched</option>
-                            <option value="plan-to-watch">Plan to Watch</option>
-                            <option value="completed">Completed</option>
-                            <option value="dropped">Dropped</option>
-                        </select>
-                    `;
-                    document.getElementById("new-status").value = item.status;
-                    break;
-                case "genre":
-                    editFieldsContainer.innerHTML = `<label for="new-genre">New Genre (comma-separated):</label><input type="text" id="new-genre" value="${item.genre ? item.genre.join(", ") : ""}">`;
-                    break;
-            }
+        const newTitle = prompt("Enter the new title:", item.title);
+        const newType = prompt("Enter the new type:", item.type);
+        const newEpisodes = prompt("Enter the new number of episodes:", item.episodes);
+        const newSeasons = prompt("Enter the new number of seasons:", item.seasons);
+        const newImage = prompt("Enter the new image URL:", item.image);
+        const newLink = prompt("Enter the new watch link:", item.link);
+        const newReleaseDate = prompt("Enter the new release date:", item.releaseDate);
+        const newStatus = prompt("Enter the new status:", item.status);
+        const newGenres = prompt("Enter the new genres (comma-separated):", item.genre ? item.genre.join(", ") : "");
+
+        watchlistData[index] = {
+            title: newTitle || item.title,
+            type: newType || item.type,
+            episodes: newEpisodes || item.episodes,
+            seasons: newSeasons || item.seasons,
+            image: newImage || item.image,
+            link: newLink || item.link,
+            releaseDate: newReleaseDate || item.releaseDate,
+            status: newStatus || item.status,
+            genre: newGenres ? newGenres.split(", ") : (item.genre || [])
         };
 
-        // Submit edited data
-        const editSubmitButton = document.getElementById("edit-submit");
-        editSubmitButton.onclick = function() {
-            const selectedType = editTypeSelect.value;
-            let newValue;
-            if (selectedType === "status") {
-                newValue = document.getElementById("new-status").value;
-            } else {
-                newValue = document.getElementById(`new-${selectedType}`).value;
-            }
-            // Update watchlist data
-            watchlistData[index][selectedType] = newValue;
-            saveWatchlistData();
-            renderWatchlist();
-            // Close modal
-            editModal.style.display = "none";
-        };
-
-        // Display the modal
-        editModal.style.display = "block";
+        saveWatchlistData(); // Save changes to localStorage
+        renderWatchlist();
     }
 
     addButton.addEventListener("click", function() {
