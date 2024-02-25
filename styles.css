@@ -90,6 +90,7 @@ h1 {
     background-size: cover; /* Adjust background size */
     background-position: center; /* Center the background image */
     cursor: pointer;
+    position: relative; /* Ensure the container is positioned relatively */
 }
 
 .watchlist-item h3 {
@@ -247,9 +248,36 @@ h1 {
         margin-bottom: 10px; /* Add some spacing between inputs */
     }
 }
+
+/* Add this CSS */
+.modal {
+    position: absolute;
+    background-color: #fefefe;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+.modal-content {
+    max-width: 400px;
+}
+
+.close {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
 .edit-button {
-    padding: 10px 20px;
-    background-color: #2196F3; /* Blue background */
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    padding: 5px 10px;
+    background-color: #4CAF50; /* Green background */
     color: white;
     border: none;
     border-radius: 4px;
@@ -258,5 +286,5 @@ h1 {
 }
 
 .edit-button:hover {
-    background-color: #0b7dda; /* Darker blue background on hover */
+    background-color: #45a049; /* Darker green background on hover */
 }
