@@ -11,8 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const linkInput = document.getElementById("link-input");
     const releaseDateInput = document.getElementById("release-date-input");
     const statusSelect = document.getElementById("status-select");
-    const genreSelect = document.getElementById("genre-select");
-    const customGenreInput = document.getElementById("custom-genre-input");
+    const editPanel = document.getElementById("edit-panel");
 
     let watchlistData = JSON.parse(localStorage.getItem("watchlistData")) || [];
 
@@ -94,11 +93,8 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function editItem(event, index) {
-        const editItemElement = document.createElement("div");
-        editItemElement.classList.add("modal");
-        editItemElement.innerHTML = `
-            <span class="close">&times;</span>
-            <div class="modal-content">
+        editPanel.innerHTML = `
+            <div class="edit-panel-content">
                 <h2>Edit Item</h2>
                 <select id="edit-property-select">
                     <option value="title">Title</option>
@@ -113,16 +109,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 <button id="edit-save-button">Save</button>
             </div>
         `;
-        watchlist.appendChild(editItemElement);
-
-        // Close modal when close button is clicked
-        const closeButton = editItemElement.querySelector(".close");
-        closeButton.addEventListener("click", () => {
-            watchlist.removeChild(editItemElement);
-        });
 
         // Save edited item
-        const saveButton = editItemElement.querySelector("#edit-save-button");
+        const saveButton = editPanel.querySelector("#edit-save-button");
         saveButton.addEventListener("click", () => {
             const property = document.getElementById("edit-property-select").value;
             const newValue = document.getElementById("edit-value-input").value.trim();
@@ -130,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 watchlistData[index][property] = newValue;
                 saveWatchlistData(); // Save changes to localStorage
                 renderWatchlist();
-                watchlist.removeChild(editItemElement); // Close modal after saving
+                editPanel.innerHTML = ""; // Clear edit panel after saving
             } else {
                 alert("Please enter a valid value.");
             }
