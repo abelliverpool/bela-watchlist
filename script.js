@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     ${item.link ? `<button class="watch-button" data-link="${item.link}">Watch Here</button>` : ''}
                     ${item.releaseDate ? `<p>Release Date: ${item.releaseDate}</p>` : ''}
                     <p>Status: ${item.status}</p>
+                    ${item.genre ? `<p>Genre: ${item.genre.join(", ")}</p>` : ''}
                     <button class="change-status-button" data-index="${index}">Change Status</button>
                     <button class="remove-button" data-index="${index}">Remove</button>
                     <button class="edit-button" data-index="${index}">Edit</button>
@@ -95,10 +96,31 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function editItem(index) {
-        // Implement your edit functionality here
-        // This function should allow the user to edit the watchlist item at the given index
-        // You can display a form with the existing data pre-filled, and allow the user to update it
-        console.log("Edit functionality to be implemented.");
+        const item = watchlistData[index];
+        const newTitle = prompt("Enter the new title:", item.title);
+        const newType = prompt("Enter the new type:", item.type);
+        const newEpisodes = prompt("Enter the new number of episodes:", item.episodes);
+        const newSeasons = prompt("Enter the new number of seasons:", item.seasons);
+        const newImage = prompt("Enter the new image URL:", item.image);
+        const newLink = prompt("Enter the new watch link:", item.link);
+        const newReleaseDate = prompt("Enter the new release date:", item.releaseDate);
+        const newStatus = prompt("Enter the new status:", item.status);
+        const newGenres = prompt("Enter the new genres (comma-separated):", item.genre ? item.genre.join(", ") : "");
+
+        watchlistData[index] = {
+            title: newTitle || item.title,
+            type: newType || item.type,
+            episodes: newEpisodes || item.episodes,
+            seasons: newSeasons || item.seasons,
+            image: newImage || item.image,
+            link: newLink || item.link,
+            releaseDate: newReleaseDate || item.releaseDate,
+            status: newStatus || item.status,
+            genre: newGenres ? newGenres.split(", ") : (item.genre || [])
+        };
+
+        saveWatchlistData(); // Save changes to localStorage
+        renderWatchlist();
     }
 
     addButton.addEventListener("click", function() {
@@ -132,8 +154,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     typeSelect.addEventListener("change", function() {
-        const selectedType = typeSelect.value;
-        if (selectedType === "series" || selectedType === "anime" || selectedType === "kdrama") {
+        if (typeSelect.value === "anime" || typeSelect.value === "series" || typeSelect.value === "kdrama") {
             episodesInput.style.display = "inline-block";
             seasonsInput.style.display = "inline-block";
         } else {
@@ -147,81 +168,4 @@ document.addEventListener("DOMContentLoaded", function() {
     genreFilter.addEventListener("change", renderWatchlist);
 
     renderWatchlist();
-});
-document.addEventListener("DOMContentLoaded", function() {
-    const genreFilter = document.getElementById("genre-filter");
-
-    genreFilter.addEventListener("click", function() {
-        if (genreFilter.getAttribute('data-state') === 'active') {
-            genreFilter.setAttribute('data-state', '');
-        } else {
-            genreFilter.setAttribute('data-state', 'active');
-        }
-    });
-});
-document.addEventListener("DOMContentLoaded", function() {
-    const genreFilter = document.getElementById("genre-filter");
-
-    genreFilter.addEventListener("click", function() {
-        if (window.innerWidth <= 768) { // Adjust the width as needed for your mobile responsiveness
-            toggleGenreOptions();
-        }
-    });
-
-    function toggleGenreOptions() {
-        if (genreFilter.getAttribute('data-state') === 'active') {
-            genreFilter.setAttribute('data-state', '');
-        } else {
-            genreFilter.setAttribute('data-state', 'active');
-        }
-    }
-});
-document.addEventListener("DOMContentLoaded", function() {
-    const typeSelect = document.getElementById("type-select");
-    const episodesInput = document.getElementById("episodes-input");
-    const seasonsInput = document.getElementById("seasons-input");
-
-    typeSelect.addEventListener("change", function() {
-        const selectedType = typeSelect.value;
-        if (selectedType === "series" || selectedType === "anime" || selectedType === "kdrama") {
-            episodesInput.style.display = "inline-block";
-            seasonsInput.style.display = "inline-block";
-        } else {
-            episodesInput.style.display = "none";
-            seasonsInput.style.display = "none";
-        }
-    });
-});
-document.addEventListener("DOMContentLoaded", function() {
-    const genreFilter = document.getElementById("genre-filter");
-    const genreSelect = document.getElementById("type-select");
-    const episodesInput = document.getElementById("episodes-input");
-    const seasonsInput = document.getElementById("seasons-input");
-
-    genreFilter.addEventListener("click", function() {
-        toggleDropdown(genreFilter);
-    });
-
-    genreSelect.addEventListener("click", function() {
-        toggleDropdown(genreSelect);
-    });
-
-    function toggleDropdown(element) {
-        if (element.getAttribute('data-state') === 'active') {
-            element.setAttribute('data-state', '');
-        } else {
-            element.setAttribute('data-state', 'active');
-        }
-    }
-
-    genreSelect.addEventListener("change", function() {
-        const selectedType = genreSelect.value;
-        if (selectedType === "series" || selectedType === "anime" || selectedType === "kdrama") {
-            episodesInput.style.display = "inline-block";
-            seasonsInput.style.display = "inline-block";
-        } else {
-            episodesInput.style.display = "none";
-            seasonsInput.style.display = "none";
-        }
-    });
 });
