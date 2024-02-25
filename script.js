@@ -163,9 +163,22 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     });
 
-    filter.addEventListener("change", renderWatchlist);
-    typeFilter.addEventListener("change", renderWatchlist);
-    genreFilter.addEventListener("change", renderWatchlist);
+    // Toggle filter options visibility
+    filter.addEventListener("click", () => toggleOptionsDisplay(filter));
+
+    // Toggle type filter options visibility
+    typeFilter.addEventListener("click", () => toggleOptionsDisplay(typeFilter));
+
+    // Toggle genre filter options visibility
+    genreFilter.addEventListener("click", () => toggleOptionsDisplay(genreFilter));
+
+    function toggleOptionsDisplay(element) {
+        if (element.getAttribute('data-state') === 'active') {
+            element.removeAttribute('data-state');
+        } else {
+            element.setAttribute('data-state', 'active');
+        }
+    }
 
     renderWatchlist();
 });
