@@ -15,13 +15,12 @@
       <div class="bar"></div>
       <div class="bar"></div>
       <div class="bar"></div>
-     
     </div>
   </div>
 </nav>
 
 <div class="container">
-  <div class="background-image"></div>
+  <div class="background-video"></div>
   <div class="scrollable-content">
     <div class="video-background">
       <video autoplay loop muted>
@@ -50,17 +49,46 @@
         <option value="completed">Completed</option>
         <option value="dropped">Dropped</option>
       </select>
+      <select id="genre-select" class="animated-select" data-state="">
+        <option value="all">All Genres</option>
+        <option value="action">Action</option>
+        <option value="adventure">Adventure</option>
+        <option value="comedy">Comedy</option>
+        <option value="drama">Drama</option>
+        <option value="fantasy">Fantasy</option>
+        <!-- Add more genres as needed -->
+      </select>
+      <div class="genre-select">
+        <label for="genre">Genre:</label>
+        <div id="genre">
+          <input type="checkbox" id="action" value="action">
+          <label for="action">Action</label><br>
+          <input type="checkbox" id="adventure" value="adventure">
+          <label for="adventure">Adventure</label><br>
+          <input type="checkbox" id="comedy" value="comedy">
+          <label for="comedy">Comedy</label><br>
+          <input type="checkbox" id="drama" value="drama">
+          <label for="drama">Drama</label><br>
+          <input type="checkbox" id="fantasy" value="fantasy">
+          <label for="fantasy">Fantasy</label><br>
+          <!-- Add more genres as needed -->
+        </div>
+      </div>
+
       <button id="add-button">Add Movie</button>
     </div>
  
+    <label for="filter">Filter by Status:</label>
     <select id="filter" class="animated-select">
       <option value="all">All</option>
+      <option value="watching">Watching</option>
       <option value="watched">Watched</option>
       <option value="plan-to-watch">Plan to Watch</option>
       <option value="completed">Completed</option>
       <option value="dropped">Dropped</option>
     </select>
 
+    <label for="type-filter">Filter by Type:</label>
     <select id="type-filter" class="animated-select">
       <option value="all">All Types</option>
       <option value="movie">Movie</option>
@@ -68,8 +96,18 @@
       <option value="anime">Anime</option>
       <option value="kdrama">Kdrama</option>
     </select>
-<button id="export-button">Export Watchlist</button>
-<input type="file" id="import-file" accept=".json">
+
+    <label for="genre-filter">Filter by Genre:</label>
+    <select id="genre-filter" class="animated-select">
+      <option value="all">All Genres</option>
+      <option value="action">Action</option>
+      <option value="adventure">Adventure</option>
+      <option value="comedy">Comedy</option>
+      <option value="drama">Drama</option>
+      <option value="fantasy">Fantasy</option>
+      <!-- Add more genres as needed -->
+    </select>
+
     <div id="watchlist" class="watchlist-container"></div>
 
   </div>
@@ -77,4 +115,4 @@
 
 <script src="script.js"></script>
 </body>
-</html> 
+</html>
