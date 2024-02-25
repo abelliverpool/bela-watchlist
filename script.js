@@ -12,6 +12,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const releaseDateInput = document.getElementById("release-date-input");
     const statusSelect = document.getElementById("status-select");
     const editPanel = document.getElementById("edit-panel");
+    const genreSelect = document.getElementById("genre-select"); // New genre select
+    const customGenreInput = document.getElementById("custom-genre-input");
 
     let watchlistData = JSON.parse(localStorage.getItem("watchlistData")) || [];
 
@@ -135,7 +137,7 @@ document.addEventListener("DOMContentLoaded", function() {
         let episodes;
         let seasons;
         let image = imageInput.value.trim();
-        let genre = genreSelect.value.trim();
+        let genre = genreSelect.value.trim(); // Get genre select value
         if (type === "anime" || type === "series" || type === "kdrama") {
             episodes = episodesInput.value.trim();
             seasons = seasonsInput.value.trim();
