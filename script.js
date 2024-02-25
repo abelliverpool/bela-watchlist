@@ -96,13 +96,45 @@ document.addEventListener("DOMContentLoaded", function() {
     function editItem(index) {
         const selectedItem = watchlistData[index];
         const editOptions = Object.keys(selectedItem);
-        const selectedProperty = prompt(`Which property do you want to edit?\n${editOptions.join(", ")}`);
-        if (selectedProperty && editOptions.includes(selectedProperty)) {
-            const newValue = prompt(`Enter new value for ${selectedProperty}:`);
-            if (newValue !== null) {
-                watchlistData[index][selectedProperty] = newValue;
-                saveWatchlistData();
-                renderWatchlist();
+        const selectPropertyHTML = `
+            <select id="edit-property-select">
+                <option value="" selected disabled>Select Property to Edit</option>
+                ${editOptions.map(option => `<option value="${option}">${option}</option>`).join('')}
+            </select>
+        `;
+        const modalHTML = `
+            <div class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <h2>Edit Item</h2>
+                    ${selectPropertyHTML}
+                    <button id="confirm-edit-button">Edit</button>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', modalHTML);
+
+        const modal = document.querySelector('.modal');
+        const closeBtn = document.querySelector('.close');
+        const confirmEditButton = document.getElementById('confirm-edit-button');
+        const propertySelect = document.getElementById('edit-property-select');
+
+        closeBtn.onclick = function() {
+            modal.remove();
+        }
+
+        confirmEditButton.onclick = function() {
+            const selectedProperty = propertySelect.value;
+            if (selectedProperty) {
+                const newValue = prompt(`Enter new value for ${selectedProperty}:`);
+                if (newValue !== null) {
+                    watchlistData[index][selectedProperty] = newValue;
+                    saveWatchlistData();
+                    renderWatchlist();
+                    modal.remove();
+                }
+            } else {
+                alert('Please select a property to edit.');
             }
         }
     }
