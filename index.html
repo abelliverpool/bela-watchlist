@@ -20,7 +20,7 @@
 </nav>
 
 <div class="container">
-  <div class="background-image"></div>
+  <div class="background-video"></div>
   <div class="scrollable-content">
     <div class="video-background">
       <video autoplay loop muted>
@@ -51,11 +51,11 @@
       </select>
       <select id="genre-select" multiple>
         <option value="action">Action</option>
+        <option value="adventure">Adventure</option>
         <option value="comedy">Comedy</option>
         <option value="drama">Drama</option>
-        <option value="horror">Horror</option>
-        <option value="romance">Romance</option>
-        <!-- Add more genres here -->
+        <option value="fantasy">Fantasy</option>
+        <!-- Add more genres as needed -->
       </select>
       <button id="add-button">Add Movie</button>
     </div>
@@ -76,16 +76,14 @@
       <option value="kdrama">Kdrama</option>
     </select>
 
-    <select id="genre-filter" class="animated-select" multiple>
+    <select id="genre-filter" class="animated-select">
       <option value="all">All Genres</option>
       <option value="action">Action</option>
+      <option value="adventure">Adventure</option>
       <option value="comedy">Comedy</option>
       <option value="drama">Drama</option>
-      <option value="horror">Horror</option>
-      <option value="romance">Romance</option>
-      <option value="animation">Animation</option>
-      <option value="adventure">Adventure</option>
-      <!-- Add more genres here -->
+      <option value="fantasy">Fantasy</option>
+      <!-- Add more genres as needed -->
     </select>
 
     <div id="watchlist" class="watchlist-container"></div>
