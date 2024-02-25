@@ -256,3 +256,25 @@ h1 {
         margin-bottom: 10px; /* Add some spacing between inputs */
     }
 }
+/* Styles for the edit button */
+.edit-button {
+    padding: 10px 20px;
+    background-color: #2196F3; /* Blue background */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+}
+
+.edit-button:hover {
+    background-color: #0b7dda; /* Darker blue background on hover */
+}
+
+.watchlist-item .edit-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
