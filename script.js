@@ -40,7 +40,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     ${item.releaseDate ? `<p>Release Date: ${item.releaseDate}</p>` : ''}
                     <p>Status: ${item.status}</p>
                     <p>Genre: ${item.genre}</p>
-                    <button class="edit-button" data-index="${index}">Edit</button>
                     <button class="change-status-button" data-index="${index}">Change Status</button>
                     <button class="remove-button" data-index="${index}">Remove</button>
                 `;
@@ -52,7 +51,6 @@ document.addEventListener("DOMContentLoaded", function() {
         const changeStatusButtons = document.querySelectorAll('.change-status-button');
         const removeButtons = document.querySelectorAll('.remove-button');
         const watchButtons = document.querySelectorAll('.watch-button');
-        const editButtons = document.querySelectorAll('.edit-button');
 
         changeStatusButtons.forEach(button => {
             button.addEventListener('click', () => changeStatus(button.dataset.index));
@@ -64,10 +62,6 @@ document.addEventListener("DOMContentLoaded", function() {
 
         watchButtons.forEach(button => {
             button.addEventListener('click', () => watchMovie(button.dataset.link));
-        });
-
-        editButtons.forEach(button => {
-            button.addEventListener('click', () => editItem(button.dataset.index));
         });
     }
 
@@ -90,20 +84,6 @@ document.addEventListener("DOMContentLoaded", function() {
             watchlistData.splice(index, 1);
             saveWatchlistData(); // Save changes to localStorage
             renderWatchlist();
-        }
-    }
-
-    function editItem(index) {
-        const selectedItem = watchlistData[index];
-        const editOptions = Object.keys(selectedItem);
-        const selectedProperty = prompt(`Which property do you want to edit?\n${editOptions.join(", ")}`);
-        if (selectedProperty && editOptions.includes(selectedProperty)) {
-            const newValue = prompt(`Enter new value for ${selectedProperty}:`);
-            if (newValue !== null) {
-                watchlistData[index][selectedProperty] = newValue;
-                saveWatchlistData();
-                renderWatchlist();
-            }
         }
     }
 
