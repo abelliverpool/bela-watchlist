@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     <h3>${item.title}</h3>
                     <p>Type: ${item.type}</p>
                     ${item.type !== "movie" ? `<p>Episodes: ${item.episodes}</p>` : ''}
-                    ${item.type === "series" || item.type === "anime" || item.type === "kdrama" ? `<p>Seasons: ${item.seasons}</p>` : ''}
+                    ${["series", "anime", "kdrama"].includes(item.type) ? `<p>Seasons: ${item.seasons}</p>` : ''}
                     ${item.image ? `<img src="${item.image}" alt="${item.title}">` : ''}
                     ${item.link ? `<button class="watch-button" data-link="${item.link}">Watch Here</button>` : ''}
                     ${item.releaseDate ? `<p>Release Date: ${item.releaseDate}</p>` : ''}
@@ -108,6 +108,9 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("edit-status").value = item.status;
         document.getElementById("edit-genre").value = item.genre ? item.genre.join(", ") : "";
 
+        // Set data-index attribute of the modal
+        document.getElementById("edit-modal").setAttribute("data-index", index);
+
         // Show modal
         document.getElementById("edit-modal").style.display = "block";
     }
@@ -138,8 +141,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
     addButton.addEventListener("click", function () {
         // Add item to watchlist
-        // ...
+        const newItem = {
+            title: titleInput.value,
+            type: typeSelect.value,
+            episodes: (typeSelect.value !== "movie") ? episodesInput.value : "",
+            seasons: (["series", "anime", "kdrama"].includes(typeSelect.value)) ? seasonsInput.value : "",
+            image: imageInput.value,
+            link: linkInput.value,
+            releaseDate: releaseDateInput.value,
+            status: statusSelect.value,
+            genre: genreSelect.value.split(", ")
+        };
+        watchlistData.push(newItem);
+        saveWatchlistData();
         renderWatchlist();
+        // Clear input fields after adding
+        titleInput.value = "";
+        episodesInput.value = "";
+        seasonsInput.value = "";
+        imageInput.value = "";
+        linkInput.value = "";
+        releaseDateInput.value = "";
     });
 
     // Add event listener to save changes button in modal
