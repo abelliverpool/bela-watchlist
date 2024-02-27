@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const watchlist = document.getElementById("watchlist");
     const filter = document.getElementById("filter");
     const typeFilter = document.getElementById("type-filter");
+    const genreFilter = document.getElementById("genre-filter");
     const addButton = document.getElementById("add-button");
     const titleInput = document.getElementById("title-input");
     const typeSelect = document.getElementById("type-select");
@@ -11,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const linkInput = document.getElementById("link-input");
     const releaseDateInput = document.getElementById("release-date-input");
     const statusSelect = document.getElementById("status-select");
-    const editPanel = document.getElementById("edit-panel");
+    const genreSelect = document.getElementById("genre-select");
 
     let watchlistData = JSON.parse(localStorage.getItem("watchlistData")) || [];
 
@@ -23,10 +24,12 @@ document.addEventListener("DOMContentLoaded", function() {
         watchlist.innerHTML = "";
         const selectedFilter = filter.value;
         const selectedType = typeFilter.value;
+        const selectedGenres = Array.from(genreFilter.selectedOptions).map(option => option.value);
 
         watchlistData.forEach((item, index) => {
             if ((selectedFilter === "all" || item.status === selectedFilter) &&
-                (selectedType === "all" || item.type === selectedType)) {
+                (selectedType === "all" || item.type === selectedType) &&
+                (selectedGenres.includes("all") || selectedGenres.some(genre => item.genres.includes(genre)))) {
                 const itemElement = document.createElement("div");
                 itemElement.classList.add("watchlist-item");
                 itemElement.innerHTML = `
@@ -37,11 +40,10 @@ document.addEventListener("DOMContentLoaded", function() {
                     ${item.image ? `<img src="${item.image}" alt="${item.title}">` : ''}
                     ${item.link ? `<button class="watch-button" data-link="${item.link}">Watch Here</button>` : ''}
                     ${item.releaseDate ? `<p>Release Date: ${item.releaseDate}</p>` : ''}
-                    ${item.genre ? `<p>Genre: ${item.genre}</p>` : ''}
                     <p>Status: ${item.status}</p>
-                    <button class="edit-button" data-index="${index}">Edit</button>
                     <button class="change-status-button" data-index="${index}">Change Status</button>
                     <button class="remove-button" data-index="${index}">Remove</button>
+                    <button class="edit-button" data-index="${index}">Edit</button>
                 `;
                 watchlist.appendChild(itemElement);
             }
@@ -66,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         editButtons.forEach(button => {
-            button.addEventListener('click', (event) => editItem(event, button.dataset.index));
+            button.addEventListener('click', () => editItem(button.dataset.index));
         });
     }
 
@@ -92,38 +94,10 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    function editItem(event, index) {
-        editPanel.innerHTML = `
-            <div class="edit-panel-content">
-                <h2>Edit Item</h2>
-                <select id="edit-property-select">
-                    <option value="title">Title</option>
-                    <option value="image">Image URL</option>
-                    <option value="link">Watch Link</option>
-                    <option value="episodes">Episodes</option>
-                    <option value="seasons">Seasons</option>
-                    <option value="releaseDate">Release Date</option>
-                    <option value="genre">Genre</option>
-                </select>
-                <input type="text" id="edit-value-input" placeholder="New Value">
-                <button id="edit-save-button">Save</button>
-            </div>
-        `;
-
-        // Save edited item
-        const saveButton = editPanel.querySelector("#edit-save-button");
-        saveButton.addEventListener("click", () => {
-            const property = document.getElementById("edit-property-select").value;
-            const newValue = document.getElementById("edit-value-input").value.trim();
-            if (newValue !== "") {
-                watchlistData[index][property] = newValue;
-                saveWatchlistData(); // Save changes to localStorage
-                renderWatchlist();
-                editPanel.innerHTML = ""; // Clear edit panel after saving
-            } else {
-                alert("Please enter a valid value.");
-            }
-        });
+    function editItem(index) {
+        // Implement edit functionality here
+        // You can open a modal or a form to allow users to edit the item
+        // You will need to handle saving the edited data and updating the watchlist
     }
 
     addButton.addEventListener("click", function() {
@@ -132,19 +106,16 @@ document.addEventListener("DOMContentLoaded", function() {
         const link = linkInput.value.trim();
         const releaseDate = releaseDateInput.value;
         const status = statusSelect.value;
+        const genres = Array.from(genreSelect.selectedOptions).map(option => option.value);
         let episodes;
         let seasons;
         let image = imageInput.value.trim();
-        let genre = genreSelect.value.trim();
         if (type === "anime" || type === "series" || type === "kdrama") {
             episodes = episodesInput.value.trim();
             seasons = seasonsInput.value.trim();
         }
         if (title !== "") {
-            if (!genre && customGenreInput.value.trim() !== "") {
-                genre = customGenreInput.value.trim();
-            }
-            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genre: genre });
+            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genres: genres });
             renderWatchlist();
             saveWatchlistData(); // Save changes to localStorage
             titleInput.value = "";
@@ -153,8 +124,7 @@ document.addEventListener("DOMContentLoaded", function() {
             imageInput.value = "";
             linkInput.value = "";
             releaseDateInput.value = "";
-            genreSelect.value = "";
-            customGenreInput.value = "";
+            genreSelect.selectedIndex = -1; // Reset genre selection
         } else {
             alert("Please enter a valid movie or series title.");
         }
@@ -172,41 +142,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     filter.addEventListener("change", renderWatchlist);
     typeFilter.addEventListener("change", renderWatchlist);
+    genreFilter.addEventListener("change", renderWatchlist);
 
     renderWatchlist();
 });
-
-// Export button
-const exportButton = document.getElementById("export-button");
-exportButton.addEventListener("click", exportWatchlist);
-
-// Import watchlist function
-function importWatchlist(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = function(event) {
-        const importedData = JSON.parse(event.target.result);
-        if (Array.isArray(importedData)) {
-            watchlistData = importedData;
-            renderWatchlist();
-            saveWatchlistData();
-        } else {
-            alert("Invalid watchlist file.");
-        }
-    };
-    reader.readAsText(file);
-}
-
-function exportWatchlist() {
-    const data = JSON.stringify(watchlistData);
-    const blob = new Blob([data], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "watchlist.json";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-}
