@@ -12,8 +12,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const releaseDateInput = document.getElementById("release-date-input");
     const statusSelect = document.getElementById("status-select");
     const editPanel = document.getElementById("edit-panel");
-    const genreSelect = document.getElementById("genre-select");
-    const customGenreInput = document.getElementById("custom-genre-input");
 
     let watchlistData = JSON.parse(localStorage.getItem("watchlistData")) || [];
 
@@ -111,10 +109,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 <button id="edit-save-button">Save</button>
             </div>
         `;
-
-        // Populate input field with current value
-        const currentValue = watchlistData[index][document.getElementById("edit-property-select").value];
-        document.getElementById("edit-value-input").value = currentValue;
 
         // Save edited item
         const saveButton = editPanel.querySelector("#edit-save-button");
