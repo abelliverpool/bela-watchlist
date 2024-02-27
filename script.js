@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const linkInput = document.getElementById("link-input");
     const releaseDateInput = document.getElementById("release-date-input");
     const statusSelect = document.getElementById("status-select");
-    const genreSelect = document.getElementById("genre-select");
     const customGenreInput = document.getElementById("custom-genre-input");
 
     let watchlistData = JSON.parse(localStorage.getItem("watchlistData")) || [];
@@ -39,7 +38,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     ${item.link ? `<button class="watch-button" data-link="${item.link}">Watch Here</button>` : ''}
                     ${item.releaseDate ? `<p>Release Date: ${item.releaseDate}</p>` : ''}
                     <p>Status: ${item.status}</p>
-                    <p>Genre: ${item.genre}</p>
                     <button class="change-status-button" data-index="${index}">Change Status</button>
                     <button class="remove-button" data-index="${index}">Remove</button>
                 `;
@@ -93,7 +91,6 @@ document.addEventListener("DOMContentLoaded", function() {
         const link = linkInput.value.trim();
         const releaseDate = releaseDateInput.value;
         const status = statusSelect.value;
-        const genre = genreSelect.value || customGenreInput.value.trim(); // Select from existing or custom genre
         let episodes;
         let seasons;
         let image = imageInput.value.trim();
@@ -102,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function() {
             seasons = seasonsInput.value.trim();
         }
         if (title !== "") {
-            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genre: genre });
+            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status });
             renderWatchlist();
             saveWatchlistData(); // Save changes to localStorage
             titleInput.value = "";
@@ -111,7 +108,6 @@ document.addEventListener("DOMContentLoaded", function() {
             imageInput.value = "";
             linkInput.value = "";
             releaseDateInput.value = "";
-            customGenreInput.value = ""; // Clear custom genre input
         } else {
             alert("Please enter a valid movie or series title.");
         }
@@ -133,38 +129,8 @@ document.addEventListener("DOMContentLoaded", function() {
     renderWatchlist();
 });
 
-// Export button
-const exportButton = document.getElementById("export-button");
-exportButton.addEventListener("click", exportWatchlist);
-
-// Export watchlist function
-function exportWatchlist() {
-    const data = JSON.stringify(watchlistData);
-    const blob = new Blob([data], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "watchlist.json";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-}
-
-// Import watchlist function
-function importWatchlist(event) {
-    const file = event.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = function(event) {
-        const importedData = JSON.parse(event.target.result);
-        if (Array.isArray(importedData)) {
-            watchlistData = importedData;
-            renderWatchlist();
-            saveWatchlistData();
-        } else {
-            alert("Invalid watchlist file.");
-        }
-    };
-    reader.readAsText(file);
+// Mobile responsive query
+if (window.matchMedia("(max-width: 768px)").matches) {
+    // Code for mobile devices
+    // You can add your responsive design code here
 }
