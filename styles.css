@@ -259,31 +259,33 @@ h1 {
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 .modal-content {
     background-color: #fefefe;
-    margin: 15% auto;
+    margin: 10% auto;
     padding: 20px;
-    border: 1px solid #888;
-    width: 80%;
     border-radius: 5px;
     position: relative;
+    max-width: 600px;
+    width: 80%;
+    box-sizing: border-box;
 }
 
 .close {
     color: #aaa;
-    float: right;
-    font-size: 28px;
-    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
 }
 
 .close:hover,
 .close:focus {
-    color: black;
+    color: #000;
     text-decoration: none;
-    cursor: pointer;
 }
 
 h2 {
@@ -307,13 +309,6 @@ select {
     box-sizing: border-box;
 }
 
-input[type="text"]:focus,
-input[type="number"]:focus,
-select:focus {
-    outline: none;
-    border-color: #4CAF50;
-}
-
 button {
     background-color: #4CAF50;
     color: white;
@@ -323,15 +318,13 @@ button {
     cursor: pointer;
     width: 100%;
     font-size: 16px;
+    margin-top: 10px;
 }
 
 button:hover {
     background-color: #45a049;
 }
 
-#genre-filter:hover {
-    border-color: #ce2d2d;
-}
 
 #genre-filter:focus {
     outline: none;
