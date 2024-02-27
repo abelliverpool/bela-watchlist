@@ -36,7 +36,6 @@ h1 {
 /* Styles for the watchlist */
 .add-movie {
     display: flex;
-    flex-wrap: wrap; /* Allow items to wrap to next line */
     align-items: center;
     margin-bottom: 20px;
 }
@@ -90,7 +89,6 @@ h1 {
     background-size: cover; /* Adjust background size */
     background-position: center; /* Center the background image */
     cursor: pointer;
-    position: relative; /* Ensure the container is positioned relatively */
 }
 
 .watchlist-item h3 {
@@ -166,6 +164,15 @@ h1 {
     animation: slideIn 0.5s ease forwards;
 }
 
+@-webkit-keyframes slideIn {
+    from {
+        -webkit-transform: translateY(-100%);
+    }
+    to {
+        -webkit-transform: translateY(0);
+    }
+}
+
 .video-background {
     position: fixed;
     top: 0;
@@ -180,7 +187,6 @@ h1 {
     min-width: 100%;
     min-height: 100%;
 }
-
 #release-date-input {
     padding: 10px;
     font-size: 16px;
@@ -214,7 +220,6 @@ h1 {
 #export-button:hover {
     background-color: #45a049; /* Darker green background on hover */
 }
-
 #import-file {
     padding: 10px 20px;
     background-color: #3498db; /* Blue background */
@@ -234,131 +239,4 @@ h1 {
     opacity: 0;
     position: absolute;
     left: -9999px;
-}
-
-/* Mobile Phone Responsive Query */
-@media only screen and (max-width: 768px) {
-    .add-movie {
-        flex-direction: column;
-    }
-
-    .add-movie input[type="text"],
-    .add-movie input[type="number"],
-    .add-movie select {
-        margin-bottom: 10px; /* Add some spacing between inputs */
-    }
-}
-
-/* Add this CSS */
-.modal {
-    position: absolute;
-    background-color: #fefefe;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-}
-
-.modal-content {
-    max-width: 400px;
-}
-
-.close {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    cursor: pointer;
-    font-size: 20px;
-}
-
-.edit-button {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    padding: 5px 10px;
-    background-color: #4CAF50; /* Green background */
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.edit-button:hover {
-    background-color: #45a049; /* Darker green background on hover */
-}
-/* Edit panel styles */
-#edit-panel {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.edit-panel-content {
-    background-color: #0f0f0f;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
-    color: #fff;
-    max-width: 400px;
-    width: 100%;
-    text-align: center;
-}
-
-#edit-property-select,
-#edit-value-input {
-    margin-bottom: 10px;
-    width: calc(100% - 20px);
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    background-color: rgba(255, 255, 255, 0.1);
-    color: #fff;
-    font-size: 16px;
-}
-
-#edit-save-button {
-    padding: 10px 20px;
-    background-color: #ff5722;
-    color: #ffffff;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#edit-save-button:hover {
-    background-color: #f44336;
-}
-/* Genre filter styles */
-#genre-filter {
-    padding: 10px;
-    border: 2px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-    color: #bd6666;
-    background-color: #fff;
-    transition: border-color 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
-    margin-left: 10px; /* Adjust margin as needed */
-}
-
-#genre-filter:hover {
-    border-color: #ce2d2d;
-}
-
-#genre-filter:focus {
-    outline: none;
-    border-color: #b68f83;
-    box-shadow: 0 0 5px rgba(255, 87, 34, 0.5);
-}
-
-#genre-filter option {
-    background-color: #fff;
 }
