@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", function() {
     const watchlist = document.getElementById("watchlist");
     const filter = document.getElementById("filter");
     const typeFilter = document.getElementById("type-filter");
@@ -24,24 +24,23 @@ document.addEventListener("DOMContentLoaded", function () {
         watchlist.innerHTML = "";
         const selectedFilter = filter.value;
         const selectedType = typeFilter.value;
-        const selectedGenre = genreFilter.value;
+        const selectedGenres = Array.from(genreFilter.selectedOptions).map(option => option.value);
 
         watchlistData.forEach((item, index) => {
             if ((selectedFilter === "all" || item.status === selectedFilter) &&
                 (selectedType === "all" || item.type === selectedType) &&
-                (selectedGenre === "all" || (item.genre && item.genre.includes(selectedGenre)))) {
+                (selectedGenres.includes("all") || selectedGenres.some(genre => item.genres.includes(genre)))) {
                 const itemElement = document.createElement("div");
                 itemElement.classList.add("watchlist-item");
                 itemElement.innerHTML = `
                     <h3>${item.title}</h3>
                     <p>Type: ${item.type}</p>
                     ${item.type !== "movie" ? `<p>Episodes: ${item.episodes}</p>` : ''}
-                    ${["series", "anime", "kdrama"].includes(item.type) ? `<p>Seasons: ${item.seasons}</p>` : ''}
+                    ${item.type === "series" || item.type === "anime" || item.type === "kdrama" ? `<p>Seasons: ${item.seasons}</p>` : ''}
                     ${item.image ? `<img src="${item.image}" alt="${item.title}">` : ''}
                     ${item.link ? `<button class="watch-button" data-link="${item.link}">Watch Here</button>` : ''}
                     ${item.releaseDate ? `<p>Release Date: ${item.releaseDate}</p>` : ''}
                     <p>Status: ${item.status}</p>
-                    ${item.genre ? `<p>Genre: ${item.genre.join(", ")}</p>` : ''}
                     <button class="change-status-button" data-index="${index}">Change Status</button>
                     <button class="remove-button" data-index="${index}">Remove</button>
                     <button class="edit-button" data-index="${index}">Edit</button>
@@ -69,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         editButtons.forEach(button => {
-            button.addEventListener('click', () => openEditModal(button.dataset.index));
+            button.addEventListener('click', () => editItem(button.dataset.index));
         });
     }
 
@@ -95,87 +94,55 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    function openEditModal(index) {
-        const item = watchlistData[index];
-        // Populate modal fields with current values
-        document.getElementById("edit-title").value = item.title;
-        document.getElementById("edit-type").value = item.type;
-        document.getElementById("edit-episodes").value = item.episodes;
-        document.getElementById("edit-seasons").value = item.seasons;
-        document.getElementById("edit-image").value = item.image;
-        document.getElementById("edit-link").value = item.link;
-        document.getElementById("edit-release-date").value = item.releaseDate;
-        document.getElementById("edit-status").value = item.status;
-        document.getElementById("edit-genre").value = item.genre ? item.genre.join(", ") : "";
-
-        // Set data-index attribute of the modal
-        document.getElementById("edit-modal").setAttribute("data-index", index);
-
-        // Show modal
-        document.getElementById("edit-modal").style.display = "block";
+    function editItem(index) {
+        // Implement edit functionality here
+        // You can open a modal or a form to allow users to edit the item
+        // You will need to handle saving the edited data and updating the watchlist
     }
 
-    function closeEditModal() {
-        // Hide modal
-        document.getElementById("edit-modal").style.display = "none";
-    }
-
-    function saveChanges(index) {
-        // Update item with new values from modal
-        watchlistData[index] = {
-            title: document.getElementById("edit-title").value,
-            type: document.getElementById("edit-type").value,
-            episodes: document.getElementById("edit-episodes").value,
-            seasons: document.getElementById("edit-seasons").value,
-            image: document.getElementById("edit-image").value,
-            link: document.getElementById("edit-link").value,
-            releaseDate: document.getElementById("edit-release-date").value,
-            status: document.getElementById("edit-status").value,
-            genre: document.getElementById("edit-genre").value.split(", ")
-        };
-
-        saveWatchlistData();
-        renderWatchlist();
-        closeEditModal();
-    }
-
-    addButton.addEventListener("click", function () {
-        // Add item to watchlist
-        const newItem = {
-            title: titleInput.value,
-            type: typeSelect.value,
-            episodes: (typeSelect.value !== "movie") ? episodesInput.value : "",
-            seasons: (["series", "anime", "kdrama"].includes(typeSelect.value)) ? seasonsInput.value : "",
-            image: imageInput.value,
-            link: linkInput.value,
-            releaseDate: releaseDateInput.value,
-            status: statusSelect.value,
-            genre: genreSelect.value.split(", ")
-        };
-        watchlistData.push(newItem);
-        saveWatchlistData();
-        renderWatchlist();
-        // Clear input fields after adding
-        titleInput.value = "";
-        episodesInput.value = "";
-        seasonsInput.value = "";
-        imageInput.value = "";
-        linkInput.value = "";
-        releaseDateInput.value = "";
+    addButton.addEventListener("click", function() {
+        const title = titleInput.value.trim();
+        const type = typeSelect.value;
+        const link = linkInput.value.trim();
+        const releaseDate = releaseDateInput.value;
+        const status = statusSelect.value;
+        const genres = Array.from(genreSelect.selectedOptions).map(option => option.value);
+        let episodes;
+        let seasons;
+        let image = imageInput.value.trim();
+        if (type === "anime" || type === "series" || type === "kdrama") {
+            episodes = episodesInput.value.trim();
+            seasons = seasonsInput.value.trim();
+        }
+        if (title !== "") {
+            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genres: genres });
+            renderWatchlist();
+            saveWatchlistData(); // Save changes to localStorage
+            titleInput.value = "";
+            episodesInput.value = "";
+            seasonsInput.value = "";
+            imageInput.value = "";
+            linkInput.value = "";
+            releaseDateInput.value = "";
+            genreSelect.selectedIndex = -1; // Reset genre selection
+        } else {
+            alert("Please enter a valid movie or series title.");
+        }
     });
 
-    // Add event listener to save changes button in modal
-    document.getElementById("save-changes-btn").addEventListener("click", function () {
-        const selectedIndex = document.getElementById("edit-modal").getAttribute("data-index");
-        saveChanges(selectedIndex);
+    typeSelect.addEventListener("change", function() {
+        if (typeSelect.value === "anime" || typeSelect.value === "series" || typeSelect.value === "kdrama") {
+            episodesInput.style.display = "inline-block";
+            seasonsInput.style.display = "inline-block";
+        } else {
+            episodesInput.style.display = "none";
+            seasonsInput.style.display = "none";
+        }
     });
-
-    // Add event listener to close modal button
-    document.getElementById("close-edit-modal-btn").addEventListener("click", closeEditModal);
 
     filter.addEventListener("change", renderWatchlist);
     typeFilter.addEventListener("change", renderWatchlist);
     genreFilter.addEventListener("change", renderWatchlist);
 
-    renderWatchlist(); // Initial rendering
+    renderWatchlist();
 });
