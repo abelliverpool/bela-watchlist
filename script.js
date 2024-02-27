@@ -24,12 +24,12 @@ document.addEventListener("DOMContentLoaded", function() {
         watchlist.innerHTML = "";
         const selectedFilter = filter.value;
         const selectedType = typeFilter.value;
-        const selectedGenres = Array.from(genreFilter.selectedOptions).map(option => option.value);
+        const selectedGenre = genreFilter.value;
 
         watchlistData.forEach((item, index) => {
             if ((selectedFilter === "all" || item.status === selectedFilter) &&
                 (selectedType === "all" || item.type === selectedType) &&
-                (selectedGenres.includes("all") || selectedGenres.some(genre => item.genres.includes(genre)))) {
+                (selectedGenre === "all" || (item.genre && item.genre.includes(selectedGenre)))) {
                 const itemElement = document.createElement("div");
                 itemElement.classList.add("watchlist-item");
                 itemElement.innerHTML = `
@@ -41,6 +41,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     ${item.link ? `<button class="watch-button" data-link="${item.link}">Watch Here</button>` : ''}
                     ${item.releaseDate ? `<p>Release Date: ${item.releaseDate}</p>` : ''}
                     <p>Status: ${item.status}</p>
+                    ${item.genre ? `<p>Genre: ${item.genre.join(", ")}</p>` : ''}
                     <button class="change-status-button" data-index="${index}">Change Status</button>
                     <button class="remove-button" data-index="${index}">Remove</button>
                     <button class="edit-button" data-index="${index}">Edit</button>
@@ -95,9 +96,31 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function editItem(index) {
-        // Implement edit functionality here
-        // You can open a modal or a form to allow users to edit the item
-        // You will need to handle saving the edited data and updating the watchlist
+        const item = watchlistData[index];
+        const newTitle = prompt("Enter the new title:", item.title);
+        const newType = prompt("Enter the new type:", item.type);
+        const newEpisodes = prompt("Enter the new number of episodes:", item.episodes);
+        const newSeasons = prompt("Enter the new number of seasons:", item.seasons);
+        const newImage = prompt("Enter the new image URL:", item.image);
+        const newLink = prompt("Enter the new watch link:", item.link);
+        const newReleaseDate = prompt("Enter the new release date:", item.releaseDate);
+        const newStatus = prompt("Enter the new status:", item.status);
+        const newGenres = prompt("Enter the new genres (comma-separated):", item.genre ? item.genre.join(", ") : "");
+
+        watchlistData[index] = {
+            title: newTitle || item.title,
+            type: newType || item.type,
+            episodes: newEpisodes || item.episodes,
+            seasons: newSeasons || item.seasons,
+            image: newImage || item.image,
+            link: newLink || item.link,
+            releaseDate: newReleaseDate || item.releaseDate,
+            status: newStatus || item.status,
+            genre: newGenres ? newGenres.split(", ") : (item.genre || [])
+        };
+
+        saveWatchlistData(); // Save changes to localStorage
+        renderWatchlist();
     }
 
     addButton.addEventListener("click", function() {
@@ -106,7 +129,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const link = linkInput.value.trim();
         const releaseDate = releaseDateInput.value;
         const status = statusSelect.value;
-        const genres = Array.from(genreSelect.selectedOptions).map(option => option.value);
+        const genre = Array.from(genreSelect.querySelectorAll('input[type="checkbox"]:checked')).map(input => input.value);
         let episodes;
         let seasons;
         let image = imageInput.value.trim();
@@ -115,28 +138,20 @@ document.addEventListener("DOMContentLoaded", function() {
             seasons = seasonsInput.value.trim();
         }
         if (title !== "") {
-            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genres: genres });
+            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genre: genre });
             renderWatchlist();
             saveWatchlistData(); // Save changes to localStorage
             titleInput.value = "";
+            typeSelect.value = "movie";
             episodesInput.value = "";
             seasonsInput.value = "";
             imageInput.value = "";
             linkInput.value = "";
-            releaseDateInput.value = "";
-            genreSelect.selectedIndex = -1; // Reset genre selection
+            releaseDateInput.value = "YYYY-MM-DD";
+            statusSelect.value = "watching";
+            genreSelect.value = "all";
         } else {
-            alert("Please enter a valid movie or series title.");
-        }
-    });
-
-    typeSelect.addEventListener("change", function() {
-        if (typeSelect.value === "anime" || typeSelect.value === "series" || typeSelect.value === "kdrama") {
-            episodesInput.style.display = "inline-block";
-            seasonsInput.style.display = "inline-block";
-        } else {
-            episodesInput.style.display = "none";
-            seasonsInput.style.display = "none";
+            alert("Title can't be empty!");
         }
     });
 
@@ -144,5 +159,5 @@ document.addEventListener("DOMContentLoaded", function() {
     typeFilter.addEventListener("change", renderWatchlist);
     genreFilter.addEventListener("change", renderWatchlist);
 
-    renderWatchlist();
+    renderWatchlist(); // Initial rendering
 });
