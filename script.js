@@ -13,8 +13,10 @@ document.addEventListener("DOMContentLoaded", function() {
     const statusSelect = document.getElementById("status-select");
     const genreSelect = document.getElementById("genre-select");
     const customGenreInput = document.getElementById("custom-genre-input");
+    const editButton = document.getElementById("edit-button"); // Add the edit button
 
     let watchlistData = JSON.parse(localStorage.getItem("watchlistData")) || [];
+    let isEditMode = false; // Track the edit mode
 
     function saveWatchlistData() {
         localStorage.setItem("watchlistData", JSON.stringify(watchlistData));
@@ -26,30 +28,37 @@ document.addEventListener("DOMContentLoaded", function() {
         const selectedType = typeFilter.value;
 
         watchlistData.forEach((item, index) => {
-            if ((selectedFilter === "all" || item.status === selectedFilter) &&
-                (selectedType === "all" || item.type === selectedType)) {
-                const itemElement = document.createElement("div");
-                itemElement.classList.add("watchlist-item");
-                itemElement.innerHTML = `
-                    <h3>${item.title}</h3>
-                    <p>Type: ${item.type}</p>
-                    ${item.type !== "movie" ? `<p>Episodes: ${item.episodes}</p>` : ''}
-                    ${item.type === "series" || item.type === "anime" || item.type === "kdrama" ? `<p>Seasons: ${item.seasons}</p>` : ''}
-                    ${item.image ? `<img src="${item.image}" alt="${item.title}">` : ''}
-                    ${item.link ? `<button class="watch-button" data-link="${item.link}">Watch Here</button>` : ''}
-                    ${item.releaseDate ? `<p>Release Date: ${item.releaseDate}</p>` : ''}
-                    <p>Status: ${item.status}</p>
-                    <button class="change-status-button" data-index="${index}">Change Status</button>
-                    <button class="remove-button" data-index="${index}">Remove</button>
-                `;
-                watchlist.appendChild(itemElement);
-            }
+            const itemElement = document.createElement("div");
+            itemElement.classList.add("watchlist-item");
+            itemElement.innerHTML = `
+                <h3>${item.title}</h3>
+                <p>Type: ${item.type}</p>
+                ${item.type !== "movie" ? `<p>Episodes: ${item.episodes}</p>` : ''}
+                ${item.type === "series" || item.type === "anime" || item.type === "kdrama" ? `<p>Seasons: ${item.seasons}</p>` : ''}
+                ${item.image ? `<img src="${item.image}" alt="${item.title}">` : ''}
+                ${item.link ? `<button class="watch-button" data-link="${item.link}">Watch Here</button>` : ''}
+                ${item.releaseDate ? `<p>Release Date: ${item.releaseDate}</p>` : ''}
+                <p>Status: ${item.status}</p>
+                ${isEditMode ? `<button class="edit-watchlist-item-button" data-index="${index}">Edit</button>` : ''}
+            `;
+            watchlist.appendChild(itemElement);
         });
+
+        // Add the "+" button if in edit mode and item is not in watchlist
+        if (isEditMode) {
+            watchlistData.forEach(item => {
+                itemElement.innerHTML += `
+                    ${item.title === "" ? `<button class="add-watchlist-item-button">+</button>` : ''}
+                `;
+            });
+        }
 
         // Attach event listeners to dynamically created buttons
         const changeStatusButtons = document.querySelectorAll('.change-status-button');
         const removeButtons = document.querySelectorAll('.remove-button');
         const watchButtons = document.querySelectorAll('.watch-button');
+        const editButtons = document.querySelectorAll('.edit-watchlist-item-button');
+        const addButtons = document.querySelectorAll('.add-watchlist-item-button');
 
         changeStatusButtons.forEach(button => {
             button.addEventListener('click', () => changeStatus(button.dataset.index));
@@ -61,6 +70,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
         watchButtons.forEach(button => {
             button.addEventListener('click', () => watchMovie(button.dataset.link));
+        });
+
+        editButtons.forEach(button => {
+            button.addEventListener('click', () => editWatchlistItem(button.dataset.index));
+        });
+
+        addButtons.forEach(button => {
+            button.addEventListener('click', () => addWatchlistItem());
         });
     }
 
@@ -84,6 +101,18 @@ document.addEventListener("DOMContentLoaded", function() {
             saveWatchlistData(); // Save changes to localStorage
             renderWatchlist();
         }
+    }
+
+    function editWatchlistItem(index) {
+        // Implement logic to edit watchlist item
+        // For simplicity, let's assume you have a modal or form for editing
+        console.log("Edit item:", watchlistData[index]);
+    }
+
+    function addWatchlistItem() {
+        // Implement logic to add new watchlist item
+        // For simplicity, let's assume you have a modal or form for adding
+        console.log("Add new item");
     }
 
     addButton.addEventListener("click", function() {
@@ -129,26 +158,18 @@ document.addEventListener("DOMContentLoaded", function() {
     filter.addEventListener("change", renderWatchlist);
     typeFilter.addEventListener("change", renderWatchlist);
 
+    // Toggle edit mode
+    editButton.addEventListener("click", function() {
+        isEditMode = !isEditMode;
+        renderWatchlist();
+    });
+
     renderWatchlist();
 });
 
 // Export button
 const exportButton = document.getElementById("export-button");
 exportButton.addEventListener("click", exportWatchlist);
-
-// Export watchlist function
-function exportWatchlist() {
-    const data = JSON.stringify(watchlistData);
-    const blob = new Blob([data], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "watchlist.json";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-}
 
 // Import watchlist function
 function importWatchlist(event) {
