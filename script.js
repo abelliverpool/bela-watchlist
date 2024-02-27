@@ -11,9 +11,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const linkInput = document.getElementById("link-input");
     const releaseDateInput = document.getElementById("release-date-input");
     const statusSelect = document.getElementById("status-select");
-    // Export button
-const exportButton = document.getElementById("export-button");
-exportButton.addEventListener("click", exportWatchlist);
+
     let watchlistData = JSON.parse(localStorage.getItem("watchlistData")) || [];
 
     function saveWatchlistData() {
@@ -129,7 +127,9 @@ exportButton.addEventListener("click", exportWatchlist);
 
     renderWatchlist();
 });
-
+// Export button
+const exportButton = document.getElementById("export-button");
+exportButton.addEventListener("click", exportWatchlist);
 
 // Export watchlist function
 function exportWatchlist() {
