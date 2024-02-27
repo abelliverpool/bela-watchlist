@@ -40,6 +40,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 ${item.releaseDate ? `<p>Release Date: ${item.releaseDate}</p>` : ''}
                 <p>Status: ${item.status}</p>
                 ${isEditMode ? `<button class="edit-watchlist-item-button" data-index="${index}">Edit</button>` : ''}
+                <button class="change-status-button" data-index="${index}">Change Status</button>
+                <button class="remove-button" data-index="${index}">Remove</button>
             `;
             watchlist.appendChild(itemElement);
         });
