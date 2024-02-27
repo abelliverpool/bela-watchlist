@@ -20,38 +20,62 @@ document.addEventListener("DOMContentLoaded", function() {
         localStorage.setItem("watchlistData", JSON.stringify(watchlistData));
     }
 
-    function renderWatchlist() {
-        watchlist.innerHTML = "";
-        const selectedFilter = filter.value;
-        const selectedType = typeFilter.value;
-        const selectedGenre = genreFilter.value.toLowerCase(); // Convert selected genre to lowercase for case-insensitive comparison
+   function renderWatchlist() {
+    watchlist.innerHTML = "";
+    const selectedFilter = filter.value;
+    const selectedType = typeFilter.value;
+    const selectedGenre = genreFilter.value.toLowerCase(); // Convert selected genre to lowercase for case-insensitive comparison
 
-        watchlistData.forEach((item, index) => {
-            const genres = item.genre ? item.genre.map(genre => genre.toLowerCase()) : []; // Convert item's genres to lowercase for case-insensitive comparison
-            const hasMatchingGenre = genres.includes(selectedGenre); // Check if selected genre matches any of the item's genres
+    watchlistData.forEach((item, index) => {
+        const genres = item.genre ? item.genre.map(genre => genre.toLowerCase()) : []; // Convert item's genres to lowercase for case-insensitive comparison
+        const hasMatchingGenre = genres.includes(selectedGenre); // Check if selected genre matches any of the item's genres
 
-            if ((selectedFilter === "all" || item.status === selectedFilter) &&
-                (selectedType === "all" || item.type === selectedType) &&
-                (selectedGenre === "all" || hasMatchingGenre)) { // Use hasMatchingGenre flag
-                const itemElement = document.createElement("div");
-                itemElement.classList.add("watchlist-item");
-                itemElement.innerHTML = `
-                    <h3>${item.title}</h3>
-                    <p>Type: ${item.type}</p>
-                    ${item.type !== "movie" ? `<p>Episodes: ${item.episodes}</p>` : ''}
-                    ${item.type === "series" || item.type === "anime" || item.type === "kdrama" ? `<p>Seasons: ${item.seasons}</p>` : ''}
-                    ${item.image ? `<img src="${item.image}" alt="${item.title}">` : ''}
-                    ${item.link ? `<button class="watch-button" data-link="${item.link}">Watch Here</button>` : ''}
-                    ${item.releaseDate ? `<p>Release Date: ${item.releaseDate}</p>` : ''}
-                    <p>Status: ${item.status}</p>
-                    ${item.genre ? `<p>Genre: ${item.genre.join(", ")}</p>` : ''} <!-- Display genre if available -->
-                    <button class="change-status-button" data-index="${index}">Change Status</button>
-                    <button class="remove-button" data-index="${index}">Remove</button>
-                    <button class="edit-button" data-index="${index}">Edit</button>
-                `;
-                watchlist.appendChild(itemElement);
-            }
-        });
+        if ((selectedFilter === "all" || item.status === selectedFilter) &&
+            (selectedType === "all" || item.type === selectedType) &&
+            (selectedGenre === "all" || hasMatchingGenre)) { // Use hasMatchingGenre flag
+            const itemElement = document.createElement("div");
+            itemElement.classList.add("watchlist-item");
+            itemElement.innerHTML = `
+                <h3>${item.title}</h3>
+                <p>Type: ${item.type}</p>
+                ${item.type !== "movie" ? `<p>Episodes: ${item.episodes}</p>` : ''}
+                ${item.type === "series" || item.type === "anime" || item.type === "kdrama" ? `<p>Seasons: ${item.seasons}</p>` : ''}
+                ${item.image ? `<img src="${item.image}" alt="${item.title}">` : ''}
+                ${item.link ? `<button class="watch-button" data-link="${item.link}">Watch Here</button>` : ''}
+                ${item.releaseDate ? `<p>Release Date: ${item.releaseDate}</p>` : ''}
+                <p>Status: ${item.status}</p>
+                ${item.genre ? `<p>Genre: ${item.genre.join(", ")}</p>` : ''}
+                <button class="change-status-button" data-index="${index}">Change Status</button>
+                <button class="remove-button" data-index="${index}">Remove</button>
+                <button class="edit-button" data-index="${index}">Edit</button>
+            `;
+            watchlist.appendChild(itemElement);
+        }
+    });
+
+    // Attach event listeners to dynamically created buttons
+    const changeStatusButtons = document.querySelectorAll('.change-status-button');
+    const removeButtons = document.querySelectorAll('.remove-button');
+    const watchButtons = document.querySelectorAll('.watch-button');
+    const editButtons = document.querySelectorAll('.edit-button');
+
+    changeStatusButtons.forEach(button => {
+        button.addEventListener('click', () => changeStatus(button.dataset.index));
+    });
+
+    removeButtons.forEach(button => {
+        button.addEventListener('click', () => removeItem(button.dataset.index));
+    });
+
+    watchButtons.forEach(button => {
+        button.addEventListener('click', () => watchMovie(button.dataset.link));
+    });
+
+    editButtons.forEach(button => {
+        button.addEventListener('click', () => editItem(button.dataset.index));
+    });
+}
+
 
         // Attach event listeners to dynamically created buttons
         const changeStatusButtons = document.querySelectorAll('.change-status-button');
@@ -125,6 +149,18 @@ document.addEventListener("DOMContentLoaded", function() {
         saveWatchlistData(); // Save changes to localStorage
         renderWatchlist();
     }
+
+    function toggleEpisodesAndSeasonsInputs() {
+        if (typeSelect.value === "anime" || typeSelect.value === "series" || typeSelect.value === "kdrama") {
+            episodesInput.style.display = "block";
+            seasonsInput.style.display = "block";
+        } else {
+            episodesInput.style.display = "none";
+            seasonsInput.style.display = "none";
+        }
+    }
+
+    typeSelect.addEventListener("change", toggleEpisodesAndSeasonsInputs);
 
     addButton.addEventListener("click", function() {
         const title = titleInput.value.trim();
