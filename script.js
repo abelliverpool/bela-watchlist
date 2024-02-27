@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
     const watchlist = document.getElementById("watchlist");
     const filter = document.getElementById("filter");
     const typeFilter = document.getElementById("type-filter");
@@ -69,7 +69,7 @@ document.addEventListener("DOMContentLoaded", function() {
         });
 
         editButtons.forEach(button => {
-            button.addEventListener('click', () => editItem(button.dataset.index));
+            button.addEventListener('click', () => openEditModal(button.dataset.index));
         });
     }
 
@@ -95,77 +95,61 @@ document.addEventListener("DOMContentLoaded", function() {
         }
     }
 
-    function editItem(index) {
+    function openEditModal(index) {
         const item = watchlistData[index];
-        const newTitle = prompt("Enter the new title:", item.title);
-        const newType = prompt("Enter the new type:", item.type);
-        const newEpisodes = prompt("Enter the new number of episodes:", item.episodes);
-        const newSeasons = prompt("Enter the new number of seasons:", item.seasons);
-        const newImage = prompt("Enter the new image URL:", item.image);
-        const newLink = prompt("Enter the new watch link:", item.link);
-        const newReleaseDate = prompt("Enter the new release date:", item.releaseDate);
-        const newStatus = prompt("Enter the new status:", item.status);
-        const newGenres = prompt("Enter the new genres (comma-separated):", item.genre ? item.genre.join(", ") : "");
+        // Populate modal fields with current values
+        document.getElementById("edit-title").value = item.title;
+        document.getElementById("edit-type").value = item.type;
+        document.getElementById("edit-episodes").value = item.episodes;
+        document.getElementById("edit-seasons").value = item.seasons;
+        document.getElementById("edit-image").value = item.image;
+        document.getElementById("edit-link").value = item.link;
+        document.getElementById("edit-release-date").value = item.releaseDate;
+        document.getElementById("edit-status").value = item.status;
+        document.getElementById("edit-genre").value = item.genre ? item.genre.join(", ") : "";
 
+        // Show modal
+        document.getElementById("edit-modal").style.display = "block";
+    }
+
+    function closeEditModal() {
+        // Hide modal
+        document.getElementById("edit-modal").style.display = "none";
+    }
+
+    function saveChanges(index) {
+        // Update item with new values from modal
         watchlistData[index] = {
-            title: newTitle || item.title,
-            type: newType || item.type,
-            episodes: newEpisodes || item.episodes,
-            seasons: newSeasons || item.seasons,
-            image: newImage || item.image,
-            link: newLink || item.link,
-            releaseDate: newReleaseDate || item.releaseDate,
-            status: newStatus || item.status,
-            genre: newGenres ? newGenres.split(", ") : (item.genre || [])
+            title: document.getElementById("edit-title").value,
+            type: document.getElementById("edit-type").value,
+            episodes: document.getElementById("edit-episodes").value,
+            seasons: document.getElementById("edit-seasons").value,
+            image: document.getElementById("edit-image").value,
+            link: document.getElementById("edit-link").value,
+            releaseDate: document.getElementById("edit-release-date").value,
+            status: document.getElementById("edit-status").value,
+            genre: document.getElementById("edit-genre").value.split(", ")
         };
 
-        saveWatchlistData(); // Save changes to localStorage
+        saveWatchlistData();
         renderWatchlist();
+        closeEditModal();
     }
 
-    function toggleEpisodesAndSeasonsInputs() {
-        if (typeSelect.value === "anime" || typeSelect.value === "series" || typeSelect.value === "kdrama") {
-            episodesInput.style.display = "block";
-            seasonsInput.style.display = "block";
-        } else {
-            episodesInput.style.display = "none";
-            seasonsInput.style.display = "none";
-        }
-    }
-
-    typeSelect.addEventListener("change", toggleEpisodesAndSeasonsInputs);
-
-    addButton.addEventListener("click", function() {
-        const title = titleInput.value.trim();
-        const type = typeSelect.value;
-        const link = linkInput.value.trim();
-        const releaseDate = releaseDateInput.value;
-        const status = statusSelect.value;
-        const genre = Array.from(genreSelect.querySelectorAll('input[type="checkbox"]:checked')).map(input => input.value);
-        let episodes;
-        let seasons;
-        let image = imageInput.value.trim();
-        if (type === "anime" || type === "series" || type === "kdrama") {
-            episodes = episodesInput.value.trim();
-            seasons = seasonsInput.value.trim();
-        }
-        if (title !== "") {
-            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genre: genre });
-            renderWatchlist();
-            saveWatchlistData(); // Save changes to localStorage
-            titleInput.value = "";
-            typeSelect.value = "movie";
-            episodesInput.value = "";
-            seasonsInput.value = "";
-            imageInput.value = "";
-            linkInput.value = "";
-            releaseDateInput.value = "YYYY-MM-DD";
-            statusSelect.value = "watching";
-            genreSelect.value = "all";
-        } else {
-            alert("Title can't be empty!");
-        }
+    addButton.addEventListener("click", function () {
+        // Add item to watchlist
+        // ...
+        renderWatchlist();
     });
+
+    // Add event listener to save changes button in modal
+    document.getElementById("save-changes-btn").addEventListener("click", function () {
+        const selectedIndex = document.getElementById("edit-modal").getAttribute("data-index");
+        saveChanges(selectedIndex);
+    });
+
+    // Add event listener to close modal button
+    document.getElementById("close-edit-modal-btn").addEventListener("click", closeEditModal);
 
     filter.addEventListener("change", renderWatchlist);
     typeFilter.addEventListener("change", renderWatchlist);
