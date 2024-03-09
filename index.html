@@ -16,76 +16,90 @@
       <div class="bar"></div>
       <div class="bar"></div>
     </div>
+    <div class="nav-links">
+      <a href="#">Log In</a>
+      <a href="#">About Us</a>
+      <a href="#">Info</a>
+    </div>
   </div>
 </nav>
 
 <div class="container">
   <div class="background-image"></div>
   <div class="scrollable-content">
-    <div class="video-background">
-      <video autoplay loop muted>
-        <source src="https://videocdn.cdnpk.net/joy/content/video/free/video0485/large_preview/_import_61c07a564c1b19.29330319.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
+    <button id="add-button">ADD</button>
+    <div class="add-movie-container" style="display: none;">
+      <div class="add-movie">
+        <input type="text" id="title-input" placeholder="Enter movie or series title">
+        <select id="type-select">
+          <option value="all">All Types</option>
+          <option value="movie">Movie</option>
+          <option value="series">Series</option>
+          <option value="anime">Anime</option>
+          <option value="kdrama">Kdrama</option>
+        </select>
+        <input type="number" id="episodes-input" placeholder="Number of episodes" style="display: none;">
+        <input type="number" id="seasons-input" placeholder="Number of seasons" style="display: none;">
+        <input type="text" id="image-input" placeholder="Image URL">
+        <input type="text" id="link-input" placeholder="Enter watch link">
+        <input type="text" id="release-date-input" placeholder="Release Date (e.g., Mar, Dec)">
+        <select id="status-select">
+          <option value="all">All Status</option>
+          <option value="watching">Watching</option>
+          <option value="watched">Watched</option>
+          <option value="plan-to-watch">Plan to Watch</option>
+          <option value="completed">Completed</option>
+          <option value="dropped">Dropped</option>
+        </select>
+        <div class="genres">
+          <label for="genre-select">Genre:</label>
+          <select id="genre-select" multiple>
+            <option value="all">All Genres</option>
+            <option value="action">Action</option>
+            <option value="adventure">Adventure</option>
+            <option value="sci-fi">Sci-Fi</option>
+            <option value="fantasy">Fantasy</option>
+            <option value="drama">Drama</option>
+            <option value="thriller">Thriller</option>
+            <option value="comedy">Comedy</option>
+            <option value="horror">Horror</option>
+          </select>
+        </div>
+        <button id="submit-button">Submit</button>
+      </div>
     </div>
 
-    <div class="add-movie">
-      <input type="text" id="title-input" placeholder="Enter movie or series title">
-      <select id="type-select">
-        <option value="movie">Movie</option>
-        <option value="series">Series</option>
-        <option value="anime">Anime</option>
-        <option value="kdrama">Kdrama</option>
-      </select>
-      <input type="number" id="episodes-input" placeholder="Number of episodes" style="display: none;">
-      <input type="number" id="seasons-input" placeholder="Number of seasons" style="display: none;">
-      <input type="text" id="image-input" placeholder="Image URL">
-      <input type="text" id="link-input" placeholder="Enter watch link">
-      <input type="date" id="release-date-input" placeholder="Release Date" value="YYYY-MM-DD">
-      <select id="status-select">
-        <option value="watching">Watching</option>
-        <option value="watched">Watched</option>
-        <option value="plan-to-watch">Plan to Watch</option>
-        <option value="completed">Completed</option>
-        <option value="dropped">Dropped</option>
-      </select>
-      <select id="genre-select" multiple>
-        <option value="action">Action</option>
-        <option value="comedy">Comedy</option>
-        <option value="drama">Drama</option>
-        <option value="horror">Horror</option>
-        <option value="romance">Romance</option>
-        <!-- Add more genres here -->
-      </select>
-      <button id="add-button">Add Movie</button>
+    <div class="search-bar">
+      <input type="text" id="search-input" placeholder="Search...">
     </div>
- 
+
     <select id="filter" class="animated-select">
       <option value="all">All</option>
-      <option value="watched">Watched</option>
-      <option value="plan-to-watch">Plan to Watch</option>
-      <option value="completed">Completed</option>
-      <option value="dropped">Dropped</option>
-    </select>
-
-    <select id="type-filter" class="animated-select">
-      <option value="all">All Types</option>
       <option value="movie">Movie</option>
       <option value="series">Series</option>
       <option value="anime">Anime</option>
       <option value="kdrama">Kdrama</option>
     </select>
 
-    <select id="genre-filter" class="animated-select" multiple>
+    <select id="genre-filter" class="animated-select">
       <option value="all">All Genres</option>
       <option value="action">Action</option>
-      <option value="comedy">Comedy</option>
-      <option value="drama">Drama</option>
-      <option value="horror">Horror</option>
-      <option value="romance">Romance</option>
-      <option value="animation">Animation</option>
       <option value="adventure">Adventure</option>
-      <!-- Add more genres here -->
+      <option value="sci-fi">Sci-Fi</option>
+      <option value="fantasy">Fantasy</option>
+      <option value="drama">Drama</option>
+      <option value="thriller">Thriller</option>
+      <option value="comedy">Comedy</option>
+      <option value="horror">Horror</option>
+    </select>
+
+    <select id="status-filter" class="animated-select">
+      <option value="all">All Status</option>
+      <option value="watching">Watching</option>
+      <option value="watched">Watched</option>
+      <option value="plan-to-watch">Plan to Watch</option>
+      <option value="completed">Completed</option>
+      <option value="dropped">Dropped</option>
     </select>
 
     <div id="watchlist" class="watchlist-container"></div>
