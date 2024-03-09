@@ -1,8 +1,9 @@
 document.addEventListener("DOMContentLoaded", function() {
     const watchlist = document.getElementById("watchlist");
     const filter = document.getElementById("filter");
-    const typeFilter = document.getElementById("type-filter");
     const genreFilter = document.getElementById("genre-filter");
+    const statusFilter = document.getElementById("status-filter");
+    const searchInput = document.getElementById("search-input");
     const addButton = document.getElementById("add-button");
     const titleInput = document.getElementById("title-input");
     const typeSelect = document.getElementById("type-select");
@@ -13,75 +14,53 @@ document.addEventListener("DOMContentLoaded", function() {
     const releaseDateInput = document.getElementById("release-date-input");
     const statusSelect = document.getElementById("status-select");
     const genreSelect = document.getElementById("genre-select");
-
+    const addMovieContainer = document.querySelector(".add-movie-container");
+    const submitButton = document.getElementById("submit-button");
+    
     let watchlistData = JSON.parse(localStorage.getItem("watchlistData")) || [];
 
     function saveWatchlistData() {
         localStorage.setItem("watchlistData", JSON.stringify(watchlistData));
     }
 
-   function renderWatchlist() {
-    watchlist.innerHTML = "";
-    const selectedFilter = filter.value;
-    const selectedType = typeFilter.value;
-    const selectedGenre = genreFilter.value.toLowerCase(); // Convert selected genre to lowercase for case-insensitive comparison
+    function renderWatchlist() {
+        watchlist.innerHTML = "";
+        const selectedFilter = filter.value;
+        const selectedGenre = genreFilter.value;
+        const selectedStatus = statusFilter.value;
+        const searchTerm = searchInput.value.toLowerCase();
 
-    watchlistData.forEach((item, index) => {
-        const genres = item.genre ? item.genre.map(genre => genre.toLowerCase()) : []; // Convert item's genres to lowercase for case-insensitive comparison
-        const hasMatchingGenre = genres.includes(selectedGenre); // Check if selected genre matches any of the item's genres
-
-        if ((selectedFilter === "all" || item.status === selectedFilter) &&
-            (selectedType === "all" || item.type === selectedType) &&
-            (selectedGenre === "all" || hasMatchingGenre)) { // Use hasMatchingGenre flag
-            const itemElement = document.createElement("div");
-            itemElement.classList.add("watchlist-item");
-            itemElement.innerHTML = `
-                <h3>${item.title}</h3>
-                <p>Type: ${item.type}</p>
-                ${item.type !== "movie" ? `<p>Episodes: ${item.episodes}</p>` : ''}
-                ${item.type === "series" || item.type === "anime" || item.type === "kdrama" ? `<p>Seasons: ${item.seasons}</p>` : ''}
-                ${item.image ? `<img src="${item.image}" alt="${item.title}">` : ''}
-                ${item.link ? `<button class="watch-button" data-link="${item.link}">Watch Here</button>` : ''}
-                ${item.releaseDate ? `<p>Release Date: ${item.releaseDate}</p>` : ''}
-                <p>Status: ${item.status}</p>
-                ${item.genre ? `<p>Genre: ${item.genre.join(", ")}</p>` : ''}
-                <button class="change-status-button" data-index="${index}">Change Status</button>
-                <button class="remove-button" data-index="${index}">Remove</button>
-                <button class="edit-button" data-index="${index}">Edit</button>
-            `;
-            watchlist.appendChild(itemElement);
-        }
-    });
-
-    // Attach event listeners to dynamically created buttons
-    const changeStatusButtons = document.querySelectorAll('.change-status-button');
-    const removeButtons = document.querySelectorAll('.remove-button');
-    const watchButtons = document.querySelectorAll('.watch-button');
-    const editButtons = document.querySelectorAll('.edit-button');
-
-    changeStatusButtons.forEach(button => {
-        button.addEventListener('click', () => changeStatus(button.dataset.index));
-    });
-
-    removeButtons.forEach(button => {
-        button.addEventListener('click', () => removeItem(button.dataset.index));
-    });
-
-    watchButtons.forEach(button => {
-        button.addEventListener('click', () => watchMovie(button.dataset.link));
-    });
-
-    editButtons.forEach(button => {
-        button.addEventListener('click', () => editItem(button.dataset.index));
-    });
-}
-
+        watchlistData.forEach((item, index) => {
+            if ((selectedFilter === "all" || item.type === selectedFilter) &&
+                ((selectedGenre === "all") || 
+                (selectedGenre !== "all" && item.genres && item.genres.includes(selectedGenre))) &&
+                ((selectedStatus === "all") || 
+                (selectedStatus !== "all" && item.status === selectedStatus)) &&
+                (item.title.toLowerCase().includes(searchTerm) || 
+                (item.genres && item.genres.some(genre => genre.toLowerCase().includes(searchTerm))))) {
+                const itemElement = document.createElement("div");
+                itemElement.classList.add("watchlist-item");
+                itemElement.style.backgroundImage = item.image ? `url('${item.image}')` : '';
+                itemElement.innerHTML = `
+                    <h3 class="editable" data-property="title">${item.title}</h3>
+                    <p>Type: ${item.type}</p>
+                    ${item.type !== "movie" ? `<p>Episodes: <span class="editable" data-property="episodes">${item.episodes}</span></p>` : ''}
+                    ${item.type === "series" || item.type === "anime" || item.type === "kdrama" ? `<p>Seasons: <span class="editable" data-property="seasons">${item.seasons}</span></p>` : ''}
+                    ${item.link ? `<button class="watch-now-button" data-link="${item.link}">Watch Now</button>` : ''}
+                    <p>Status: <span class="editable" data-property="status">${item.status}</span></p>
+                    <p>Genres: <span class="editable" data-property="genres">${item.genres ? item.genres.join(", ") : 'N/A'}</span></p>
+                    <p>Release Date: <span class="editable" data-property="releaseDate">${item.releaseDate}</span></p>
+                    <button class="change-status-button" data-index="${index}">Change Status</button>
+                    <button class="remove-button" data-index="${index}">Remove</button>
+                `;
+                watchlist.appendChild(itemElement);
+            }
+        });
 
         // Attach event listeners to dynamically created buttons
         const changeStatusButtons = document.querySelectorAll('.change-status-button');
         const removeButtons = document.querySelectorAll('.remove-button');
-        const watchButtons = document.querySelectorAll('.watch-button');
-        const editButtons = document.querySelectorAll('.edit-button');
+        const editableFields = document.querySelectorAll('.editable');
 
         changeStatusButtons.forEach(button => {
             button.addEventListener('click', () => changeStatus(button.dataset.index));
@@ -91,17 +70,20 @@ document.addEventListener("DOMContentLoaded", function() {
             button.addEventListener('click', () => removeItem(button.dataset.index));
         });
 
-        watchButtons.forEach(button => {
-            button.addEventListener('click', () => watchMovie(button.dataset.link));
+        editableFields.forEach(field => {
+            field.addEventListener('click', startEditing);
         });
 
-        editButtons.forEach(button => {
-            button.addEventListener('click', () => editItem(button.dataset.index));
-        });
-    }
+        // Attach event listeners to watch-now buttons
+        const watchNowButtons = document.querySelectorAll('.watch-now-button');
 
-    function watchMovie(link) {
-        window.open(link, '_blank');
+        watchNowButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const link = button.dataset.link;
+                // Open link in a new tab
+                window.open(link, '_blank');
+            });
+        });
     }
 
     function changeStatus(index) {
@@ -110,65 +92,29 @@ document.addEventListener("DOMContentLoaded", function() {
         const newIndex = (currentIndex + 1) % statusOptions.length;
         watchlistData[index].status = statusOptions[newIndex];
         renderWatchlist();
-        saveWatchlistData(); // Save changes to localStorage
+        saveWatchlistData();
     }
 
     function removeItem(index) {
         const confirmation = confirm("Are you sure you want to remove this item from the watchlist?");
         if (confirmation) {
             watchlistData.splice(index, 1);
-            saveWatchlistData(); // Save changes to localStorage
+            saveWatchlistData();
             renderWatchlist();
         }
     }
 
-    function editItem(index) {
-        const item = watchlistData[index];
-        const newTitle = prompt("Enter the new title:", item.title);
-        const newType = prompt("Enter the new type:", item.type);
-        const newEpisodes = prompt("Enter the new number of episodes:", item.episodes);
-        const newSeasons = prompt("Enter the new number of seasons:", item.seasons);
-        const newImage = prompt("Enter the new image URL:", item.image);
-        const newLink = prompt("Enter the new watch link:", item.link);
-        const newReleaseDate = prompt("Enter the new release date:", item.releaseDate);
-        const newStatus = prompt("Enter the new status:", item.status);
-        const newGenres = prompt("Enter the new genres (comma-separated):", item.genre ? item.genre.join(", ") : "");
-
-        watchlistData[index] = {
-            title: newTitle || item.title,
-            type: newType || item.type,
-            episodes: newEpisodes || item.episodes,
-            seasons: newSeasons || item.seasons,
-            image: newImage || item.image,
-            link: newLink || item.link,
-            releaseDate: newReleaseDate || item.releaseDate,
-            status: newStatus || item.status,
-            genre: newGenres ? newGenres.split(", ") : (item.genre || [])
-        };
-
-        saveWatchlistData(); // Save changes to localStorage
-        renderWatchlist();
-    }
-
-    function toggleEpisodesAndSeasonsInputs() {
-        if (typeSelect.value === "anime" || typeSelect.value === "series" || typeSelect.value === "kdrama") {
-            episodesInput.style.display = "block";
-            seasonsInput.style.display = "block";
-        } else {
-            episodesInput.style.display = "none";
-            seasonsInput.style.display = "none";
-        }
-    }
-
-    typeSelect.addEventListener("change", toggleEpisodesAndSeasonsInputs);
-
     addButton.addEventListener("click", function() {
+        addMovieContainer.style.display = "block";
+    });
+
+    submitButton.addEventListener("click", function() {
         const title = titleInput.value.trim();
         const type = typeSelect.value;
         const link = linkInput.value.trim();
         const releaseDate = releaseDateInput.value;
         const status = statusSelect.value;
-        const genre = Array.from(genreSelect.querySelectorAll('input[type="checkbox"]:checked')).map(input => input.value);
+        const genres = [...genreSelect.selectedOptions].map(option => option.value);
         let episodes;
         let seasons;
         let image = imageInput.value.trim();
@@ -177,26 +123,92 @@ document.addEventListener("DOMContentLoaded", function() {
             seasons = seasonsInput.value.trim();
         }
         if (title !== "") {
-            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genre: genre });
+            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genres: genres });
             renderWatchlist();
-            saveWatchlistData(); // Save changes to localStorage
+            saveWatchlistData();
             titleInput.value = "";
-            typeSelect.value = "movie";
             episodesInput.value = "";
             seasonsInput.value = "";
             imageInput.value = "";
             linkInput.value = "";
-            releaseDateInput.value = "YYYY-MM-DD";
-            statusSelect.value = "watching";
-            genreSelect.value = "all";
+            releaseDateInput.value = "";
+            genreSelect.selectedIndex = -1;
+            addMovieContainer.style.display = "none";
         } else {
-            alert("Title can't be empty!");
+            alert("Please enter a valid movie or series title.");
         }
     });
 
-    filter.addEventListener("change", renderWatchlist);
-    typeFilter.addEventListener("change", renderWatchlist);
-    genreFilter.addEventListener("change", renderWatchlist);
+    typeSelect.addEventListener("change", function() {
+        if (typeSelect.value === "movie") {
+            episodesInput.style.display = "none";
+            seasonsInput.style.display = "none";
+        } else {
+            episodesInput.style.display = "inline-block";
+            seasonsInput.style.display = "inline-block";
+        }
+    });
 
-    renderWatchlist(); // Initial rendering
+    function startEditing(event) {
+        const element = event.target;
+        const property = element.dataset.property;
+        const value = element.textContent;
+
+        const input = document.createElement('input');
+        input.value = value;
+
+        input.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                saveChanges(input, property);
+            }
+        });
+        element.replaceWith(input);
+        input.select();
+        input.focus();
+
+        input.addEventListener('blur', function() {
+            saveChanges(input, property);
+        });
+    }
+
+    function saveChanges(input, property) {
+        const newValue = input.value;
+        const span = document.createElement('span');
+        span.textContent = newValue;
+        span.classList.add('editable');
+        span.dataset.property = property;
+    
+        input.replaceWith(span);
+    
+        span.addEventListener('click', startEditing);
+    
+        // Update watchlistData with the new value
+        const index = parseInt(span.parentNode.querySelector('.change-status-button').dataset.index);
+        if (property === 'title') {
+            watchlistData[index].title = newValue;
+        } else if (property === 'status') {
+            watchlistData[index].status = newValue;
+        } else if (property === 'genres') {
+            watchlistData[index].genres = newValue.split(',').map(genre => genre.trim());
+        } else if (property === 'episodes') {
+            watchlistData[index].episodes = newValue;
+        } else if (property === 'seasons') {
+            watchlistData[index].seasons = newValue;
+        } else if (property === 'releaseDate') {
+            watchlistData[index].releaseDate = newValue;
+        }
+    
+        // Save the updated watchlistData
+        saveWatchlistData();
+    
+        console.log(`Updated ${property} to ${newValue}`);
+    }
+    
+
+    filter.addEventListener("change", renderWatchlist);
+    genreFilter.addEventListener("change", renderWatchlist);
+    statusFilter.addEventListener("change", renderWatchlist);
+    searchInput.addEventListener("input", renderWatchlist);
+
+    renderWatchlist();
 });
