@@ -8,25 +8,77 @@ body {
 }
 
 .container {
-    max-width: px;
+    max-width: 1200px; /* Adjust max-width value */
     margin: 0 auto;
     padding: 20px;
     position: relative;
     color: rgba(255, 255, 255, 0.8); /* Transparent white text color */
 }
 
-.background-video {
+
+.menu-toggle {
+    display: none;
+}
+
+.nav-links a {
+    color: #fff;
+    margin-left: 20px;
+    text-decoration: none;
+}
+
+.nav-links a:hover {
+    color: #ff5722;
+}
+
+.add-movie .genres {
+    margin-bottom: 20px;
+}
+
+.genres label {
+    color: #fff;
+    margin-right: 10px;
+}
+
+.genres select {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: rgba(94, 55, 55, 0.1);
+    color: #fff;
+    width: 200px;
+}
+
+.search-bar {
+    position:fixed;
+    top: 20px;
+    right: 20px; 
+}
+
+.search-bar input[type="text"] {
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: rgba(94, 55, 55, 0.5);
+    color: #fff;
+    width: 200px;
+}
+
+/* Rest of your styles... */
+
+
+.video-background {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('https://videocdn.cdnpk.net/joy/content/video/free/video0485/large_preview/_import_61c07a564c1b19.29330319.mp4');
-    background-size: cover;
-    background-position: center;
-    filter: brightness(0.5);
     z-index: -1;
     overflow: hidden;
+}
+
+.video-background video {
+    min-width: 100%;
+    min-height: 100%;
 }
 
 h1 {
@@ -57,10 +109,9 @@ h1 {
     width: 200px;
 }
 
-#add-button,
+.add-movie button,
 .change-status-button,
-.remove-button,
-.watch-button {
+.remove-button {
     padding: 10px 20px;
     background-color: #ff5722;
     color: #ffffff;
@@ -70,24 +121,20 @@ h1 {
     transition: background-color 0.3s ease;
 }
 
-#add-button:hover,
+.add-movie button:hover,
 .change-status-button:hover,
-.remove-button:hover,
-.watch-button:hover {
+.remove-button:hover {
     background-color: #f44336;
 }
 
-#watchlist {
-    margin-top: 20px;
-}
 .watchlist-item {
     border: 1px solid #ccc;
     padding: 20px;
-    margin-bottom: 20px; /* Increase margin */
+    margin-bottom: 20px;
     border-radius: 4px;
     position: relative;
-    background-size: cover; /* Adjust background size */
-    background-position: center; /* Center the background image */
+    background-size: cover;
+    background-position: center;
     cursor: pointer;
 }
 
@@ -108,11 +155,85 @@ h1 {
 
 @media (min-width: 768px) {
     .watchlist-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Adjust for medium size */
+        display:grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
         grid-gap: 20px;
     }
 }
+@media (max-width: 768px) {
+    .add-movie {
+        flex-direction: column;
+    }
+
+    .add-movie input,
+    .add-movie select {
+        margin-bottom: 10px;
+    }
+}
+
+@media (min-width: 769px) {
+    .add-movie {
+        flex-direction: row;
+        align-items: flex-start;
+        flex-wrap: wrap;
+    }
+
+    .add-movie > * {
+        flex: 1 1 50%;
+        padding-right: 10px;
+        box-sizing: border-box;
+    }
+
+    .add-movie input[type="text"],
+    .add-movie input[type="number"],
+    .add-movie select {
+        width: 100%;
+    }
+}
+
+#add-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+#add-button:hover {
+    background-color: #45a049;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+}
+
+#add-button:active {
+    background-color: #3e8e41;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+}
+.watch-now-button {
+    background-color: #008CBA;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 10px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.watch-now-button:hover {
+    background-color: #005f75;
+}
+
+.watch-now-button:active {
+    background-color: #004a5b;
+}
+
 
 .animated-select {
     appearance: none;
@@ -140,103 +261,17 @@ h1 {
 .animated-select option {
     background-color: #fff;
 }
-
-/* Animation */
-@keyframes slideIn {
-    from {
-        transform: translateY(-100%);
+/* Example of media queries for responsiveness */
+@media (max-width: 768px) {
+    /* Styles for smaller screens */
+    .container {
+        padding: 10px; /* Adjust padding for smaller screens */
     }
-    to {
-        transform: translateY(0);
-    }
+    /* Additional responsive styles as needed */
+}
+/* Example of dark mode toggle */
+body.dark-mode {
+    background-color: #1a1a1a;
+    color: #ffffff;
 }
 
-@-webkit-keyframes slideIn {
-    from {
-        -webkit-transform: translateY(-100%);
-    }
-    to {
-        -webkit-transform: translateY(0);
-    }
-}
-
-.animated-select {
-    animation: slideIn 0.5s ease forwards;
-}
-
-@-webkit-keyframes slideIn {
-    from {
-        -webkit-transform: translateY(-100%);
-    }
-    to {
-        -webkit-transform: translateY(0);
-    }
-}
-
-.video-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: -1;
-    overflow: hidden;
-}
-
-.video-background video {
-    min-width: 100%;
-    min-height: 100%;
-}
-#release-date-input {
-    padding: 10px;
-    font-size: 16px;
-    border: 2px solid transparent;
-    border-radius: 4px;
-    transition: border-color 0.3s ease;
-    background-color: #000; /* Black background color */
-    color: #fff; /* White text color */
-    margin-right: 5px;
-}
-
-#release-date-input:focus {
-    outline: none;
-    border-color: #ccc; /* Change border color when focused */
-}
-
-#release-date-input::placeholder {
-    color: #ccc;
-}
-
-#export-button {
-    padding: 10px 20px;
-    background-color: #4CAF50; /* Green background */
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#export-button:hover {
-    background-color: #45a049; /* Darker green background on hover */
-}
-#import-file {
-    padding: 10px 20px;
-    background-color: #3498db; /* Blue background */
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-#import-file:hover {
-    background-color: #2980b9; /* Darker blue background on hover */
-}
-
-/* Hide the default file input appearance */
-#import-file {
-    opacity: 0;
-    position: absolute;
-    left: -9999px;
-}
