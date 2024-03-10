@@ -42,19 +42,19 @@ document.addEventListener("DOMContentLoaded", function() {
                 itemElement.classList.add("watchlist-item");
                 itemElement.style.backgroundImage = item.image ? `url('${item.image}')` : '';
                 itemElement.innerHTML = `
-              itemElement.innerHTML = `
-    <div class="watchlist-item" style="background-image: url('${item.image}');">
-        <h3>${item.title}</h3>
-        <p>Type: ${item.type}</p>
-        ${item.type !== "movie" ? `<p>Episodes: ${item.episodes}</p>` : ''}
-        ${item.type === "series" || item.type === "anime" || item.type === "kdrama" ? `<p>Seasons: ${item.seasons}</p>` : ''}
-        ${item.link ? `<button class="watch-now-button" data-link="${item.link}">Watch Now</button>` : ''}
-        <p>Status: ${item.status}</p>
-        <button class="change-status-button" data-index="${index}">Change Status</button>
-        <button class="remove-button" data-index="${index}">Remove</button>
-    </div>
-`;
-
+                <div class="watchlist-item" style="background-image: url('${item.image}');">
+                    <h3 class="editable" data-property="title">${item.title}</h3>
+                    <p>Type: ${item.type}</p>
+                    ${item.type !== "movie" ? `<p>Episodes: <span class="editable" data-property="episodes">${item.episodes}</span></p>` : ''}
+                    ${item.type === "series" || item.type === "anime" || item.type === "kdrama" ? `<p>Seasons: <span class="editable" data-property="seasons">${item.seasons}</span></p>` : ''}                    
+                    <p>Status: <span class="editable" data-property="status">${item.status}</span></p>
+                    <p>Genres: <span class="editable" data-property="genres">${item.genres ? item.genres.join(", ") : 'N/A'}</span></p>
+                    <p>Release Date: <span class="editable" data-property="releaseDate">${item.releaseDate}</span></p>
+                     <button class="watch-now-button" data-link="${item.link}">Watch Now</button>
+                    <button class="change-status-button" data-index="${index}">Change Status</button>
+                    <button class="remove-button" data-index="${index}">Remove</button>
+                    
+                `;
                 watchlist.appendChild(itemElement);
             }
         });
