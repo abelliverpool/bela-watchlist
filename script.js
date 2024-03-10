@@ -49,9 +49,9 @@ document.addEventListener("DOMContentLoaded", function() {
                     <p>Status: <span class="editable" data-property="status">${item.status}</span></p>
                     <p>Genres: <span class="editable" data-property="genres">${item.genres ? item.genres.join(", ") : 'N/A'}</span></p>
                     <p>Release Date: <span class="editable" data-property="releaseDate">${item.releaseDate}</span></p>
-                     ${item.link ? `<button class="watch-now-button" data-link="${item.link}">Watch Now</button>` : ''}
                     <button class="change-status-button" data-index="${index}">Change Status</button>
                     <button class="remove-button" data-index="${index}">Remove</button>
+                     ${item.link ? `<button class="watch-now-button" data-link="${item.link}">Watch Now</button>` : ''}
                 `;
                 watchlist.appendChild(itemElement);
             }
