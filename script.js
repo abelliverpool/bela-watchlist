@@ -40,9 +40,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 (item.genres && item.genres.some(genre => genre.toLowerCase().includes(searchTerm))))) {
                 const itemElement = document.createElement("div");
                 itemElement.classList.add("watchlist-item");
-                itemElement.style.backgroundImage = item.image ? `url('${item.image}')` : '';
+                
                 itemElement.innerHTML = `
-                <div class="watchlist-item" style="background-image: url('${item.image}');">
+                   <div class="watchlist-item" style="background-image: url('${item.image}');">
                     <h3 class="editable" data-property="title">${item.title}</h3>
                     <p>Type: ${item.type}</p>
                     ${item.type !== "movie" ? `<p>Episodes: <span class="editable" data-property="episodes">${item.episodes}</span></p>` : ''}
@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function() {
                     <p>Status: <span class="editable" data-property="status">${item.status}</span></p>
                     <p>Genres: <span class="editable" data-property="genres">${item.genres ? item.genres.join(", ") : 'N/A'}</span></p>
                     <p>Release Date: <span class="editable" data-property="releaseDate">${item.releaseDate}</span></p>
-                     <button class="watch-now-button" data-link="${item.link}">Watch Now</button>
+                    <button class="watch-now-button" data-link="${item.link}">Watch Now</button>
                     <button class="change-status-button" data-index="${index}">Change Status</button>
                     <button class="remove-button" data-index="${index}">Remove</button>
                     
