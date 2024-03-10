@@ -40,7 +40,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 (item.genres && item.genres.some(genre => genre.toLowerCase().includes(searchTerm))))) {
                 const itemElement = document.createElement("div");
                 itemElement.classList.add("watchlist-item");
-                itemElement.style.backgroundImage = item.image ? `url('${item.image}')` : ''; 
+                
                 itemElement.innerHTML = `
                     <h3 class="editable" data-property="title">${item.title}</h3>
                     <p>Type: ${item.type}</p>
