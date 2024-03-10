@@ -171,38 +171,39 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    function saveChanges(input, property) {
-        const newValue = input.value;
-        const span = document.createElement('span');
-        span.textContent = newValue;
-        span.classList.add('editable');
-        span.dataset.property = property;
-    
-        input.replaceWith(span);
-    
-        span.addEventListener('click', startEditing);
-    
-        // Update watchlistData with the new value
-        const index = parseInt(span.parentNode.querySelector('.change-status-button').dataset.index);
-        if (property === 'title') {
-            watchlistData[index].title = newValue;
-        } else if (property === 'status') {
-            watchlistData[index].status = newValue;
-        } else if (property === 'genres') {
-            watchlistData[index].genres = newValue.split(',').map(genre => genre.trim());
-        } else if (property === 'episodes') {
-            watchlistData[index].episodes = newValue;
-        } else if (property === 'seasons') {
-            watchlistData[index].seasons = newValue;
-        } else if (property === 'releaseDate') {
-            watchlistData[index].releaseDate = newValue;
-        }
-    
-        // Save the updated watchlistData
-        saveWatchlistData();
-    
-        console.log(`Updated ${property} to ${newValue}`);
+function saveChanges(input, property) {
+    const newValue = input.value;
+    const span = document.createElement('span');
+    span.textContent = newValue;
+    span.classList.add('editable');
+    span.dataset.property = property;
+
+    input.replaceWith(span);
+
+    span.addEventListener('click', startEditing);
+
+    // Update watchlistData with the new value
+    const index = parseInt(span.parentNode.querySelector('.change-status-button').dataset.index);
+    if (property === 'title') {
+        watchlistData[index].title = newValue;
+    } else if (property === 'status') {
+        watchlistData[index].status = newValue;
+    } else if (property === 'genres') {
+        watchlistData[index].genres = newValue.split(',').map(genre => genre.trim());
+    } else if (property === 'episodes') {
+        watchlistData[index].episodes = newValue;
+    } else if (property === 'seasons') {
+        watchlistData[index].seasons = newValue;
+    } else if (property === 'releaseDate') {
+        watchlistData[index].releaseDate = newValue;
     }
+
+    // Save the updated watchlistData
+    saveWatchlistData();
+
+    console.log(`Updated ${property} to ${newValue}`);
+}
+
     
 
     filter.addEventListener("change", renderWatchlist);
