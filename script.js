@@ -42,6 +42,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 itemElement.classList.add("watchlist-item");
                 itemElement.style.backgroundImage = item.image ? `url('${item.image}')` : '';
                 itemElement.innerHTML = `
+                <div class="watchlist-item" style="background-image: url('${item.image}');">
                     <h3 class="editable" data-property="title">${item.title}</h3>
                     <p>Type: ${item.type}</p>
                     ${item.type !== "movie" ? `<p>Episodes: <span class="editable" data-property="episodes">${item.episodes}</span></p>` : ''}
