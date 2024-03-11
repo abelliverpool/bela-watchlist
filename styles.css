@@ -5,6 +5,7 @@ body {
     font-family: Arial, sans-serif;
     background-color: #000000;
     color: #fff;
+    
 }
 
 .container {
@@ -49,7 +50,7 @@ body {
 }
 
 .search-bar {
-    position:absolute;
+    position:sticky;
     top: 20px;
     right: 20px; 
 }
@@ -83,6 +84,7 @@ body {
 
 h1 {
     text-align: center;
+    position:relative;
 }
 
 /* Styles for the watchlist */
@@ -221,6 +223,7 @@ h1 {
     display: inline-block;
     font-size: 16px;
     margin-top: 10px;
+    margin-bottom:10px;
     cursor: pointer;
     border-radius: 4px;
     transition: background-color 0.3s;
