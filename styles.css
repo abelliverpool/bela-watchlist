@@ -50,7 +50,7 @@ body {
 }
 
 .search-bar {
-    position:sticky;
+    position:absolute;
     top: 20px;
     right: 20px; 
 }
@@ -223,7 +223,7 @@ h1 {
     display: inline-block;
     font-size: 16px;
     margin-top: 10px;
-    margin-bottom:10px;
+    margin-bottom:5px;
     cursor: pointer;
     border-radius: 4px;
     transition: background-color 0.3s;
