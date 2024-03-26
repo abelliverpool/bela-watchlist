@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function() {
     const watchlist = document.getElementById("watchlist");
     const filter = document.getElementById("filter");
@@ -16,7 +17,6 @@ document.addEventListener("DOMContentLoaded", function() {
     const genreSelect = document.getElementById("genre-select");
     const addMovieContainer = document.querySelector(".add-movie-container");
     const submitButton = document.getElementById("submit-button");
-    const randomButton = document.getElementById("random-button");
     
     let watchlistData = JSON.parse(localStorage.getItem("watchlistData")) || [];
 
@@ -126,9 +126,7 @@ document.addEventListener("DOMContentLoaded", function() {
             seasons = seasonsInput.value.trim();
         }
         if (title !== "") {
-            // Add timestamp to the new item
-            const timestamp = Date.now();
-            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genres: genres, timestamp: timestamp });
+            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genres: genres });
             renderWatchlist();
             saveWatchlistData();
             titleInput.value = "";
@@ -176,56 +174,40 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-    function saveChanges(input, property) {
-        const newValue = input.value;
-        const span = document.createElement('span');
-        span.textContent = newValue;
-        span.classList.add('editable');
-        span.dataset.property = property;
+function saveChanges(input, property) {
+    const newValue = input.value;
+    const span = document.createElement('span');
+    span.textContent = newValue;
+    span.classList.add('editable');
+    span.dataset.property = property;
 
-        input.replaceWith(span);
+    input.replaceWith(span);
 
-        span.addEventListener('click', startEditing);
+    span.addEventListener('click', startEditing);
 
-        // Update watchlistData with the new value
-        const index = parseInt(span.parentNode.querySelector('.change-status-button').dataset.index);
-        if (property === 'title') {
-            watchlistData[index].title = newValue;
-        } else if (property === 'status') {
-            watchlistData[index].status = newValue;
-        } else if (property === 'genres') {
-            watchlistData[index].genres = newValue.split(',').map(genre => genre.trim());
-        } else if (property === 'episodes') {
-            watchlistData[index].episodes = newValue;
-        } else if (property === 'seasons') {
-            watchlistData[index].seasons = newValue;
-        } else if (property === 'releaseDate') {
-            watchlistData[index].releaseDate = newValue;
-        }
-
-        // Save the updated watchlistData
-        saveWatchlistData();
-
-        console.log(`Updated ${property} to ${newValue}`);
+    // Update watchlistData with the new value
+    const index = parseInt(span.parentNode.querySelector('.change-status-button').dataset.index);
+    if (property === 'title') {
+        watchlistData[index].title = newValue;
+    } else if (property === 'status') {
+        watchlistData[index].status = newValue;
+    } else if (property === 'genres') {
+        watchlistData[index].genres = newValue.split(',').map(genre => genre.trim());
+    } else if (property === 'episodes') {
+        watchlistData[index].episodes = newValue;
+    } else if (property === 'seasons') {
+        watchlistData[index].seasons = newValue;
+    } else if (property === 'releaseDate') {
+        watchlistData[index].releaseDate = newValue;
     }
 
-    function getRandomWatchlist() {
-        // Clear existing filters
-        filter.value = 'all';
-        genreFilter.value = 'all';
-        statusFilter.value = 'all';
-        searchInput.value = '';
+    // Save the updated watchlistData
+    saveWatchlistData();
 
-        // Render a random watchlist
-        const randomIndex = Math.floor(Math.random() * watchlistData.length);
-        const randomItem = watchlistData[randomIndex];
-        if (randomItem) {
-            watchlistData = [randomItem]; // Set the watchlistData to only contain the random item
-            renderWatchlist();
-        }
-    }
+    console.log(`Updated ${property} to ${newValue}`);
+}
 
-    randomButton.addEventListener('click', getRandomWatchlist);
+    
 
     filter.addEventListener("change", renderWatchlist);
     genreFilter.addEventListener("change", renderWatchlist);
