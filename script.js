@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function() {
     const watchlist = document.getElementById("watchlist");
     const filter = document.getElementById("filter");
@@ -16,8 +17,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const genreSelect = document.getElementById("genre-select");
     const addMovieContainer = document.querySelector(".add-movie-container");
     const submitButton = document.getElementById("submit-button");
-    const sortSelect = document.getElementById("sort-select");
-
+    
     let watchlistData = JSON.parse(localStorage.getItem("watchlistData")) || [];
 
     function saveWatchlistData() {
@@ -31,17 +31,7 @@ document.addEventListener("DOMContentLoaded", function() {
         const selectedStatus = statusFilter.value;
         const searchTerm = searchInput.value.toLowerCase();
 
-        let sortedWatchlist = [...watchlistData];
-
-        if (sortSelect.value === "alphabetical-asc") {
-            sortedWatchlist.sort((a, b) => a.title.localeCompare(b.title));
-        } else if (sortSelect.value === "alphabetical-desc") {
-            sortedWatchlist.sort((a, b) => b.title.localeCompare(a.title));
-        } else if (sortSelect.value === "recently-added") {
-            sortedWatchlist.sort((a, b) => new Date(b.addedDate) - new Date(a.addedDate));
-        }
-
-        sortedWatchlist.forEach((item, index) => {
+        watchlistData.forEach((item, index) => {
             if ((selectedFilter === "all" || item.type === selectedFilter) &&
                 ((selectedGenre === "all") || 
                 (selectedGenre !== "all" && item.genres && item.genres.includes(selectedGenre))) &&
@@ -136,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function() {
             seasons = seasonsInput.value.trim();
         }
         if (title !== "") {
-            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genres: genres, addedDate: new Date().toISOString() });
+            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genres: genres });
             renderWatchlist();
             saveWatchlistData();
             titleInput.value = "";
@@ -153,35 +143,36 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     typeSelect.addEventListener("change", function() {
-        if (typeSelect.value ==="movie") {
-episodesInput.style.display = "none";
-seasonsInput.style.display = "none";
-} else {
-episodesInput.style.display = "inline-block";
-seasonsInput.style.display = "inline-block";
-}
-});
-    function startEditing(event) {
-    const element = event.target;
-    const property = element.dataset.property;
-    const value = element.textContent;
-
-    const input = document.createElement('input');
-    input.value = value;
-
-    input.addEventListener('keypress', function(event) {
-        if (event.key === 'Enter') {
-            saveChanges(input, property);
+        if (typeSelect.value === "movie") {
+            episodesInput.style.display = "none";
+            seasonsInput.style.display = "none";
+        } else {
+            episodesInput.style.display = "inline-block";
+            seasonsInput.style.display = "inline-block";
         }
     });
-    element.replaceWith(input);
-    input.select();
-    input.focus();
 
-    input.addEventListener('blur', function() {
-        saveChanges(input, property);
-    });
-}
+    function startEditing(event) {
+        const element = event.target;
+        const property = element.dataset.property;
+        const value = element.textContent;
+
+        const input = document.createElement('input');
+        input.value = value;
+
+        input.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                saveChanges(input, property);
+            }
+        });
+        element.replaceWith(input);
+        input.select();
+        input.focus();
+
+        input.addEventListener('blur', function() {
+            saveChanges(input, property);
+        });
+    }
 
 function saveChanges(input, property) {
     const newValue = input.value;
@@ -216,11 +207,12 @@ function saveChanges(input, property) {
     console.log(`Updated ${property} to ${newValue}`);
 }
 
-filter.addEventListener("change", renderWatchlist);
-genreFilter.addEventListener("change", renderWatchlist);
-statusFilter.addEventListener("change", renderWatchlist);
-searchInput.addEventListener("input", renderWatchlist);
-sortSelect.addEventListener("change", renderWatchlist);
+    
 
-renderWatchlist();
+    filter.addEventListener("change", renderWatchlist);
+    genreFilter.addEventListener("change", renderWatchlist);
+    statusFilter.addEventListener("change", renderWatchlist);
+    searchInput.addEventListener("input", renderWatchlist);
 
+    renderWatchlist();
+});
