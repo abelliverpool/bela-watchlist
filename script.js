@@ -216,38 +216,3 @@ function saveChanges(input, property) {
 
     renderWatchlist();
 });
-document.addEventListener("DOMContentLoaded", function() {
-    // Your existing code
-
-    // Function to sort watchlist data based on the selected sorting option
-    function sortWatchlistData(sortOption) {
-        switch (sortOption) {
-            case "recently-added":
-                // Sort by the index of each item in the watchlistData array (assuming newer items have higher index)
-                watchlistData.sort((a, b) => watchlistData.indexOf(b) - watchlistData.indexOf(a));
-                break;
-            case "alphabetically-asc":
-                // Sort alphabetically in ascending order by title
-                watchlistData.sort((a, b) => a.title.localeCompare(b.title));
-                break;
-            case "alphabetically-desc":
-                // Sort alphabetically in descending order by title
-                watchlistData.sort((a, b) => b.title.localeCompare(a.title));
-                break;
-            default:
-                // Default sorting option (recently-added)
-                watchlistData.sort((a, b) => watchlistData.indexOf(b) - watchlistData.indexOf(a));
-        }
-
-        // Render the sorted watchlist
-        renderWatchlist();
-    }
-
-    // Event listener for the sort filter
-    const sortFilter = document.getElementById("sort-filter");
-    sortFilter.addEventListener("change", function() {
-        const selectedSortOption = sortFilter.value;
-        sortWatchlistData(selectedSortOption);
-    });
-
-});
