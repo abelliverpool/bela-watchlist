@@ -16,6 +16,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const genreSelect = document.getElementById("genre-select");
     const addMovieContainer = document.querySelector(".add-movie-container");
     const submitButton = document.getElementById("submit-button");
+    const randomButton = document.getElementById("random-button");
     
     let watchlistData = JSON.parse(localStorage.getItem("watchlistData")) || [];
 
@@ -29,9 +30,6 @@ document.addEventListener("DOMContentLoaded", function() {
         const selectedGenre = genreFilter.value;
         const selectedStatus = statusFilter.value;
         const searchTerm = searchInput.value.toLowerCase();
-
-        // Sort the watchlistData based on timestamp
-        watchlistData.sort((a, b) => b.timestamp - a.timestamp);
 
         watchlistData.forEach((item, index) => {
             if ((selectedFilter === "all" || item.type === selectedFilter) &&
@@ -148,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     typeSelect.addEventListener("change", function() {
         if (typeSelect.value === "movie") {
-            episodesInput.style            .display = "none";
+            episodesInput.style.display = "none";
             seasonsInput.style.display = "none";
         } else {
             episodesInput.style.display = "inline-block";
@@ -211,6 +209,24 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log(`Updated ${property} to ${newValue}`);
     }
 
+    function getRandomWatchlist() {
+        // Clear existing filters
+        filter.value = 'all';
+        genreFilter.value = 'all';
+        statusFilter.value = 'all';
+        searchInput.value = '';
+
+        // Render a random watchlist
+        const randomIndex = Math.floor(Math.random() * watchlistData.length);
+        const randomItem = watchlistData[randomIndex];
+        if (randomItem) {
+            watchlistData = [randomItem]; // Set the watchlistData to only contain the random item
+            renderWatchlist();
+        }
+    }
+
+    randomButton.addEventListener('click', getRandomWatchlist);
+
     filter.addEventListener("change", renderWatchlist);
     genreFilter.addEventListener("change", renderWatchlist);
     statusFilter.addEventListener("change", renderWatchlist);
@@ -218,4 +234,3 @@ document.addEventListener("DOMContentLoaded", function() {
 
     renderWatchlist();
 });
-
