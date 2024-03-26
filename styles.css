@@ -218,40 +218,4 @@ h1 {
     color: #fff;
     width: 100%;
     max-width: 300px;
-}
-
-.search-bar input[type="text"]::placeholder {
-    color: #ccc;
-}
-
-.search-icon {
-    position: absolute;
-    top: 50%;
-    right: 10px;
-    transform: translateY(-50%);
-    color: #ccc;
-    cursor: pointer;
-}
-
-@media (min-width: 768px) {
-    .scrollable-content {
-        flex-direction: row;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-
-    .add-movie {
-        width: 50%;
-    }
-
-    .watchlist-item {
-        margin-right: 20px;
-    }
-}
-
-@media (max-width: 768px) {
-    .add-movie input,
-    .add-movie select {
-        max-width: none;
-    }
-}
+    background-image: url('data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAkGBwgHBgkIBwgKCgkLDRYPDQwMDRsUFRAWIB0iIiAdHx8kKDQsJCYxJx8fLT0tMTU3Ojo6Iys/RD84QzQ5OjcBCgoKDQwNGg8PGjclHyU3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3Nzc3N//AABEIAJQAlAMBIgACEQEDEQH/xAAcAAACAgMBAQAAAAAAAAAAAAADBAACAQYHBQj/xAA4EAABAwICBgkDBAEFAQAAAAABAAIDBBEFIQYSEzFBURQiMjNSYXGBkQehsSNCYsHRFUOC4fBz/8QAGgEBAQADAQEAAAAAAAAAAAAAAAUCAwQBBv/EACoRAAEEAgIABAUFAAAAAAAAAAABAgMEERIhMQUTIlEyQWGx8BQjNJGh/9oADAMBAAIRAxEAPwDsSZpuwfVY6OPEVgu2B1W53zzQBZu6d6JNH2206hAGtks9HHiKAtT90
