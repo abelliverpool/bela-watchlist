@@ -1,4 +1,3 @@
-
 document.addEventListener("DOMContentLoaded", function() {
     const watchlist = document.getElementById("watchlist");
     const filter = document.getElementById("filter");
@@ -30,6 +29,9 @@ document.addEventListener("DOMContentLoaded", function() {
         const selectedGenre = genreFilter.value;
         const selectedStatus = statusFilter.value;
         const searchTerm = searchInput.value.toLowerCase();
+
+        // Sort the watchlistData based on timestamp
+        watchlistData.sort((a, b) => b.timestamp - a.timestamp);
 
         watchlistData.forEach((item, index) => {
             if ((selectedFilter === "all" || item.type === selectedFilter) &&
@@ -126,7 +128,9 @@ document.addEventListener("DOMContentLoaded", function() {
             seasons = seasonsInput.value.trim();
         }
         if (title !== "") {
-            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genres: genres });
+            // Add timestamp to the new item
+            const timestamp = Date.now();
+            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genres: genres, timestamp: timestamp });
             renderWatchlist();
             saveWatchlistData();
             titleInput.value = "";
@@ -144,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     typeSelect.addEventListener("change", function() {
         if (typeSelect.value === "movie") {
-            episodesInput.style.display = "none";
+            episodesInput.style            .display = "none";
             seasonsInput.style.display = "none";
         } else {
             episodesInput.style.display = "inline-block";
@@ -174,40 +178,38 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     }
 
-function saveChanges(input, property) {
-    const newValue = input.value;
-    const span = document.createElement('span');
-    span.textContent = newValue;
-    span.classList.add('editable');
-    span.dataset.property = property;
+    function saveChanges(input, property) {
+        const newValue = input.value;
+        const span = document.createElement('span');
+        span.textContent = newValue;
+        span.classList.add('editable');
+        span.dataset.property = property;
 
-    input.replaceWith(span);
+        input.replaceWith(span);
 
-    span.addEventListener('click', startEditing);
+        span.addEventListener('click', startEditing);
 
-    // Update watchlistData with the new value
-    const index = parseInt(span.parentNode.querySelector('.change-status-button').dataset.index);
-    if (property === 'title') {
-        watchlistData[index].title = newValue;
-    } else if (property === 'status') {
-        watchlistData[index].status = newValue;
-    } else if (property === 'genres') {
-        watchlistData[index].genres = newValue.split(',').map(genre => genre.trim());
-    } else if (property === 'episodes') {
-        watchlistData[index].episodes = newValue;
-    } else if (property === 'seasons') {
-        watchlistData[index].seasons = newValue;
-    } else if (property === 'releaseDate') {
-        watchlistData[index].releaseDate = newValue;
+        // Update watchlistData with the new value
+        const index = parseInt(span.parentNode.querySelector('.change-status-button').dataset.index);
+        if (property === 'title') {
+            watchlistData[index].title = newValue;
+        } else if (property === 'status') {
+            watchlistData[index].status = newValue;
+        } else if (property === 'genres') {
+            watchlistData[index].genres = newValue.split(',').map(genre => genre.trim());
+        } else if (property === 'episodes') {
+            watchlistData[index].episodes = newValue;
+        } else if (property === 'seasons') {
+            watchlistData[index].seasons = newValue;
+        } else if (property === 'releaseDate') {
+            watchlistData[index].releaseDate = newValue;
+        }
+
+        // Save the updated watchlistData
+        saveWatchlistData();
+
+        console.log(`Updated ${property} to ${newValue}`);
     }
-
-    // Save the updated watchlistData
-    saveWatchlistData();
-
-    console.log(`Updated ${property} to ${newValue}`);
-}
-
-    
 
     filter.addEventListener("change", renderWatchlist);
     genreFilter.addEventListener("change", renderWatchlist);
@@ -216,3 +218,4 @@ function saveChanges(input, property) {
 
     renderWatchlist();
 });
+
