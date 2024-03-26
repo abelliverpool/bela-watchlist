@@ -5,20 +5,30 @@ body {
     font-family: Arial, sans-serif;
     background-color: #000000;
     color: #fff;
-    
 }
 
 .container {
-    max-width: 1200px; /* Adjust max-width value */
+    max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
     position: relative;
-    color: rgba(255, 255, 255, 0.8); /* Transparent white text color */
+    color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
+nav {
+    width: 100%;
+}
 
 .menu-toggle {
     display: none;
+}
+
+.nav-links {
+    display: flex;
+    justify-content: flex-end;
 }
 
 .nav-links a {
@@ -49,23 +59,14 @@ body {
     width: 200px;
 }
 
-.search-bar {
-    position:absolute;
-    top: 20px;
-    right: 20px; 
+.scrollable-content {
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-
-.search-bar input[type="text"] {
-    padding: 10px;
-    border: none;
-    border-radius: 4px;
-    background-color: rgba(44, 42, 42, 0.5);;
-    color: #fff;
-    width: 150px;
-}
-
-/* Rest of your styles... */
-
 
 .video-background {
     position: fixed;
@@ -84,12 +85,11 @@ body {
 
 h1 {
     text-align: center;
-    position:relative;
 }
 
-/* Styles for the watchlist */
 .add-movie {
     display: flex;
+    flex-direction: column;
     align-items: center;
     margin-bottom: 20px;
 }
@@ -98,17 +98,14 @@ h1 {
 .add-movie input[type="number"],
 .add-movie select {
     padding: 10px;
-    margin-right: 10px;
+    margin-bottom: 10px;
     font-size: 16px;
     border: none;
     border-radius: 4px;
     background-color: rgba(94, 55, 55, 0.1);
     color: #fff;
-}
-
-.add-movie input[type="text"],
-.add-movie input[type="number"] {
-    width: 200px;
+    width: 100%;
+    max-width: 300px;
 }
 
 .add-movie button,
@@ -138,6 +135,8 @@ h1 {
     background-size: cover;
     background-position: center;
     cursor: pointer;
+    width: 100%;
+    max-width: 300px;
 }
 
 .watchlist-item h3 {
@@ -155,64 +154,6 @@ h1 {
     margin: 5px 0;
 }
 
-@media (min-width: 768px) {
-    .watchlist-container {
-        display:grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        grid-gap: 20px;
-    }
-}
-@media (max-width: 768px) {
-    .add-movie {
-        flex-direction: column;
-    }
-
-    .add-movie input,
-    .add-movie select {
-        margin-bottom: 10px;
-    }
-}
-
-@media (min-width: 769px) {
-    .add-movie {
-        flex-direction: row;
-        align-items: flex-start;
-        flex-wrap: wrap;
-    }
-
-    .add-movie > * {
-        flex: 1 1 50%;
-        padding-right: 10px;
-        box-sizing: border-box;
-    }
-
-    .add-movie input[type="text"],
-    .add-movie input[type="number"],
-    .add-movie select {
-        width: 100%;
-    }
-}
-
-#add-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 14px 20px;
-    margin: 8px 0;
-    border: none;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.3s;
-}
-
-#add-button:hover {
-    background-color: #45a049;
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-}
-
-#add-button:active {
-    background-color: #3e8e41;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
-}
 .watch-now-button {
     background-color: #008CBA;
     border: none;
@@ -220,10 +161,9 @@ h1 {
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
     font-size: 16px;
     margin-top: 10px;
-    margin-bottom:5px;
+    margin-bottom: 5px;
     cursor: pointer;
     border-radius: 4px;
     transition: background-color 0.3s;
@@ -236,7 +176,6 @@ h1 {
 .watch-now-button:active {
     background-color: #004a5b;
 }
-
 
 .animated-select {
     appearance: none;
@@ -264,17 +203,55 @@ h1 {
 .animated-select option {
     background-color: #fff;
 }
-/* Example of media queries for responsiveness */
-@media (max-width: 768px) {
-    /* Styles for smaller screens */
-    .container {
-        padding: 10px; /* Adjust padding for smaller screens */
-    }
-    /* Additional responsive styles as needed */
-}
-/* Example of dark mode toggle */
-body.dark-mode {
-    background-color: #1a1a1a;
-    color: #ffffff;
+
+/* Search bar */
+.search-bar {
+    position: relative;
+    margin-bottom: 20px;
 }
 
+.search-bar input[type="text"] {
+    padding: 10px 30px 10px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: rgba(44, 42, 42, 0.5);
+    color: #fff;
+    width: 100%;
+    max-width: 300px;
+}
+
+.search-bar input[type="text"]::placeholder {
+    color: #ccc;
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    color: #ccc;
+    cursor: pointer;
+}
+
+@media (min-width: 768px) {
+    .scrollable-content {
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .add-movie {
+        width: 50%;
+    }
+
+    .watchlist-item {
+        margin-right: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .add-movie input,
+    .add-movie select {
+        max-width: none;
+    }
+}
