@@ -5,6 +5,7 @@ body {
     font-family: Arial, sans-serif;
     background-color: #000000;
     color: #fff;
+    display:flex;
     
 }
 
@@ -65,7 +66,6 @@ body {
     width: 150px;
 }
 
-/* Rest of your styles... */
 
 
 .video-background {
@@ -270,7 +270,9 @@ h1 {
     /* Styles for smaller screens */
     .container {
         padding: 10px; /* Adjust padding for smaller screens */
+        display:flex;
     }
+    
     /* Additional responsive styles as needed */
 }
 /* Example of dark mode toggle */
