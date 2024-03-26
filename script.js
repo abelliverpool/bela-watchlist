@@ -1,9 +1,9 @@
+
 document.addEventListener("DOMContentLoaded", function() {
     const watchlist = document.getElementById("watchlist");
     const filter = document.getElementById("filter");
     const genreFilter = document.getElementById("genre-filter");
     const statusFilter = document.getElementById("status-filter");
-    const sortFilter = document.getElementById("sort-filter");
     const searchInput = document.getElementById("search-input");
     const addButton = document.getElementById("add-button");
     const titleInput = document.getElementById("title-input");
@@ -29,46 +29,35 @@ document.addEventListener("DOMContentLoaded", function() {
         const selectedFilter = filter.value;
         const selectedGenre = genreFilter.value;
         const selectedStatus = statusFilter.value;
-        const selectedSort = sortFilter.value;
         const searchTerm = searchInput.value.toLowerCase();
 
-        let filteredData = watchlistData.filter(item => {
-            return (selectedFilter === "all" || item.type === selectedFilter) &&
-                (selectedGenre === "all" || 
+        watchlistData.forEach((item, index) => {
+            if ((selectedFilter === "all" || item.type === selectedFilter) &&
+                ((selectedGenre === "all") || 
                 (selectedGenre !== "all" && item.genres && item.genres.includes(selectedGenre))) &&
-                (selectedStatus === "all" || 
+                ((selectedStatus === "all") || 
                 (selectedStatus !== "all" && item.status === selectedStatus)) &&
                 (item.title.toLowerCase().includes(searchTerm) || 
-                (item.genres && item.genres.some(genre => genre.toLowerCase().includes(searchTerm))));
-        });
-
-        if (selectedSort === "recently-added") {
-            filteredData.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-        } else if (selectedSort === "alphabetically-asc") {
-            filteredData.sort((a, b) => a.title.localeCompare(b.title));
-        } else if (selectedSort === "alphabetically-desc") {
-            filteredData.sort((a, b) => b.title.localeCompare(a.title));
-        }
-
-        filteredData.forEach((item, index) => {
-            const itemElement = document.createElement("div");
-            itemElement.classList.add("watchlist-item");
-            
-            itemElement.innerHTML = `
-                <h3 class="editable" data-property="title">${item.title}</h3>
-                <p>Type: ${item.type}</p>
-                ${item.type !== "movie" ? `<p>Episodes: <span class="editable" data-property="episodes">${item.episodes}</span></p>` : ''}
-                ${item.type === "series" || item.type === "anime" || item.type === "kdrama" ? `<p>Seasons: <span class="editable" data-property="seasons">${item.seasons}</span></p>` : ''}                    
-                ${item.image ? `<img src="${item.image}" alt="${item.title}">` : ''}
-                <p>Status: <span class="editable" data-property="status">${item.status}</span></p>
-                <p>Genres: <span class="editable" data-property="genres">${item.genres ? item.genres.join(", ") : 'N/A'}</span></p>
-                <p>Release Date: <span class="editable" data-property="releaseDate">${item.releaseDate}</span></p>
-                <button class="watch-now-button" data-link="${item.link}">Watch Now</button>
-                <button class="change-status-button" data-index="${index}">Change Status</button>
-                <button class="remove-button" data-index="${index}">Remove</button>
+                (item.genres && item.genres.some(genre => genre.toLowerCase().includes(searchTerm))))) {
+                const itemElement = document.createElement("div");
+                itemElement.classList.add("watchlist-item");
                 
-            `;
-            watchlist.appendChild(itemElement);
+                itemElement.innerHTML = `
+                    <h3 class="editable" data-property="title">${item.title}</h3>
+                    <p>Type: ${item.type}</p>
+                    ${item.type !== "movie" ? `<p>Episodes: <span class="editable" data-property="episodes">${item.episodes}</span></p>` : ''}
+                    ${item.type === "series" || item.type === "anime" || item.type === "kdrama" ? `<p>Seasons: <span class="editable" data-property="seasons">${item.seasons}</span></p>` : ''}                    
+                    ${item.image ? `<img src="${item.image}" alt="${item.title}">` : ''}
+                    <p>Status: <span class="editable" data-property="status">${item.status}</span></p>
+                    <p>Genres: <span class="editable" data-property="genres">${item.genres ? item.genres.join(", ") : 'N/A'}</span></p>
+                    <p>Release Date: <span class="editable" data-property="releaseDate">${item.releaseDate}</span></p>
+                    <button class="watch-now-button" data-link="${item.link}">Watch Now</button>
+                    <button class="change-status-button" data-index="${index}">Change Status</button>
+                    <button class="remove-button" data-index="${index}">Remove</button>
+                    
+                `;
+                watchlist.appendChild(itemElement);
+            }
         });
 
         // Attach event listeners to dynamically created buttons
@@ -137,8 +126,7 @@ document.addEventListener("DOMContentLoaded", function() {
             seasons = seasonsInput.value.trim();
         }
         if (title !== "") {
-            const timestamp = new Date().toISOString(); // Timestamp for sorting
-            watchlistData.push({ title, type, episodes, seasons, image, link, releaseDate, status, genres, timestamp });
+            watchlistData.push({ title: title, type: type, episodes: episodes, seasons: seasons, image: image, link: link, releaseDate: releaseDate, status: status, genres: genres });
             renderWatchlist();
             saveWatchlistData();
             titleInput.value = "";
@@ -157,4 +145,74 @@ document.addEventListener("DOMContentLoaded", function() {
     typeSelect.addEventListener("change", function() {
         if (typeSelect.value === "movie") {
             episodesInput.style.display = "none";
-            seasonsInput.style.display =
+            seasonsInput.style.display = "none";
+        } else {
+            episodesInput.style.display = "inline-block";
+            seasonsInput.style.display = "inline-block";
+        }
+    });
+
+    function startEditing(event) {
+        const element = event.target;
+        const property = element.dataset.property;
+        const value = element.textContent;
+
+        const input = document.createElement('input');
+        input.value = value;
+
+        input.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                saveChanges(input, property);
+            }
+        });
+        element.replaceWith(input);
+        input.select();
+        input.focus();
+
+        input.addEventListener('blur', function() {
+            saveChanges(input, property);
+        });
+    }
+
+function saveChanges(input, property) {
+    const newValue = input.value;
+    const span = document.createElement('span');
+    span.textContent = newValue;
+    span.classList.add('editable');
+    span.dataset.property = property;
+
+    input.replaceWith(span);
+
+    span.addEventListener('click', startEditing);
+
+    // Update watchlistData with the new value
+    const index = parseInt(span.parentNode.querySelector('.change-status-button').dataset.index);
+    if (property === 'title') {
+        watchlistData[index].title = newValue;
+    } else if (property === 'status') {
+        watchlistData[index].status = newValue;
+    } else if (property === 'genres') {
+        watchlistData[index].genres = newValue.split(',').map(genre => genre.trim());
+    } else if (property === 'episodes') {
+        watchlistData[index].episodes = newValue;
+    } else if (property === 'seasons') {
+        watchlistData[index].seasons = newValue;
+    } else if (property === 'releaseDate') {
+        watchlistData[index].releaseDate = newValue;
+    }
+
+    // Save the updated watchlistData
+    saveWatchlistData();
+
+    console.log(`Updated ${property} to ${newValue}`);
+}
+
+    
+
+    filter.addEventListener("change", renderWatchlist);
+    genreFilter.addEventListener("change", renderWatchlist);
+    statusFilter.addEventListener("change", renderWatchlist);
+    searchInput.addEventListener("input", renderWatchlist);
+
+    renderWatchlist();
+});
