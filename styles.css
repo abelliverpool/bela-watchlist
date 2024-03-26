@@ -14,6 +14,7 @@ body {
     padding: 20px;
     position: relative;
     color: rgba(255, 255, 255, 0.8); /* Transparent white text color */
+    display:flex;
 }
 
 
